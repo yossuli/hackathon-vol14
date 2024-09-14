@@ -11,3 +11,5 @@ export const toRoomDto = (room: RoomEntity): RoomDto => ({
   lastUsedAt: room.lastUsedAt,
   creator: { id: brandedId.user.dto.parse(room.creator.id), signInName: room.creator.signInName },
 });
+
+export const toRoomsDto = (rooms: RoomEntity[]): RoomDto[] => rooms.map(toRoomDto);

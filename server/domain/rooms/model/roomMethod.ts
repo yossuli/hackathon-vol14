@@ -36,6 +36,15 @@ export const roomMethod = {
     );
     return { found: true, room };
   },
+  findMany: (
+    rooms: RoomEntity[],
+    val: { password?: string },
+  ): { found: boolean; rooms: RoomEntity[] } => {
+    return {
+      found: rooms.every((room) => roomMethod.find(room, { password: val.password }).found),
+      rooms,
+    };
+  },
   delete: (user: UserDto, room: RoomEntity): { deletable: boolean; room: RoomEntity } => {
     assert(user.id === String(room.creator.id));
     return { deletable: true, room };
