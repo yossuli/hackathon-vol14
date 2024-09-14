@@ -4,17 +4,16 @@ import type { DtoId } from './brandedId';
 export type RoomDto = {
   id: DtoId['room'];
   name: string;
-  password?: string;
   status: RoomStatus;
   createdAt: number;
-  updatedAt: number;
-  lastUsedAt: number;
-  createdBy: { id: DtoId['user']; signInName: string };
+  updatedAt?: number;
+  lastUsedAt?: number;
+  creator: { id: DtoId['user']; signInName: string };
 };
 
 export type RoomCreateVal = { name: string; password?: string; status: RoomStatus };
 
-export type RoomUpdateVal = { name: string };
+export type RoomUpdateVal = { roomId: DtoId['room']; name: string };
 
 export type RoomFindVal = {
   id?: DtoId['room'];
