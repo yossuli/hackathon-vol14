@@ -121,38 +121,13 @@ const FireworkShell: React.FC = () => {
   const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       setShowColorPicker(false);
+      setSelectedLayer(null);
     }
   };
 
   return (
     <div className={styles.fireworkContainer}>
       {/* 色を選択するボタンの表示 */}
-      <div className={styles.colorPickerContainer}>
-        {[
-          'red',
-          'yellow',
-          'green',
-          'blue',
-          'orange',
-          'purple',
-          'pink',
-          'brown',
-          'cyan',
-          'magenta',
-          'lime',
-          'gray',
-        ].map((color) => (
-          <button
-            key={color}
-            onClick={() => setSelectedColor(color)}
-            className={styles.colorButton}
-            style={{
-              backgroundColor: color,
-              border: selectedColor === color ? '2px solid black' : 'none',
-            }}
-          />
-        ))}
-      </div>
 
       <div className={styles.buttonContainer}>
         <button onClick={() => handleLayerButtonClick('layer1')} className={styles.controlButton}>
@@ -168,43 +143,48 @@ const FireworkShell: React.FC = () => {
           Layer 4
         </button>
       </div>
+      <div className={styles.colorPickerContainer}>
+        <button onClick={() => setShowColorPicker(true)} className={styles.colorPickerButton}>
+          色を選択
+        </button>
 
-      {/* カラーピッカーのモーダル */}
-      {showColorPicker && (
-        <div className={styles.modalOverlay} onClick={handleOverlayClick}>
-          <div className={styles.colorPickerModal}>
-            <button onClick={() => setShowColorPicker(false)} className={styles.closeButton}>
-              ✕
-            </button>
-            {[
-              'red',
-              'yellow',
-              'green',
-              'blue',
-              'orange',
-              'purple',
-              'pink',
-              'brown',
-              'cyan',
-              'magenta',
-              'lime',
-              'gray',
-            ].map((color) => (
-              <button
-                key={color}
-                onClick={() => handleColorPick(color)}
-                className={styles.colorButton}
-                style={{ backgroundColor: color }}
-              />
-            ))}
+        {/* カラーピッカーのモーダル */}
+        {showColorPicker && (
+          <div className={styles.modalOverlay} onClick={handleOverlayClick}>
+            <div className={styles.colorPickerModal}>
+              <button onClick={() => setShowColorPicker(false)} className={styles.closeButton}>
+                ✕
+              </button>
+              {[
+                'red',
+                'yellow',
+                'green',
+                'blue',
+                'orange',
+                'purple',
+                'pink',
+                'brown',
+                'cyan',
+                'magenta',
+                'lime',
+                'gray',
+              ].map((color) => (
+                <button
+                  key={color}
+                  onClick={() => handleColorPick(color)}
+                  className={styles.colorButton}
+                  style={{ backgroundColor: color }}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      )}
-
-      <div className={styles.gridContainer}>
-        {[...Array(gridSize)].map((_, row) =>
-          [...Array(gridSize)].map((_, col) => renderCell(row, col)),
         )}
+
+        <div className={styles.gridContainer}>
+          {[...Array(gridSize)].map((_, row) =>
+            [...Array(gridSize)].map((_, col) => renderCell(row, col)),
+          )}
+        </div>
       </div>
     </div>
   );
