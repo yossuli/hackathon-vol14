@@ -44,3 +44,9 @@
   color: white; /* ホバー時の文字色 */
   background-color: #0070f3; /* ホバー時の背景色 */
 }
+
+.canvas {
+  margin-top: 20px;
+  background-color: black; /* キャンバスの背景色 */
+  border: 1px solid #ccc; /* キャンバスの境界線 */
+}
