@@ -13,6 +13,10 @@ model User {
   signInName String
   createdAt  DateTime
   tasks      Task[]
+<<<<<<< HEAD
+=======
+  Room       Room[]
+>>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
 }
 
 model Task {
@@ -24,3 +28,23 @@ model Task {
   Author    User     @relation(fields: [authorId], references: [id])
   authorId  String
 }
+<<<<<<< HEAD
+=======
+
+model Room {
+  id         String     @id
+  name       String
+  password   String?
+  status     RoomStatus
+  createdAt  DateTime
+  updatedAt  DateTime
+  lastUsedAt DateTime
+  createdBy  String
+  Creator    User       @relation(fields: [createdBy], references: [id])
+}
+
+enum RoomStatus {
+  PUBLIC
+  PRIVATE
+}
+>>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
