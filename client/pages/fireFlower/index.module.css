@@ -1,0 +1,17 @@
+.firFlower {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* 画面の高さ全体を使用 */
+  background-color: #000; /* 背景を黒にして、花火が映えるように */
+}
+
+.textarea {
+  margin-bottom: 20px; /* テキストエリアの下に余白を追加 */
+}
+
+.pixelArt {
+  position: relative;
+  display: block;
+  background: transparent;
+}
