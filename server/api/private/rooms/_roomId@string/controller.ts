@@ -3,10 +3,10 @@ import type { DtoId } from 'common/types/brandedId';
 import { defineController } from './$relay';
 
 export default defineController(() => ({
-  put: ({ user, body }) => ({
+  put: ({ user, body, params }) => ({
     status: 204,
     body: {
-      id: '1' as DtoId['room'],
+      id: params.roomId as DtoId['room'],
       name: body.name,
       status: RoomStatus['PUBLIC'],
       createdAt: 0,
