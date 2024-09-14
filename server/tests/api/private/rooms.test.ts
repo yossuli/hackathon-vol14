@@ -27,6 +27,13 @@ test(GET(noCookieClient.private.rooms.search), async () => {
   expect(res.status).toEqual(200);
 });
 
+test(GET(noCookieClient.private.rooms.search), async () => {
+  const apiClient = await createSessionClients();
+  const res = await apiClient.private.rooms.search.get({ query: { createdAt: 0 } });
+
+  expect(res.status).toEqual(200);
+});
+
 test(POST(noCookieClient.private.rooms.friends), async () => {
   const apiClient = await createSessionClients();
   const res = await apiClient.private.rooms.friends.post({
