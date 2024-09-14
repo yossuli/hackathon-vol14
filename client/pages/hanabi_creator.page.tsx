@@ -14,37 +14,6 @@ const FireworkShell: React.FC = () => {
     'layer1' | 'layer2' | 'layer3' | 'layer4' | null
   >(null);
 
-  const setColorAtCoordinates = (
-    coordinates: Array<{ row: number; col: number }>,
-    color: string,
-  ) => {
-    const newCellColors = [...cellColors];
-    coordinates.forEach(({ row, col }) => {
-      newCellColors[row] = [...newCellColors[row]];
-      newCellColors[row][col] = color;
-    });
-    setCellColors(newCellColors);
-  };
-
-  const handleCellClick = (row: number, col: number) => {
-    const newCellColors = [...cellColors];
-    newCellColors[row] = [...newCellColors[row]];
-    newCellColors[row][col] = selectedColor; // 選択された色を適用
-    setCellColors(newCellColors);
-  };
-
-  const renderCell = (row: number, col: number) => {
-    return (
-      <div
-        key={`${row}-${col}`}
-        className={styles.gridCell}
-        style={{ backgroundColor: cellColors[row][col] }}
-        onClick={() => handleCellClick(row, col)}
-      />
-    );
-  };
-
-  // 各層の座標を定義
   const layerCoordinates = {
     layer1: [
       { row: 0, col: 0 },
@@ -103,56 +72,78 @@ const FireworkShell: React.FC = () => {
     layer4: [{ row: 3, col: 3 }], // 中心の1つのセル
   };
 
+  const setColorAtCoordinates = (
+    coordinates: Array<{ row: number; col: number }>,
+    color: string,
+  ) => {
+    const newCellColors = [...cellColors];
+    coordinates.forEach(({ row, col }) => {
+      newCellColors[row] = [...newCellColors[row]];
+      newCellColors[row][col] = color;
+    });
+    setCellColors(newCellColors);
+  };
+
+  const handleCellClick = (row: number, col: number) => {
+    const newCellColors = [...cellColors];
+    newCellColors[row] = [...newCellColors[row]];
+    newCellColors[row][col] = selectedColor; // 選択された色を適用
+    setCellColors(newCellColors);
+  };
+
+  const extractColor = () => setSelectedColor(''); // 色を抜き取る（セルの色をリセット）
+
+  const resetColors = () =>
+    setCellColors(Array.from({ length: gridSize }, () => Array(gridSize).fill('')));
+
   const handleLayerButtonClick = (layer: 'layer1' | 'layer2' | 'layer3' | 'layer4') => {
     setSelectedLayer(layer);
-    setShowColorPicker(true);
+    setShowColorPicker(true); // モーダルを開く
   };
 
   const handleColorPick = (color: string) => {
     setSelectedColor(color); // 色を選択
-    setShowColorPicker(false);
     if (selectedLayer) {
       setColorAtCoordinates(layerCoordinates[selectedLayer], color);
-      setSelectedLayer(null);
     }
   };
 
-  // モーダルオーバーレイのクリックイベント
-  const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (event.target === event.currentTarget) {
-      setShowColorPicker(false);
-      setSelectedLayer(null);
-    }
+  const handleCloseModal = () => {
+    setShowColorPicker(false);
+    setSelectedLayer(null);
   };
 
+  const renderCell = (row: number, col: number) => (
+    <div
+      key={`${row}-${col}`}
+      className={styles.gridCell}
+      style={{ backgroundColor: cellColors[row][col] }}
+      onClick={() => handleCellClick(row, col)}
+    />
+  );
+
+  const renderLayerButton = (layer: 'layer1' | 'layer2' | 'layer3' | 'layer4', label: string) => (
+    <button
+      onClick={() => handleLayerButtonClick(layer)}
+      className={`${styles.controlButton} ${selectedLayer === layer ? styles.activeButton : ''}`}
+    >
+      {selectedLayer === layer ? '選択中' : label}
+    </button>
+  );
+  console.log(selectedLayer);
   return (
-    <div className={styles.fireworkContainer}>
-      {/* 色を選択するボタンの表示 */}
-
+    <div className={styles.container}>
       <div className={styles.buttonContainer}>
-        <button onClick={() => handleLayerButtonClick('layer1')} className={styles.controlButton}>
-          Layer 1
-        </button>
-        <button onClick={() => handleLayerButtonClick('layer2')} className={styles.controlButton}>
-          Layer 2
-        </button>
-        <button onClick={() => handleLayerButtonClick('layer3')} className={styles.controlButton}>
-          Layer 3
-        </button>
-        <button onClick={() => handleLayerButtonClick('layer4')} className={styles.controlButton}>
-          Layer 4
-        </button>
-      </div>
-      <div className={styles.colorPickerContainer}>
-        <button onClick={() => setShowColorPicker(true)} className={styles.colorPickerButton}>
-          色を選択
-        </button>
+        {renderLayerButton('layer1', '外側')}
+        {renderLayerButton('layer2', '中外側')}
+        {renderLayerButton('layer3', '内側')}
+        {renderLayerButton('layer4', '中心')}
 
         {/* カラーピッカーのモーダル */}
         {showColorPicker && (
-          <div className={styles.modalOverlay} onClick={handleOverlayClick}>
+          <div className={styles.modalOverlay}>
             <div className={styles.colorPickerModal}>
-              <button onClick={() => setShowColorPicker(false)} className={styles.closeButton}>
+              <button onClick={handleCloseModal} className={styles.closeButton}>
                 ✕
               </button>
               {[
@@ -171,7 +162,10 @@ const FireworkShell: React.FC = () => {
               ].map((color) => (
                 <button
                   key={color}
-                  onClick={() => handleColorPick(color)}
+                  onClick={() => {
+                    handleColorPick(color);
+                    setSelectedLayer(null);
+                  }}
                   className={styles.colorButton}
                   style={{ backgroundColor: color }}
                 />
@@ -179,11 +173,42 @@ const FireworkShell: React.FC = () => {
             </div>
           </div>
         )}
+      </div>
+      <div className={styles.fireworkContainer}>
+        <div className={styles.colorPickerContainer}>
+          <button
+            onClick={() => {
+              setSelectedLayer(null);
+              setShowColorPicker(true);
+            }}
+            className={styles.colorPickerButton}
+          >
+            色を選択
+          </button>
+          <button
+            onClick={() => {
+              setSelectedLayer(null); // レイヤーをリセット
+              extractColor(); // 色を抜き取る処理を実行
+            }}
+            className={styles.extractButton}
+          >
+            色を抜き取る
+          </button>
+          <button
+            onClick={() => {
+              setSelectedLayer(null); // レイヤーをリセット
+              resetColors(); // 色を抜き取る処理を実行
+            }}
+            className={styles.resetButton}
+          >
+            リセット
+          </button>
 
-        <div className={styles.gridContainer}>
-          {[...Array(gridSize)].map((_, row) =>
-            [...Array(gridSize)].map((_, col) => renderCell(row, col)),
-          )}
+          <div className={styles.gridContainer}>
+            {[...Array(gridSize)].map((_, row) =>
+              [...Array(gridSize)].map((_, col) => renderCell(row, col)),
+            )}
+          </div>
         </div>
       </div>
     </div>

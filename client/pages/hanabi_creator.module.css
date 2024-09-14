@@ -1,3 +1,7 @@
+.container {
+  display: flex;
+}
+
 .fireworkContainer {
   position: relative;
   display: flex;
@@ -36,10 +40,6 @@
   border-radius: 5px;
 }
 
-.colorPickerButton:hover {
-  background-color: #45a049;
-}
-
 .controlButton {
   padding: 10px 20px;
   margin: 5px;
@@ -51,19 +51,15 @@
   border-radius: 5px;
 }
 
-.controlButton:hover {
-  background-color: #45a049;
-}
-
 .buttonContainer {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
+  width: 200px;
   padding: 10px;
 }
 
 /* モーダルのオーバーレイ */
 .modalOverlay {
-  position: fixed;
   top: 0;
   left: 0;
   z-index: 1000;
@@ -72,7 +68,6 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  background: rgb(0 0 0 / 50%);
 }
 
 .colorPickerModal {
@@ -104,4 +99,41 @@
   cursor: pointer;
   background: transparent;
   border: none;
+}
+
+.resetButton {
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: 16px;
+  color: white;
+  cursor: pointer;
+  background-color: #4caf50;
+  border: none;
+  border-radius: 5px;
+}
+
+.extractButton {
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: 16px;
+  color: white;
+  cursor: pointer;
+  background-color: #4caf50;
+  border: none;
+  border-radius: 5px;
+}
+
+.extractButton:hover,
+.colorPickerButton:hover,
+.resetButton:hover,
+.controlButton:hover {
+  background-color: #45a049;
+}
+
+.activeButton {
+  background-color: #3fde44; /* 選択中のボタンの色 */
+}
+
+.activeButton:hover {
+  background-color: #3fde44; /* 選択中のボタンの色 */
 }
