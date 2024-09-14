@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import styles from './hanabi_creator.module.css'; // CSSファイルをインポート
 
-const gridSize = 7; // グリッドサイズを7x7に変更
+const gridSize = 7; // グリッドサイズを7x7に設定
 
 const FireworkShell: React.FC = () => {
   const [cellColors, setCellColors] = useState<Array<Array<string>>>(
     Array.from({ length: gridSize }, () => Array(gridSize).fill('')),
   );
 
-  const [selectedColor, setSelectedColor] = useState<string>('blue'); // デフォルトの色
+  const [selectedColor, setSelectedColor] = useState<string>(''); // デフォルトの色
+  const [draggingColor, setDraggingColor] = useState<string | null>(null); // ドラッグ中の色
   const [showColorPicker, setShowColorPicker] = useState<boolean>(false);
   const [selectedLayer, setSelectedLayer] = useState<
     'layer1' | 'layer2' | 'layer3' | 'layer4' | null
@@ -69,7 +70,7 @@ const FireworkShell: React.FC = () => {
       { row: 4, col: 3 },
       { row: 4, col: 4 },
     ],
-    layer4: [{ row: 3, col: 3 }], // 中心の1つのセル
+    layer4: [{ row: 3, col: 3 }],
   };
 
   const setColorAtCoordinates = (
@@ -84,28 +85,53 @@ const FireworkShell: React.FC = () => {
     setCellColors(newCellColors);
   };
 
-  const handleCellClick = (row: number, col: number) => {
+  const handleCellClick = (row: number, col: number, color: string) => {
     const newCellColors = [...cellColors];
     newCellColors[row] = [...newCellColors[row]];
-    newCellColors[row][col] = selectedColor; // 選択された色を適用
+    newCellColors[row][col] = color;
     setCellColors(newCellColors);
   };
 
-  const extractColor = () => setSelectedColor(''); // 色を抜き取る（セルの色をリセット）
+  const handleCellMouseMove = (row: number, col: number) => {
+    if (draggingColor) {
+      handleCellClick(row, col, draggingColor);
+    }
+  };
 
-  const resetColors = () =>
+  const handleCellDrop = (row: number, col: number) => {
+    if (draggingColor) {
+      handleCellClick(row, col, draggingColor);
+    }
+  };
+
+  const extractColor = () => {
+    setSelectedColor('');
+    setDraggingColor(null);
+  };
+
+  const resetColors = () => {
     setCellColors(Array.from({ length: gridSize }, () => Array(gridSize).fill('')));
+    setDraggingColor(null);
+  };
 
   const handleLayerButtonClick = (layer: 'layer1' | 'layer2' | 'layer3' | 'layer4') => {
     setSelectedLayer(layer);
-    setShowColorPicker(true); // モーダルを開く
+    setShowColorPicker(true);
   };
 
   const handleColorPick = (color: string) => {
-    setSelectedColor(color); // 色を選択
+    setSelectedColor(color);
     if (selectedLayer) {
       setColorAtCoordinates(layerCoordinates[selectedLayer], color);
     }
+  };
+
+  const handleColorDragStart = (color: string) => {
+    setDraggingColor(color);
+  };
+
+  const handleColorDragEnd = () => {
+    setDraggingColor(null);
   };
 
   const handleCloseModal = () => {
@@ -116,9 +142,14 @@ const FireworkShell: React.FC = () => {
   const renderCell = (row: number, col: number) => (
     <div
       key={`${row}-${col}`}
-      className={styles.gridCell}
+      className={`${styles.gridCell} draggable`}
+      data-row={row}
+      data-col={col}
       style={{ backgroundColor: cellColors[row][col] }}
-      onClick={() => handleCellClick(row, col)}
+      onMouseMove={() => handleCellMouseMove(row, col)}
+      onClick={() => handleCellClick(row, col, selectedColor)}
+      onDragOver={(e) => e.preventDefault()} // ドロップを許可
+      onDrop={() => handleCellDrop(row, col)} // ドロップ時の処理
     />
   );
 
@@ -130,7 +161,7 @@ const FireworkShell: React.FC = () => {
       {selectedLayer === layer ? '選択中' : label}
     </button>
   );
-  console.log(selectedLayer);
+
   return (
     <div className={styles.container}>
       <div className={styles.buttonContainer}>
@@ -139,7 +170,6 @@ const FireworkShell: React.FC = () => {
         {renderLayerButton('layer3', '内側')}
         {renderLayerButton('layer4', '中心')}
 
-        {/* カラーピッカーのモーダル */}
         {showColorPicker && (
           <div className={styles.modalOverlay}>
             <div className={styles.colorPickerModal}>
@@ -159,9 +189,20 @@ const FireworkShell: React.FC = () => {
                 'magenta',
                 'lime',
                 'gray',
+                'teal',
+                'indigo',
+                'violet',
+                'gold',
+                'silver',
+                'maroon',
+                'navy',
+                'olive',
               ].map((color) => (
                 <button
                   key={color}
+                  draggable
+                  onDragStart={() => handleColorDragStart(color)}
+                  onDragEnd={handleColorDragEnd}
                   onClick={() => {
                     handleColorPick(color);
                     setSelectedLayer(null);
@@ -187,8 +228,8 @@ const FireworkShell: React.FC = () => {
           </button>
           <button
             onClick={() => {
-              setSelectedLayer(null); // レイヤーをリセット
-              extractColor(); // 色を抜き取る処理を実行
+              setSelectedLayer(null);
+              extractColor();
             }}
             className={styles.extractButton}
           >
@@ -196,8 +237,8 @@ const FireworkShell: React.FC = () => {
           </button>
           <button
             onClick={() => {
-              setSelectedLayer(null); // レイヤーをリセット
-              resetColors(); // 色を抜き取る処理を実行
+              setSelectedLayer(null);
+              resetColors();
             }}
             className={styles.resetButton}
           >
