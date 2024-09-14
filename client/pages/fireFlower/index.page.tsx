@@ -13,20 +13,24 @@ const convertToCircleLine = (
     sideLength - layerFromTheSurface,
   );
 
-  const bottomSide = matrix[sideLength - 1 - layerFromTheSurface]
-    .slice(layerFromTheSurface, sideLength - layerFromTheSurface)
-    .toReversed();
+  const bottomSide = [
+    ...matrix[sideLength - 1 - layerFromTheSurface].slice(
+      layerFromTheSurface,
+      sideLength - layerFromTheSurface,
+    ),
+  ].reverse();
 
   const leftSide = matrix
     .map((row) => row[layerFromTheSurface])
     .flat()
     .slice(layerFromTheSurface, sideLength - layerFromTheSurface);
 
-  const rightSide = matrix
-    .map((row) => row[sideLength - 1 - layerFromTheSurface])
-    .flat()
-    .slice(layerFromTheSurface, sideLength - layerFromTheSurface)
-    .toReversed();
+  const rightSide = [
+    ...matrix
+      .map((row) => row[sideLength - 1 - layerFromTheSurface])
+      .flat()
+      .slice(layerFromTheSurface, sideLength - layerFromTheSurface),
+  ].reverse();
 
   const zhou =
     upperSide.length === 1
@@ -145,16 +149,6 @@ const FireFlower = () => {
   //   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
   //   [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
   //   [2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2],
-  // ];
-
-  // const shape3: number[][] = [
-  //   [0, 0, 0, 0, 0, 0, 0],
-  //   [0, 0, 0, 0, 0, 0, 0],
-  //   [0, 0, 0, 0, 0, 0, 0],
-  //   [0, 0, 0, 1, 0, 0, 0],
-  //   [0, 0, 0, 0, 0, 0, 0],
-  //   [0, 0, 0, 0, 0, 0, 0],
-  //   [0, 0, 0, 0, 0, 0, 0],
   // ];
 
   const [time, setTime] = useState(0);
