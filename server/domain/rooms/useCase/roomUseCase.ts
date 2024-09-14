@@ -16,9 +16,9 @@ export const roomUseCase = {
 
       return toRoomDto(created.room);
     }),
-  updateRoomName: (user: UserDto, val: RoomUpdateVal): Promise<RoomDto> =>
+  updateRoomName: (user: UserDto, val: RoomUpdateVal, roomId: string): Promise<RoomDto> =>
     transaction('RepeatableRead', async (tx) => {
-      const room = await roomQuery.findById(tx, val.roomId);
+      const room = await roomQuery.findById(tx, roomId);
       const updated = await roomMethod.update(user, room, val);
 
       await roomCommand.save(tx, updated);

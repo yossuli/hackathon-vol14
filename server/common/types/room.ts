@@ -13,7 +13,7 @@ export type RoomDto = {
 
 export type RoomCreateVal = { name: string; password?: string; status: RoomStatus };
 
-export type RoomUpdateVal = { roomId: DtoId['room']; name: string };
+export type RoomUpdateVal = { name: string };
 
 export type RoomFindVal = {
   id?: DtoId['room'];
