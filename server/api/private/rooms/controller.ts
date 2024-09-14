@@ -1,33 +1,13 @@
-import { RoomStatus } from '@prisma/client';
-import type { DtoId } from 'common/types/brandedId';
+import { roomUseCase } from 'domain/rooms/useCase/roomUseCase';
 import { defineController } from './$relay';
 
 export default defineController(() => ({
-  get: () => ({
+  get: async () => ({
     status: 200,
-    body: [
-      {
-        id: '1' as DtoId['room'],
-        name: 'test',
-        status: RoomStatus['PUBLIC'],
-        createdAt: 0,
-        updatedAt: 0,
-        lastUsedAt: 0,
-        createdBy: { id: '1' as DtoId['user'], signInName: 'test' },
-      },
-    ],
+    body: await roomUseCase.findAll(),
   }),
-  post: ({ user, body }) => ({
+  post: async ({ user, body }) => ({
     status: 201,
-    body: {
-      id: '1' as DtoId['room'],
-      name: body.name,
-      password: body.password,
-      status: body.status,
-      createdAt: 0,
-      updatedAt: 0,
-      lastUsedAt: 0,
-      createdBy: { id: user.id, signInName: user.signInName },
-    },
+    body: await roomUseCase.create(user, body),
   }),
 }));
