@@ -31,18 +31,18 @@ const listByCreatedAt = async (
 
 export const roomQuery = {
   listByCreatedAt,
-  findByRoomNameAndPassword: async (
-    tx: Prisma.TransactionClient,
-    val: { password: string },
-  ): Promise<RoomEntity> =>
-    tx.room
-      .findUniqueOrThrow({
-        where: {
-          password: val.password,
-        },
-        include: { Creator: true },
-      })
-      .then(toEntity),
+  // findByRoomNameAndPassword: async (
+  //   tx: Prisma.TransactionClient,
+  //   val: { password: string },
+  // ): Promise<RoomEntity> =>
+  //   tx.room
+  //     .findUniqueOrThrow({
+  //       where: {
+  //         password: val.password,
+  //       },
+  //       include: { Creator: true },
+  //     })
+  //     .then(toEntity),
   findById: async (tx: Prisma.TransactionClient, roomId: string): Promise<RoomEntity> =>
     tx.room.findUniqueOrThrow({ where: { id: roomId }, include: { Creator: true } }).then(toEntity),
 

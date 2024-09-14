@@ -39,49 +39,49 @@ export const roomUseCase = {
 
       return toRoomsDto(found.rooms);
     }),
-  findById: (roomId: string): Promise<RoomDto> =>
-    transaction('RepeatableRead', async (tx) => {
-      const room = await roomQuery.findById(tx, roomId);
-      const found = await roomMethod.find(room, {});
+  // findById: (roomId: string): Promise<RoomDto> =>
+  //   transaction('RepeatableRead', async (tx) => {
+  //     const room = await roomQuery.findById(tx, roomId);
+  //     const found = await roomMethod.find(room, {});
 
-      return toRoomDto(found.room);
-    }),
+  //     return toRoomDto(found.room);
+  //   }),
   findByIdWithPassword: (roomId: string, password: string): Promise<RoomDto> =>
     transaction('RepeatableRead', async (tx) => {
       const room = await roomQuery.findById(tx, roomId).then((room) => {
-        if (!room) {
-          throw new Error('Room not found');
-        }
+        // if (!room) {
+        //   throw new Error('Room not found');
+        // }
         return room;
       });
       const found = await roomMethod.find(room, { password });
 
       return toRoomDto(found.room);
     }),
-  enterFriendRoom: (password: string): Promise<RoomDto> =>
-    transaction('RepeatableRead', async (tx) => {
-      const room = await roomQuery.findByRoomNameAndPassword(tx, { password });
-      const entered = await roomMethod.find(room, { password });
+  // enterFriendRoom: (password: string): Promise<RoomDto> =>
+  //   transaction('RepeatableRead', async (tx) => {
+  //     const room = await roomQuery.findByRoomNameAndPassword(tx, { password });
+  //     const entered = await roomMethod.find(room, { password });
 
-      await roomCommand.save(tx, entered);
+  //     await roomCommand.save(tx, entered);
 
-      return toRoomDto(entered.room);
-    }),
-  enterRoom: (roomId: string): Promise<RoomDto> =>
-    transaction('RepeatableRead', async (tx) => {
-      const room = await roomQuery.findById(tx, roomId);
-      const entered = await roomMethod.find(room, {});
+  //     return toRoomDto(entered.room);
+  //   }),
+  // enterRoom: (roomId: string): Promise<RoomDto> =>
+  //   transaction('RepeatableRead', async (tx) => {
+  //     const room = await roomQuery.findById(tx, roomId);
+  //     const entered = await roomMethod.find(room, {});
 
-      await roomCommand.save(tx, entered);
+  //     await roomCommand.save(tx, entered);
 
-      return toRoomDto(entered.room);
-    }),
+  //     return toRoomDto(entered.room);
+  //   }),
   delete: (user: UserDto, roomId: string): Promise<RoomDto> =>
     transaction('RepeatableRead', async (tx) => {
       const room = await roomQuery.findById(tx, roomId).then((room) => {
-        if (!room) {
-          throw new Error('Room not found');
-        }
+        // if (!room) {
+        //   throw new Error('Room not found');
+        // }
         return room;
       });
       const deleted = roomMethod.delete(user, room);
