@@ -77,14 +77,6 @@
                       "type": "number"
                     }
                   },
-<<<<<<< HEAD
-                  "required": [
-                    "createdTime",
-                    "email",
-                    "id",
-                    "signInName"
-                  ]
-=======
                   "required": ["createdTime", "email", "id", "signInName"]
                 }
               }
@@ -156,7 +148,6 @@
               "application/json": {
                 "schema": {
                   "type": "string"
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
                 }
               }
             }
@@ -186,13 +177,7 @@
                     "type": "boolean"
                   }
                 },
-<<<<<<< HEAD
-                "required": [
-                  "done"
-                ]
-=======
                 "required": ["done"]
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
               }
             }
           }
@@ -226,14 +211,7 @@
                           "type": "string"
                         }
                       },
-<<<<<<< HEAD
-                      "required": [
-                        "s3Key",
-                        "url"
-                      ]
-=======
                       "required": ["s3Key", "url"]
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
                     },
                     "author": {
                       "type": "object",
@@ -245,27 +223,10 @@
                           "type": "string"
                         }
                       },
-<<<<<<< HEAD
-                      "required": [
-                        "id",
-                        "signInName"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "author",
-                    "createdTime",
-                    "done",
-                    "id",
-                    "image",
-                    "label"
-                  ]
-=======
                       "required": ["id", "signInName"]
                     }
                   },
                   "required": ["author", "createdTime", "done", "id", "image", "label"]
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
                 }
               }
             }
@@ -312,14 +273,7 @@
                           "type": "string"
                         }
                       },
-<<<<<<< HEAD
-                      "required": [
-                        "s3Key",
-                        "url"
-                      ]
-=======
                       "required": ["s3Key", "url"]
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
                     },
                     "author": {
                       "type": "object",
@@ -331,27 +285,10 @@
                           "type": "string"
                         }
                       },
-<<<<<<< HEAD
-                      "required": [
-                        "id",
-                        "signInName"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "author",
-                    "createdTime",
-                    "done",
-                    "id",
-                    "image",
-                    "label"
-                  ]
-=======
                       "required": ["id", "signInName"]
                     }
                   },
                   "required": ["author", "createdTime", "done", "id", "image", "label"]
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
                 }
               }
             }
@@ -392,14 +329,7 @@
                             "type": "string"
                           }
                         },
-<<<<<<< HEAD
-                        "required": [
-                          "s3Key",
-                          "url"
-                        ]
-=======
                         "required": ["s3Key", "url"]
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
                       },
                       "author": {
                         "type": "object",
@@ -411,27 +341,10 @@
                             "type": "string"
                           }
                         },
-<<<<<<< HEAD
-                        "required": [
-                          "id",
-                          "signInName"
-                        ]
-                      }
-                    },
-                    "required": [
-                      "author",
-                      "createdTime",
-                      "done",
-                      "id",
-                      "image",
-                      "label"
-                    ]
-=======
                         "required": ["id", "signInName"]
                       }
                     },
                     "required": ["author", "createdTime", "done", "id", "image", "label"]
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
                   }
                 }
               }
@@ -483,14 +396,7 @@
                             "type": "string"
                           }
                         },
-<<<<<<< HEAD
-                        "required": [
-                          "s3Key",
-                          "url"
-                        ]
-=======
                         "required": ["s3Key", "url"]
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
                       },
                       "author": {
                         "type": "object",
@@ -502,27 +408,10 @@
                             "type": "string"
                           }
                         },
-<<<<<<< HEAD
-                        "required": [
-                          "id",
-                          "signInName"
-                        ]
-                      }
-                    },
-                    "required": [
-                      "author",
-                      "createdTime",
-                      "done",
-                      "id",
-                      "image",
-                      "label"
-                    ]
-=======
                         "required": ["id", "signInName"]
                       }
                     },
                     "required": ["author", "createdTime", "done", "id", "image", "label"]
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
                   }
                 }
               }
@@ -544,13 +433,7 @@
                     "$ref": "#/components/schemas/Blob"
                   }
                 },
-<<<<<<< HEAD
-                "required": [
-                  "label"
-                ]
-=======
                 "required": ["label"]
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
               }
             }
           }
@@ -584,14 +467,7 @@
                           "type": "string"
                         }
                       },
-<<<<<<< HEAD
-                      "required": [
-                        "s3Key",
-                        "url"
-                      ]
-=======
                       "required": ["s3Key", "url"]
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
                     },
                     "author": {
                       "type": "object",
@@ -603,27 +479,10 @@
                           "type": "string"
                         }
                       },
-<<<<<<< HEAD
-                      "required": [
-                        "id",
-                        "signInName"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "author",
-                    "createdTime",
-                    "done",
-                    "id",
-                    "image",
-                    "label"
-                  ]
-=======
                       "required": ["id", "signInName"]
                     }
                   },
                   "required": ["author", "createdTime", "done", "id", "image", "label"]
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
                 }
               }
             }
@@ -651,14 +510,7 @@
                     "type": "boolean"
                   }
                 },
-<<<<<<< HEAD
-                "required": [
-                  "done",
-                  "taskId"
-                ]
-=======
                 "required": ["done", "taskId"]
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
               }
             }
           }
@@ -692,14 +544,7 @@
                           "type": "string"
                         }
                       },
-<<<<<<< HEAD
-                      "required": [
-                        "s3Key",
-                        "url"
-                      ]
-=======
                       "required": ["s3Key", "url"]
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
                     },
                     "author": {
                       "type": "object",
@@ -711,27 +556,10 @@
                           "type": "string"
                         }
                       },
-<<<<<<< HEAD
-                      "required": [
-                        "id",
-                        "signInName"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "author",
-                    "createdTime",
-                    "done",
-                    "id",
-                    "image",
-                    "label"
-                  ]
-=======
                       "required": ["id", "signInName"]
                     }
                   },
                   "required": ["author", "createdTime", "done", "id", "image", "label"]
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
                 }
               }
             }
@@ -756,13 +584,7 @@
                     ]
                   }
                 },
-<<<<<<< HEAD
-                "required": [
-                  "taskId"
-                ]
-=======
                 "required": ["taskId"]
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
               }
             }
           }
@@ -796,14 +618,7 @@
                           "type": "string"
                         }
                       },
-<<<<<<< HEAD
-                      "required": [
-                        "s3Key",
-                        "url"
-                      ]
-=======
                       "required": ["s3Key", "url"]
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
                     },
                     "author": {
                       "type": "object",
@@ -815,27 +630,10 @@
                           "type": "string"
                         }
                       },
-<<<<<<< HEAD
-                      "required": [
-                        "id",
-                        "signInName"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "author",
-                    "createdTime",
-                    "done",
-                    "id",
-                    "image",
-                    "label"
-                  ]
-=======
                       "required": ["id", "signInName"]
                     }
                   },
                   "required": ["author", "createdTime", "done", "id", "image", "label"]
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
                 }
               }
             }
@@ -855,13 +653,7 @@
                     "type": "string"
                   }
                 },
-<<<<<<< HEAD
-                "required": [
-                  "jwt"
-                ]
-=======
                 "required": ["jwt"]
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
               }
             }
           }
@@ -878,13 +670,7 @@
                       "const": "success"
                     }
                   },
-<<<<<<< HEAD
-                  "required": [
-                    "status"
-                  ]
-=======
                   "required": ["status"]
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
                 }
               }
             }
@@ -904,13 +690,7 @@
                       "const": "success"
                     }
                   },
-<<<<<<< HEAD
-                  "required": [
-                    "status"
-                  ]
-=======
                   "required": ["status"]
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
                 }
               }
             }
@@ -937,15 +717,7 @@
             "const": "ok"
           }
         },
-<<<<<<< HEAD
-        "required": [
-          "db",
-          "s3",
-          "server"
-        ]
-=======
         "required": ["db", "s3", "server"]
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
       },
       "Dto<\"user\">": {
         "allOf": [
@@ -982,14 +754,7 @@
             "type": "string"
           }
         },
-<<<<<<< HEAD
-        "required": [
-          "size",
-          "type"
-        ]
-=======
         "required": ["size", "type"]
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
       },
       "Branded<\"maybe\">": {
         "allOf": [
@@ -1004,8 +769,4 @@
       }
     }
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> e601fd90e2004678d8452d899b67729cfe7498c0
