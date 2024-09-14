@@ -161,13 +161,13 @@ const FireFlower = () => {
   const circularShape = convertToCircle(shape, time);
   useEffect(() => {
     if (time > 3) {
-      return; // 6を超えたら何もせずに終了
+      return;
     }
     const interval = setInterval(() => {
       setTime((prevTime) => prevTime + 1);
-    }, 1500); // 0.5秒ごとにtimeを1増加
+    }, 1500);
 
-    return () => clearInterval(interval); // クリーンアップ
+    return () => clearInterval(interval);
   }, [time]);
 
   return (
