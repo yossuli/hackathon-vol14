@@ -49,16 +49,6 @@ test(POST(noCookieClient.private.rooms.friends), async () => {
   expect(res.body.status).toEqual('PRIVATE');
 });
 
-// test(POST(noCookieClient.private.rooms.friends), async () => {
-//   const apiClient = await createSessionClients();
-
-//   const res = await apiClient.private.rooms.friends.post({
-//     body: { id: '1' as DtoId['room'], password: 'test1234' },
-//   });
-
-//   expect(res.status).toEqual(403);
-// });
-
 test(PUT(noCookieClient.private.rooms._roomId('_roomId')), async () => {
   const apiClient = await createSessionClients();
 
@@ -83,11 +73,3 @@ test(DELETE(noCookieClient.private.rooms._roomId('_roomId')), async () => {
 
   expect(res.status).toEqual(204);
 });
-
-// test(DELETE(noCookieClient.private.rooms._roomId('_roomId')), async () => {
-//   const apiClient = await createSessionClients();
-
-//   const res = await apiClient.private.rooms._roomId('1').delete();
-
-//   expect(res.status).toEqual(403);
-// });
