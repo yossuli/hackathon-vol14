@@ -77,12 +77,77 @@
                       "type": "number"
                     }
                   },
-                  "required": [
-                    "createdTime",
-                    "email",
-                    "id",
-                    "signInName"
-                  ]
+                  "required": ["createdTime", "email", "id", "signInName"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/private/rooms/{roomId}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "roomId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "2XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/private/rooms/friends": {
+      "get": {
+        "responses": {
+          "2XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/private/rooms": {
+      "get": {
+        "responses": {
+          "2XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/private/rooms/search": {
+      "get": {
+        "responses": {
+          "2XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
@@ -112,9 +177,7 @@
                     "type": "boolean"
                   }
                 },
-                "required": [
-                  "done"
-                ]
+                "required": ["done"]
               }
             }
           }
@@ -148,10 +211,7 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "s3Key",
-                        "url"
-                      ]
+                      "required": ["s3Key", "url"]
                     },
                     "author": {
                       "type": "object",
@@ -163,20 +223,10 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "id",
-                        "signInName"
-                      ]
+                      "required": ["id", "signInName"]
                     }
                   },
-                  "required": [
-                    "author",
-                    "createdTime",
-                    "done",
-                    "id",
-                    "image",
-                    "label"
-                  ]
+                  "required": ["author", "createdTime", "done", "id", "image", "label"]
                 }
               }
             }
@@ -223,10 +273,7 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "s3Key",
-                        "url"
-                      ]
+                      "required": ["s3Key", "url"]
                     },
                     "author": {
                       "type": "object",
@@ -238,20 +285,10 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "id",
-                        "signInName"
-                      ]
+                      "required": ["id", "signInName"]
                     }
                   },
-                  "required": [
-                    "author",
-                    "createdTime",
-                    "done",
-                    "id",
-                    "image",
-                    "label"
-                  ]
+                  "required": ["author", "createdTime", "done", "id", "image", "label"]
                 }
               }
             }
@@ -292,10 +329,7 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "s3Key",
-                          "url"
-                        ]
+                        "required": ["s3Key", "url"]
                       },
                       "author": {
                         "type": "object",
@@ -307,20 +341,10 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "id",
-                          "signInName"
-                        ]
+                        "required": ["id", "signInName"]
                       }
                     },
-                    "required": [
-                      "author",
-                      "createdTime",
-                      "done",
-                      "id",
-                      "image",
-                      "label"
-                    ]
+                    "required": ["author", "createdTime", "done", "id", "image", "label"]
                   }
                 }
               }
@@ -372,10 +396,7 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "s3Key",
-                          "url"
-                        ]
+                        "required": ["s3Key", "url"]
                       },
                       "author": {
                         "type": "object",
@@ -387,20 +408,10 @@
                             "type": "string"
                           }
                         },
-                        "required": [
-                          "id",
-                          "signInName"
-                        ]
+                        "required": ["id", "signInName"]
                       }
                     },
-                    "required": [
-                      "author",
-                      "createdTime",
-                      "done",
-                      "id",
-                      "image",
-                      "label"
-                    ]
+                    "required": ["author", "createdTime", "done", "id", "image", "label"]
                   }
                 }
               }
@@ -422,9 +433,7 @@
                     "$ref": "#/components/schemas/Blob"
                   }
                 },
-                "required": [
-                  "label"
-                ]
+                "required": ["label"]
               }
             }
           }
@@ -458,10 +467,7 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "s3Key",
-                        "url"
-                      ]
+                      "required": ["s3Key", "url"]
                     },
                     "author": {
                       "type": "object",
@@ -473,20 +479,10 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "id",
-                        "signInName"
-                      ]
+                      "required": ["id", "signInName"]
                     }
                   },
-                  "required": [
-                    "author",
-                    "createdTime",
-                    "done",
-                    "id",
-                    "image",
-                    "label"
-                  ]
+                  "required": ["author", "createdTime", "done", "id", "image", "label"]
                 }
               }
             }
@@ -514,10 +510,7 @@
                     "type": "boolean"
                   }
                 },
-                "required": [
-                  "done",
-                  "taskId"
-                ]
+                "required": ["done", "taskId"]
               }
             }
           }
@@ -551,10 +544,7 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "s3Key",
-                        "url"
-                      ]
+                      "required": ["s3Key", "url"]
                     },
                     "author": {
                       "type": "object",
@@ -566,20 +556,10 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "id",
-                        "signInName"
-                      ]
+                      "required": ["id", "signInName"]
                     }
                   },
-                  "required": [
-                    "author",
-                    "createdTime",
-                    "done",
-                    "id",
-                    "image",
-                    "label"
-                  ]
+                  "required": ["author", "createdTime", "done", "id", "image", "label"]
                 }
               }
             }
@@ -604,9 +584,7 @@
                     ]
                   }
                 },
-                "required": [
-                  "taskId"
-                ]
+                "required": ["taskId"]
               }
             }
           }
@@ -640,10 +618,7 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "s3Key",
-                        "url"
-                      ]
+                      "required": ["s3Key", "url"]
                     },
                     "author": {
                       "type": "object",
@@ -655,20 +630,10 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "id",
-                        "signInName"
-                      ]
+                      "required": ["id", "signInName"]
                     }
                   },
-                  "required": [
-                    "author",
-                    "createdTime",
-                    "done",
-                    "id",
-                    "image",
-                    "label"
-                  ]
+                  "required": ["author", "createdTime", "done", "id", "image", "label"]
                 }
               }
             }
@@ -688,9 +653,7 @@
                     "type": "string"
                   }
                 },
-                "required": [
-                  "jwt"
-                ]
+                "required": ["jwt"]
               }
             }
           }
@@ -707,9 +670,7 @@
                       "const": "success"
                     }
                   },
-                  "required": [
-                    "status"
-                  ]
+                  "required": ["status"]
                 }
               }
             }
@@ -729,9 +690,7 @@
                       "const": "success"
                     }
                   },
-                  "required": [
-                    "status"
-                  ]
+                  "required": ["status"]
                 }
               }
             }
@@ -758,11 +717,7 @@
             "const": "ok"
           }
         },
-        "required": [
-          "db",
-          "s3",
-          "server"
-        ]
+        "required": ["db", "s3", "server"]
       },
       "Dto<\"user\">": {
         "allOf": [
@@ -799,10 +754,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "size",
-          "type"
-        ]
+        "required": ["size", "type"]
       },
       "Branded<\"maybe\">": {
         "allOf": [
