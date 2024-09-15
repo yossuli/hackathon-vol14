@@ -1,4 +1,9 @@
 import Header from './Header';
+=======
+import { FireList } from 'features/fires/FireList';
+import { RoomList } from 'features/rooms/RoomList';
+import { Layout } from 'layouts/Layout';
+import Link from 'next/link';
 import styles from './index.module.css';
 
 const Home = () => {
