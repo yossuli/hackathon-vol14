@@ -116,7 +116,7 @@ const FireFlower = () => {
   const generateBoxShadows = (shape: number[][]): string => {
     return shape
       .map((row, y) =>
-      // eslint-disable-next-line complexity
+        // eslint-disable-next-line complexity
         row.map((pixel, x) => {
           const color =
             pixel === 1
