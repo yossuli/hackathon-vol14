@@ -17,11 +17,11 @@ type DraggingElementStatus = {
   draggingElement: (EventTarget & Element) | null;
 };
 
-type Handler = (e: React.MouseEvent<EventTarget & HTMLElement>) => void;
+type Handler = (e: MouseEvent) => void;
 
 const useDraggableElements = (
   isStyleTransform: boolean = true,
-): [DraggingElementStatus, Handler, (e: React.MouseEvent) => void] => {
+): [DraggingElementStatus, (e: React.MouseEvent<EventTarget & HTMLElement>) => void, Handler] => {
   // ドラッグしている要素の移動量
   const [translate, setTranslate] = useState<Point>({ x: 0, y: 0 });
 
@@ -35,7 +35,7 @@ const useDraggableElements = (
   // マウスを押し込んだときのカーソルの座標
   const startPoint = useRef<Point>({ x: 0, y: 0 });
 
-  // 前回のtranslate
+  // 前回の translate
   const prevTranslate = useRef<Point>({ x: 0, y: 0 });
 
   // ドラッグしている要素
@@ -81,15 +81,13 @@ const useDraggableElements = (
   }, []);
 
   // mousemoveが発生したときに実行する関数
-  const handleMove = (e: React.MouseEvent): void => {
+  const handleMove = (e: MouseEvent): void => {
     e.preventDefault();
     if (!draggingElement.current) return;
     if (!isDraggable()) return;
 
-    const nativeEvent = e.nativeEvent;
-
-    const differenceX = nativeEvent.pageX - startPoint.current.x;
-    const differenceY = nativeEvent.pageY - startPoint.current.y;
+    const differenceX = e.pageX - startPoint.current.x;
+    const differenceY = e.pageY - startPoint.current.y;
 
     setTranslate({
       x: prevTranslate.current.x + differenceX,
@@ -103,7 +101,7 @@ const useDraggableElements = (
   };
 
   // mouseupが発生したときに実行する関数
-  const handleUp = (e: MouseEvent): void => {
+  const handleUp = (_e: MouseEvent): void => {
     if (!draggingElement.current) return;
     if (!isDraggable()) return;
 

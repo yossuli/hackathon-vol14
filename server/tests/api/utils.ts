@@ -6,6 +6,8 @@ export const GET = (api: { get: unknown; $path: () => string }): string => `GET:
 
 export const POST = (api: { post: unknown; $path: () => string }): string => `POST: ${api.$path()}`;
 
+export const PUT = (api: { put: unknown; $path: () => string }): string => `PUT: ${api.$path()}`;
+
 export const PATCH = (api: { patch: unknown; $path: () => string }): string =>
   `PATCH: ${api.$path()}`;
 
