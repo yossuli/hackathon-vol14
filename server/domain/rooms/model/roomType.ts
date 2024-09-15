@@ -7,6 +7,11 @@ export type RoomEntity = Omit<RoomDto, 'id' | 'creator'> & {
   creator: Omit<RoomDto['creator'], 'id'> & { id: EntityId['user'] };
 } & RoomCreateServerVal;
 
-export type RoomCreateServerVal = { name: string; password?: string; status: RoomStatus };
+export type RoomCreateServerVal = {
+  name: string;
+  password?: string;
+  status: RoomStatus;
+  fireLaunchTime?: number;
+};
 
 export type RoomSaveVal = { room: RoomEntity };

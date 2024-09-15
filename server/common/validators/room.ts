@@ -17,4 +17,16 @@ export const roomPasswordValidator = z.optional(
     ),
 );
 
+export const fireLaunchTimeValidator = {
+  parse: (val: number | undefined): number => {
+    if (val === undefined) {
+      throw new Error('Launch time must be defined.');
+    }
+    if (val < Date.now()) {
+      throw new Error('Launch time cannot be in the past.');
+    }
+    return val;
+  },
+};
+
 export const roomStatusValidator = z.nativeEnum(RoomStatus);
