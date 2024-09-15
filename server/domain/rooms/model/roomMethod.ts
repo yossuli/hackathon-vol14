@@ -1,7 +1,6 @@
 import { RoomStatus } from '@prisma/client';
 import type { UserDto } from 'common/types/user';
 import {
-  fireLaunchTimeValidator,
   roomNameValidator,
   roomPasswordValidator,
   roomStatusValidator,
@@ -22,9 +21,6 @@ export const roomMethod = {
       createdAt: Date.now(),
       updatedAt: undefined,
       lastUsedAt: undefined,
-      fireLaunchTime: val.fireLaunchTime
-        ? fireLaunchTimeValidator.parse(val.fireLaunchTime)
-        : undefined,
     };
     assert(val.password === undefined && val.status !== RoomStatus['PRIVATE']);
     assert(val.password !== undefined && val.status === RoomStatus['PRIVATE']);
