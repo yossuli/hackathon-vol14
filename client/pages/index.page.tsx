@@ -2,7 +2,7 @@ import { TaskList } from 'features/tasks/TaskList';
 import { Layout } from 'layouts/Layout';
 import styles from './index.module.css';
 
-const Home = () => {
+const YourComponent = () => {
   return (
     <Layout
       render={(user) => (
@@ -15,4 +15,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default YourComponent;
