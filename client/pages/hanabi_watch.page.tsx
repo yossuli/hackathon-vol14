@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ConvertToCircleLine from './fireFlower/index.page';
 import Header from './Header';
 import styles from './watch.module.css';
 
@@ -80,6 +81,8 @@ export const ChatApp = () => {
       <Header />
       <div className={styles.container}>
         <div className={styles.artContainer}>
+          <ConvertToCircleLine />
+
           <img src="/images/arakawa1_x8.png" alt="Logo" className={styles.logoImage} />
         </div>
         {/* 左上の花火のピクセルアート部分

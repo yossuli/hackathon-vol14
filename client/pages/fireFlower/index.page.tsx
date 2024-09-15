@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './index.module.css';
 
-const convertToCircleLine = (
+const ConvertToCircleLine = (
   matrix: number[][],
   layerFromTheSurface: number,
   result: number[][],
@@ -74,10 +74,10 @@ const convertToCircle = (matrix: number[][], time: number): number[][] => {
   }
   let i;
   for (i = Math.ceil(radius - 3); i >= 0; i--) {
-    convertToCircleLine(matrix, i, result, time);
+    ConvertToCircleLine(matrix, i, result, time);
   }
   if (matrix.length % 2 === 0) {
-    convertToCircleLine(matrix, Math.max(0, i), result, time);
+    ConvertToCircleLine(matrix, Math.max(0, i), result, time);
   } else {
     result[Math.ceil(radius - 1) * 2][Math.ceil(radius - 1) * 2] =
       matrix[Math.ceil(radius - 2)][Math.ceil(radius - 2)];
@@ -85,7 +85,7 @@ const convertToCircle = (matrix: number[][], time: number): number[][] => {
   return result;
 };
 
-const PIXEL_SIZE = 30; // ドットのサイズ
+const PIXEL_SIZE = 22; // ドットのサイズ
 
 const FireFlower = () => {
   const shape: number[][] = [
