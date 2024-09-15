@@ -71,18 +71,18 @@ export const FireList = () => {
         </button>
       </div>
 
-      <h2>Your Fireworks</h2>
+      <h2>あなたの花火</h2>
       <ul>
         {fireworks.map((firework) => (
           <li key={firework.id} className={styles.card}>
             <div className={styles.form}>
-              <span>Name: {firework.name}</span> <br />
-              <span>Owner: {firework.owner}</span> <br />
-              <span>Color: {firework.color}</span> <br />
-              <span>Created At: {firework.createdAt}</span> <br />
+              <span>花火の名前: {firework.name}</span> <br />
+              <span>制作した人: {firework.owner}</span> <br />
+              <span>色: {firework.color}</span> <br />
+              <span>制作した日時: {firework.createdAt}</span> <br />
               <div className={styles.controls}>
                 <button className={styles.btn} onClick={() => deleteFirework(firework.id)}>
-                  Delete
+                  消去
                 </button>
               </div>
             </div>
@@ -90,7 +90,7 @@ export const FireList = () => {
         ))}
       </ul>
 
-      <h2>Firework History</h2>
+      <h2>花火の制作履歴</h2>
       <ul>
         {history.map((entry, index) => (
           <li key={index}>{entry}</li>
