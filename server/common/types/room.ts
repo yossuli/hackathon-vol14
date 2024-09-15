@@ -26,3 +26,4 @@ export type RoomFindVal = {
 };
 
 export type FriendRoomFindVal = { id: DtoId['room']; password: string };
+export type RoomStatusEnum = RoomStatus;

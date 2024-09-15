@@ -1,31 +1,79 @@
 .container {
-  min-height: 100vh;
-  padding: 40px 16px;
-  background: #f8f8f8;
-}
-
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
 }
 
 .title {
-  padding-top: 40px;
-  font-size: 80px;
-  font-weight: 900;
-  color: transparent;
+  margin: 20px 0;
+  font-size: 24px;
+}
+
+.button {
+  width: 400px;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 36px;
+  color: white;
   text-align: center;
-  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-  background-clip: text;
-  background-size: 200% 200%;
-  animation: gradient 10s ease infinite;
+  cursor: pointer;
+  background-color: #333;
+  border: none;
+  box-shadow:
+    4px 0 black,
+    -4px 0 black,
+    0 4px black,
+    0 -4px black;
+}
+
+.button:hover {
+  background-color: #555;
+}
+
+.options {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.optionButton {
+  width: 190px;
+  padding: 10px;
+  font-size: 32px;
+  color: white;
+  text-align: center;
+  cursor: pointer;
+  background-color: #333;
+  border: none;
+  box-shadow:
+    4px 0 black,
+    -4px 0 black,
+    0 4px black,
+    0 -4px black;
+}
+
+.optionButton:hover {
+  background-color: #555;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logoImage {
+  width: 300px; /* ロゴの幅をピクセルで調整 */
+  height: auto;
+  margin: 0 auto;
+}
+
+.link {
+  padding: 10px; /* パディング */
+  font-weight: bold; /* 太字 */
+  color: #0070f3; /* リンクの色 */
+  text-decoration: none; /* 下線を消す */
+  border: 1px solid #0070f3; /* 枠線 */
+  border-radius: 5px; /* 角を丸める */
+  transition: background-color 0.3s ease; /* ホバー時のアニメーション */
 }
