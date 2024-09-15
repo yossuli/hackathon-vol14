@@ -6,7 +6,7 @@
   justify-content: space-between;
   height: 100vh;
   padding: 20px;
-  background-color: #f0f0f0;
+  background-color: gray;
 }
 
 /* 左上の花火ピクセルアートの枠 */
@@ -15,8 +15,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 80%;
-  height: 85%;
+  width: 85%;
+  height: 90%;
   border: 2px solid #333;
 }
 
@@ -116,8 +116,12 @@
   margin: 10px 0;
   color: white;
   word-wrap: break-word;
-  background-color: #0084ff;
-  border-radius: 20px;
+  background-color: #333;
+  box-shadow:
+    4px 0 black,
+    -4px 0 black,
+    0 4px black,
+    0 -4px black;
   animation: slide-up 0.3s ease-in-out;
 }
 
@@ -155,4 +159,9 @@
 
 .optionButton:hover {
   background-color: #f0f0f0;
+}
+
+.logoImage {
+  width: 1100px;
+  height: 500px;
 }

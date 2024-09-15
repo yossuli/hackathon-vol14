@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Header from './Header';
 import styles from './watch.module.css';
 
 // 吹き出しコンポーネント
@@ -75,14 +76,18 @@ export const ChatApp = () => {
   // };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.artContainer} />
-      {/* 左上の花火のピクセルアート部分
+    <div>
+      <Header />
+      <div className={styles.container}>
+        <div className={styles.artContainer}>
+          <img src="/images/arakawa1_x8.png" alt="Logo" className={styles.logoImage} />
+        </div>
+        {/* 左上の花火のピクセルアート部分
       <div className={styles.artContainer}>
         {showFireworks && <div className={styles.fireworks} style={fireworksStyle}></div>}
 
         {/* 花火発射ボタン */}
-      {/* <button
+        {/* <button
           className={styles.fireworkButton}
           onClick={handleFireworkLaunch}
           disabled={buttonDisabled}
@@ -91,11 +96,12 @@ export const ChatApp = () => {
         </button>
       </div> */}
 
-      {/* 右上に表示される吹き出し */}
-      <ChatBubble messages={messages} />
+        {/* 右上に表示される吹き出し */}
+        <ChatBubble messages={messages} />
 
-      {/* 下部のチャット選択肢 */}
-      <ChatOptions options={chatOptions} onSelect={handleSelectMessage} />
+        {/* 下部のチャット選択肢 */}
+        <ChatOptions options={chatOptions} onSelect={handleSelectMessage} />
+      </div>
     </div>
   );
 };
