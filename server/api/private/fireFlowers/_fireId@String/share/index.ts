@@ -3,7 +3,7 @@ import type { DtoId } from 'common/types/brandedId';
 
 export type Methods = DefineMethods<{
   post: {
-    status: 200;
+    status: 201;
     reqBody: { id: DtoId['fireFlower']; userId: DtoId['user'] };
     resBody: { success: boolean };
   };

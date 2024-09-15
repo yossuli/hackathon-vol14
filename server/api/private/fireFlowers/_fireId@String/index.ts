@@ -9,7 +9,7 @@ export type Methods = DefineMethods<{
     resBody: FireFlowerDto;
   };
   post: {
-    status: 200;
+    status: 201;
     reqBody: {
       id: DtoId['fireFlower'];
       update: FireFlowerUpdateVal;

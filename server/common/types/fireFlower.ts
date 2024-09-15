@@ -8,7 +8,7 @@ export type FireFlowerDto = {
   id: DtoId['fireFlower'];
   name: string;
   createdAt: number;
-  updatedAt: number;
+  updatedAt?: number;
   structure: FireFlower;
   creator: { id: DtoId['user']; signInName: string };
 };
