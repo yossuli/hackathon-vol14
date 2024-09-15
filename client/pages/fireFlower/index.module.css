@@ -1,19 +1,11 @@
 .main {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  width: 100vw;
   height: 100vh;
 }
 
 .fireFlower {
-  display: flex;
-  flex-wrap: wrap;
-  aspect-ratio: 1;
-  background-color: #000;
-}
-
-.dot {
-  width: 30px;
-  height: 30px;
+  position: relative;
 }
