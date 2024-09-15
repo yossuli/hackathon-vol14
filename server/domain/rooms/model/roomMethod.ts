@@ -1,11 +1,11 @@
 import { RoomStatus } from '@prisma/client';
+import assert from 'assert';
 import type { UserDto } from 'common/types/user';
 import {
   roomNameValidator,
   roomPasswordValidator,
   roomStatusValidator,
 } from 'common/validators/room';
-import { assert } from 'console';
 import { brandedId } from 'service/brandedId';
 import { ulid } from 'ulid';
 import type { RoomCreateServerVal, RoomEntity, RoomSaveVal } from './roomType';
@@ -23,7 +23,6 @@ export const roomMethod = {
       lastUsedAt: undefined,
     };
     assert(val.password === undefined && val.status !== RoomStatus['PRIVATE']);
-    assert(val.password !== undefined && val.status === RoomStatus['PRIVATE']);
     return { room };
   },
   update: (user: UserDto, room: RoomEntity, val: { name: string }): RoomSaveVal => {

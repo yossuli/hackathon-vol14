@@ -23,3 +23,8 @@ export const fireFlowerValidator = z.array(colorArrayValidator).superRefine((arr
     }
   }
 });
+
+export const fireFlowerNameValidator = z
+  .string()
+  .min(1, '名前を入力してください')
+  .max(20, '名前は20文字以内です');
