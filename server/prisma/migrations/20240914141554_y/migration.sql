@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Room" ALTER COLUMN "updatedAt" DROP NOT NULL,
+ALTER COLUMN "lastUsedAt" DROP NOT NULL;

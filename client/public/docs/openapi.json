@@ -9,6 +9,7 @@
       "url": "/api"
     }
   ],
+<<<<<<< HEAD
   "paths": {
     "/health": {
       "get": {
@@ -817,4 +818,8 @@
       }
     }
   }
+=======
+  "paths": {},
+  "components": {}
+>>>>>>> be9c2bfa585ad8e212caf4e29dc64b3bc7854ecb
 }

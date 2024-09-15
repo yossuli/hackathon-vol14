@@ -29,6 +29,7 @@
   background-size: 200% 200%;
   animation: gradient 10s ease infinite;
 }
+<<<<<<< HEAD
 
 .link {
   padding: 10px; /* パディング */
@@ -50,3 +51,5 @@
   background-color: black; /* キャンバスの背景色 */
   border: 1px solid #ccc; /* キャンバスの境界線 */
 }
+=======
+>>>>>>> be9c2bfa585ad8e212caf4e29dc64b3bc7854ecb
