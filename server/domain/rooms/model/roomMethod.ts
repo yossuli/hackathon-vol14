@@ -22,7 +22,7 @@ export const roomMethod = {
       updatedAt: undefined,
       lastUsedAt: undefined,
     };
-    assert(val.password === undefined && val.status !== RoomStatus['PRIVATE']);
+    assert(val.password === undefined || val.status === RoomStatus['PRIVATE']);
     return { room };
   },
   update: (user: UserDto, room: RoomEntity, val: { name: string }): RoomSaveVal => {
@@ -31,7 +31,9 @@ export const roomMethod = {
   },
   find: (room: RoomEntity, val: { password?: string }): { found: boolean; room: RoomEntity } => {
     assert(
-      (room.status !== RoomStatus['PRIVATE'] && !val.password) || val.password === room.password,
+      val.password === undefined ||
+        room.status === RoomStatus['PRIVATE'] ||
+        val.password === room.password,
     );
     return { found: true, room };
   },

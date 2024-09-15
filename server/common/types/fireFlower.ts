@@ -16,7 +16,6 @@ export type FireFlowerDto = {
 export type FireFlowerCreateVal = {
   name: string;
   structure: FireFlower;
-  creatorId: DtoId['user'];
 };
 
 export type FireFlowerUpdateVal = {
