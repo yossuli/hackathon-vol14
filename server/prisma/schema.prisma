@@ -13,6 +13,7 @@ model User {
   signInName String
   createdAt  DateTime
   tasks      Task[]
+  Room       Room[]
 }
 
 model Task {
@@ -23,4 +24,21 @@ model Task {
   createdAt DateTime
   Author    User     @relation(fields: [authorId], references: [id])
   authorId  String
+}
+
+model Room {
+  id         String     @id
+  name       String
+  password   String?    @unique
+  status     RoomStatus
+  createdAt  DateTime
+  updatedAt  DateTime?
+  lastUsedAt DateTime?
+  creatorId  String     @map("createdBy")
+  Creator    User       @relation(fields: [creatorId], references: [id])
+}
+
+enum RoomStatus {
+  PUBLIC
+  PRIVATE
 }
