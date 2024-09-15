@@ -62,28 +62,6 @@ const convertToCircleLine = (
   });
 };
 
-// const moveCellsDown = (matrix: number[][]): number[][] => {
-//   const diameter = matrix.length;
-//   const result: number[][] = matrix;
-//   console.log(result);
-
-//   for (let i = 0; i < diameter; i++) {
-//     for (let j = 0; j < diameter; j++) {
-//       if (matrix[i][j] !== undefined) {
-//         const randomValue = Math.random();
-
-//         // 2マス下に移動する確率
-//         if (i + 2 < diameter && randomValue < 0.2) {
-//           result[i + 1][j] = matrix[i][j];
-//         }
-//       }
-//     }
-//   }
-//   console.log(result);
-
-//   return result;
-// };
-
 // eslint-disable-next-line complexity
 const convertToCircle = (matrix: number[][], time: number): number[][] => {
   const diameter = matrix.length + 2;
@@ -94,12 +72,6 @@ const convertToCircle = (matrix: number[][], time: number): number[][] => {
   if (time === 0) {
     return result;
   }
-  // else if (time > 4) {
-  //   console.log(matrix);
-  //   const result2 = convertToCircle(matrix, 4);
-  //   const fireFlower = moveCellsDown(result2);
-  //   return fireFlower;
-  // }
   let i;
   for (i = Math.ceil(radius - 3); i >= 0; i--) {
     convertToCircleLine(matrix, i, result, time);
@@ -113,6 +85,8 @@ const convertToCircle = (matrix: number[][], time: number): number[][] => {
   return result;
 };
 
+const PIXEL_SIZE = 30; // ドットのサイズ
+
 const FireFlower = () => {
   const shape: number[][] = [
     [1, 1, 1, 1, 1, 1, 1],
@@ -123,36 +97,10 @@ const FireFlower = () => {
     [1, 3, 3, 3, 3, 3, 1],
     [1, 1, 1, 1, 1, 1, 1],
   ];
-  // const shape1: number[][] = [
-  //   [1, 1, 1, 1, 1, 1, 1, 1],
-  //   [1, 3, 3, 3, 3, 3, 3, 1],
-  //   [1, 3, 4, 4, 4, 4, 3, 1],
-  //   [1, 3, 4, 2, 2, 4, 3, 1],
-  //   [1, 3, 4, 2, 2, 4, 3, 1],
-  //   [1, 3, 4, 4, 4, 4, 3, 1],
-  //   [1, 3, 3, 3, 3, 3, 3, 1],
-  //   [1, 1, 1, 1, 1, 1, 1, 1],
-  // ];
-  // const shape2: number[][] = [
-  //   [2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2],
-  //   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-  //   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-  //   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-  //   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-  //   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-  //   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-  //   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-  //   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-  //   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-  //   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-  //   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-  //   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-  //   [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-  //   [2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2],
-  // ];
 
   const [time, setTime] = useState(0);
   const circularShape = convertToCircle(shape, time);
+
   useEffect(() => {
     if (time > 3) {
       return;
@@ -164,30 +112,67 @@ const FireFlower = () => {
     return () => clearInterval(interval);
   }, [time]);
 
+  // ピクセルごとのボックスシャドウを生成する関数
+  const generateBoxShadows = (shape: number[][]): string => {
+    return shape
+      .map((row, y) =>
+      // eslint-disable-next-line complexity
+        row.map((pixel, x) => {
+          const color =
+            pixel === 1
+              ? 'red'
+              : pixel === 2
+                ? 'blue'
+                : pixel === 3
+                  ? 'green'
+                  : pixel === 4
+                    ? 'yellow'
+                    : 'transparent';
+          if (color === 'transparent') return null;
+          return `${x * PIXEL_SIZE}px ${y * PIXEL_SIZE}px ${color}`;
+        }),
+      )
+      .flat()
+      .filter(Boolean)
+      .join(',');
+  };
+
+  // circularShapeの行数・列数から、全体のサイズを計算
+  const boxWidth = circularShape[0].length * PIXEL_SIZE;
+  const boxHeight = circularShape.length * PIXEL_SIZE;
+
+  const boxShadowStyle: React.CSSProperties = {
+    width: `${PIXEL_SIZE}px`,
+    height: `${PIXEL_SIZE}px`,
+    boxShadow: generateBoxShadows(circularShape),
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: `translate(-${boxWidth / 2}px, -${boxHeight / 2}px)`,
+  };
+
   return (
     <div className={styles.main}>
-      <div className={styles.fireFlower} style={{ width: `${circularShape.length * 30}px` }}>
-        {circularShape.map((row, _) =>
-          row.map((number, _) => (
-            <div
-              style={{
-                backgroundColor:
-                  number === 1
-                    ? 'red'
-                    : number === 2
-                      ? 'blue'
-                      : number === 3
-                        ? 'green'
-                        : number === 4
-                          ? 'yellow'
-                          : '',
-              }}
-              className={styles.dot}
-            ></div>
-          )),
-        )}
-      </div>
+      <div className={styles.fireFlower} style={boxShadowStyle}></div>
     </div>
   );
 };
+
 export default FireFlower;
+// const shape2: number[][] = [
+//   [2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2],
+//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
+//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
+//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
+//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
+//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
+//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
+//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
+//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
+//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
+//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
+//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
+//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
+//   [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
+//   [2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2],
+// ];
