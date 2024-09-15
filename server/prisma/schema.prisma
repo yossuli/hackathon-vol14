@@ -8,16 +8,19 @@ generator client {
 }
 
 model User {
-  id         String   @id
-  email      String
-  signInName String
-  createdAt  DateTime
-  tasks      Task[]
-  Room       Room[]
+  id            String            @id
+  email         String
+  signInName    String
+  createdAt     DateTime
+  tasks         Task[]
+  Room          Room[]
+  fireFlower    fireFlower[]
+  Liker         likedFireFlower[] @relation(name: "LikerRelation")
+  suggestedUser likedFireFlower[] @relation(name: "SuggestedUserRelation")
 }
 
 model Task {
-  id        String   @id
+  id        String   @id @default(uuid())
   label     String
   done      Boolean
   imageKey  String?
@@ -27,7 +30,7 @@ model Task {
 }
 
 model Room {
-  id         String     @id
+  id         String     @id @default(uuid())
   name       String
   password   String?    @unique
   status     RoomStatus
@@ -41,4 +44,29 @@ model Room {
 enum RoomStatus {
   PUBLIC
   PRIVATE
+}
+
+model fireFlower {
+  id        String            @id @default(uuid())
+  creatorId String
+  name      String
+  createdAt DateTime          @default(now())
+  updatedAt DateTime
+  structure Json
+  Creator   User              @relation(fields: [creatorId], references: [id])
+  likedBy   likedFireFlower[]
+}
+
+model likedFireFlower {
+  id              String     @id @default(uuid())
+  userId          String
+  fireFlowerId    String
+  likedAt         DateTime   @default(now())
+  suggestedUserId String?
+  SuggestedUser   User?      @relation(name: "SuggestedUserRelation", fields: [suggestedUserId], references: [id])
+  Liker           User       @relation(name: "LikerRelation", fields: [userId], references: [id])
+  fireFlower      fireFlower @relation(fields: [fireFlowerId], references: [id])
+
+  @@unique([userId, fireFlowerId])
+  @@index([fireFlowerId])
 }
