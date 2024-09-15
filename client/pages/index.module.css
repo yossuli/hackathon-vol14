@@ -74,6 +74,10 @@
   color: #0070f3; /* リンクの色 */
   text-decoration: none; /* 下線を消す */
   border: 1px solid #0070f3; /* 枠線 */
-  border-radius: 5px; /* 角を丸める */
+  box-shadow:
+    4px 0 black,
+    -4px 0 black,
+    0 4px black,
+    0 -4px black;
   transition: background-color 0.3s ease; /* ホバー時のアニメーション */
 }
