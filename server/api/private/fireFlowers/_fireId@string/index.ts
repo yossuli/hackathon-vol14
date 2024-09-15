@@ -5,7 +5,6 @@ import type { FireFlowerDto, FireFlowerUpdateVal } from 'common/types/fireFlower
 export type Methods = DefineMethods<{
   get: {
     status: 200;
-    reqBody: { id: DtoId['fireFlower'] };
     resBody: FireFlowerDto;
   };
   post: {

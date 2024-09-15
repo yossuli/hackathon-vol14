@@ -1,6 +1,6 @@
 import type { DefineMethods } from 'aspida';
 import type { DtoId } from 'common/types/brandedId';
-import type { FireFlowerCreateVal, FireFlowerDto } from 'common/types/fireFlower';
+import type { FireFlowerDto } from 'common/types/fireFlower';
 // import type { FireFlowerSaveVal } from 'domain/fireFlower/model/fireFlowerType';
 
 export type Methods = DefineMethods<{
@@ -10,7 +10,7 @@ export type Methods = DefineMethods<{
   };
   post: {
     status: 201;
-    reqBody: FireFlowerCreateVal;
+    reqBody: '';
     resBody: FireFlowerDto[];
   };
   // put: {
