@@ -29,13 +29,13 @@ model Task {
 model Room {
   id         String     @id
   name       String
-  password   String?
+  password   String?    @unique
   status     RoomStatus
   createdAt  DateTime
-  updatedAt  DateTime
-  lastUsedAt DateTime
-  createdBy  String
-  Creator    User       @relation(fields: [createdBy], references: [id])
+  updatedAt  DateTime?
+  lastUsedAt DateTime?
+  creatorId  String     @map("createdBy")
+  Creator    User       @relation(fields: [creatorId], references: [id])
 }
 
 enum RoomStatus {

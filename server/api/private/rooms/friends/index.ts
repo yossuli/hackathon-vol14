@@ -8,7 +8,7 @@ export type Methods = DefineMethods<{
     resBody: RoomDto;
   };
   put: {
-    status: 204;
+    status: 200;
     reqBody: Required<RoomCreateVal>;
     resBody: RoomDto;
   };

@@ -1,10 +1,10 @@
 import type { DefineMethods } from 'aspida';
-import type { RoomDto } from 'common/types/room';
+import type { RoomDto, RoomUpdateVal } from 'common/types/room';
 
 export type Methods = DefineMethods<{
   put: {
     status: 204;
-    reqBody: { name: string };
+    reqBody: RoomUpdateVal;
     resBody: RoomDto;
   };
   delete: {
