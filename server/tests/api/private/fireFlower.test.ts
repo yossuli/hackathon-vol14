@@ -29,9 +29,7 @@ test(DELETE(noCookieClient.private.fireFlowers), async () => {
 
 test(GET(noCookieClient.private.fireFlowers._fireId('fireFlowerId')), async () => {
   const apiClient = await createSessionClients();
-  const res = await apiClient.private.fireFlowers._fireId('fireFlowerId').get({
-    body: '',
-  });
+  const res = await apiClient.private.fireFlowers._fireId('fireFlowerId').get();
 
   expect(res.status).toEqual(200);
 });
