@@ -13,10 +13,6 @@ model User {
   signInName String
   createdAt  DateTime
   tasks      Task[]
-<<<<<<< HEAD
-=======
-  Room       Room[]
->>>>>>> be9c2bfa585ad8e212caf4e29dc64b3bc7854ecb
 }
 
 model Task {
@@ -28,23 +24,3 @@ model Task {
   Author    User     @relation(fields: [authorId], references: [id])
   authorId  String
 }
-<<<<<<< HEAD
-=======
-
-model Room {
-  id         String     @id
-  name       String
-  password   String?    @unique
-  status     RoomStatus
-  createdAt  DateTime
-  updatedAt  DateTime?
-  lastUsedAt DateTime?
-  creatorId  String     @map("createdBy")
-  Creator    User       @relation(fields: [creatorId], references: [id])
-}
-
-enum RoomStatus {
-  PUBLIC
-  PRIVATE
-}
->>>>>>> be9c2bfa585ad8e212caf4e29dc64b3bc7854ecb

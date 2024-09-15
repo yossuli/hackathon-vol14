@@ -29,27 +29,3 @@
   background-size: 200% 200%;
   animation: gradient 10s ease infinite;
 }
-<<<<<<< HEAD
-
-.link {
-  padding: 10px; /* パディング */
-  font-weight: bold; /* 太字 */
-  color: #0070f3; /* リンクの色 */
-  text-decoration: none; /* 下線を消す */
-  border: 1px solid #0070f3; /* 枠線 */
-  border-radius: 5px; /* 角を丸める */
-  transition: background-color 0.3s ease; /* ホバー時のアニメーション */
-}
-
-.link:hover {
-  color: white; /* ホバー時の文字色 */
-  background-color: #0070f3; /* ホバー時の背景色 */
-}
-
-.canvas {
-  margin-top: 20px;
-  background-color: black; /* キャンバスの背景色 */
-  border: 1px solid #ccc; /* キャンバスの境界線 */
-}
-=======
->>>>>>> be9c2bfa585ad8e212caf4e29dc64b3bc7854ecb

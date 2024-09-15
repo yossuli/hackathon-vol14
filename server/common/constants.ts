@@ -1,10 +1,6 @@
 export const APP_NAME = 'CATAPULT';
 
-<<<<<<< HEAD
 export const ID_NAME_LIST = ['user', 'task'] as const;
-=======
-export const ID_NAME_LIST = ['user', 'task', 'room'] as const;
->>>>>>> be9c2bfa585ad8e212caf4e29dc64b3bc7854ecb
 
 export const IS_PROD = process.env.NODE_ENV === 'production';
 
