@@ -10,10 +10,11 @@
 .logo {
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .logoImage {
-  width: 80px; /* ロゴの幅をピクセルで調整 */
+  width: 80px;
   height: auto;
   margin: 0 auto;
   margin-right: 10px;
