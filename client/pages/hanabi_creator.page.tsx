@@ -17,7 +17,6 @@ const FireworkShell: React.FC = () => {
   const [isMouseDown, setIsMouseDown] = useState<boolean>(false); // マウスの押下状態
   const [showNameDialog, setShowNameDialog] = useState<boolean>(true); // 名前ダイアログの表示状態
   const [fireworkName, setFireworkName] = useState<string>(''); // 花火玉の名前
-  const [hoveredCell, setHoveredCell] = useState<{ row: number; col: number } | null>(null); // ホバー中のセル
 
   // レイヤーの座標を定義
   const layerCoordinates = {
@@ -110,11 +109,6 @@ const FireworkShell: React.FC = () => {
         setColorAtCoordinates(layerCoordinates[layerToFill], draggingColor);
       }
     }
-    setHoveredCell({ row, col }); // ホバーしているセルの座標を更新
-  };
-
-  const handleMouseLeave = () => {
-    setHoveredCell(null); // ホバーが外れたら状態をリセット
   };
 
   const handleCellClick = (row: number, col: number) => {
@@ -173,11 +167,11 @@ const FireworkShell: React.FC = () => {
 
   const renderCell = (row: number, col: number) => {
     // ドラッグ中かつホバー中かどうかを判定
-    const isHovered = isMouseDown && hoveredCell?.row === row && hoveredCell?.col === col;
+
     return (
       <div
         key={`${row}-${col}`}
-        className={`${styles.gridCell} ${isHovered ? styles.hovered : ''} draggable`}
+        className={`${styles.gridCell}  draggable`}
         data-row={row}
         data-col={col}
         style={{ backgroundColor: cellColors[row][col] }}
@@ -185,7 +179,6 @@ const FireworkShell: React.FC = () => {
         onMouseMove={() => handleCellMouseMove(row, col)}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseLeave}
         onDragOver={(e) => e.preventDefault()}
         onDrop={() => handleCellDrop(row, col)}
       />

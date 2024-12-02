@@ -96,6 +96,10 @@
   background-color: #008f5d;
 }
 
+.colorPickerContainer {
+  display: grid;
+}
+
 .fireworkNameDisplay {
   padding: 10px;
   margin-bottom: 15px;
