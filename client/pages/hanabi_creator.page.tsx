@@ -5,6 +5,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { colors } from 'utils/colors/colors';
 import { darkenColor } from 'utils/colors/colorUtils';
+import { layer1, layer2, layer3, layer4 } from 'utils/layer';
 import styles from './hanabi_creator.module.css'; // CSSファイルをインポート
 
 const gridSize = 7; // グリッドサイズを7x7に設定
@@ -20,63 +21,7 @@ const FireworkShell: React.FC = () => {
   const [fireworkName, setFireworkName] = useState<string>(''); // 花火玉の名前
 
   // レイヤーの座標を定義
-  const layerCoordinates = {
-    layer1: [
-      { row: 0, col: 0 },
-      { row: 0, col: 1 },
-      { row: 0, col: 2 },
-      { row: 0, col: 3 },
-      { row: 0, col: 4 },
-      { row: 0, col: 5 },
-      { row: 0, col: 6 },
-      { row: 1, col: 0 },
-      { row: 1, col: 6 },
-      { row: 2, col: 0 },
-      { row: 2, col: 6 },
-      { row: 3, col: 0 },
-      { row: 3, col: 6 },
-      { row: 4, col: 0 },
-      { row: 4, col: 6 },
-      { row: 5, col: 0 },
-      { row: 5, col: 6 },
-      { row: 6, col: 0 },
-      { row: 6, col: 1 },
-      { row: 6, col: 2 },
-      { row: 6, col: 3 },
-      { row: 6, col: 4 },
-      { row: 6, col: 5 },
-      { row: 6, col: 6 },
-    ],
-    layer2: [
-      { row: 1, col: 1 },
-      { row: 1, col: 2 },
-      { row: 1, col: 3 },
-      { row: 1, col: 4 },
-      { row: 1, col: 5 },
-      { row: 2, col: 1 },
-      { row: 2, col: 5 },
-      { row: 3, col: 1 },
-      { row: 3, col: 5 },
-      { row: 4, col: 1 },
-      { row: 4, col: 5 },
-      { row: 5, col: 1 },
-      { row: 5, col: 2 },
-      { row: 5, col: 3 },
-      { row: 5, col: 4 },
-      { row: 5, col: 5 },
-    ],
-    layer3: [
-      { row: 2, col: 2 },
-      { row: 2, col: 3 },
-      { row: 2, col: 4 },
-      { row: 3, col: 2 },
-      { row: 3, col: 4 },
-      { row: 4, col: 2 },
-      { row: 4, col: 3 },
-      { row: 4, col: 4 },
-    ],
-    layer4: [{ row: 3, col: 3 }],
-  };
+  const layerCoordinates = { layer1, layer2, layer3, layer4 };
 
   // セルの色を設定
   const setColorAtCoordinates = (
