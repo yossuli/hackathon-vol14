@@ -103,60 +103,27 @@
 .colorPickerButton {
   padding: 8px 16px;
   font-size: 16px;
-  color: white;
+  color: black;
   cursor: pointer;
-  background-color: #4caf50;
   border: none;
-  box-shadow:
-    4px 0 rgb(63 147 66),
-    -4px 0 rgb(63 147 66),
-    0 4px rgb(63 147 66),
-    0 -4px rgb(63 147 66);
 }
 
 .resetButton {
   padding: 8px 16px;
   margin: 5px;
   font-size: 16px;
-  color: white;
+  color: black;
   cursor: pointer;
-  background-color: #4caf50;
   border: none;
-  box-shadow:
-    4px 0 rgb(63 147 66),
-    -4px 0 rgb(63 147 66),
-    0 4px rgb(63 147 66),
-    0 -4px rgb(63 147 66);
 }
 
 .extractButton {
   padding: 8px 16px;
   margin: 5px;
   font-size: 16px;
-  color: white;
+  color: black;
   cursor: pointer;
-  background-color: #4caf50;
   border: none;
-  box-shadow:
-    4px 0 rgb(63 147 66),
-    -4px 0 rgb(63 147 66),
-    0 4px rgb(63 147 66),
-    0 -4px rgb(63 147 66);
-}
-
-.extractButton:hover,
-.colorPickerButton:hover,
-.resetButton:hover,
-.controlButton:hover {
-  background-color: #45a049;
-}
-
-.activeButton {
-  background-color: #3fde44; /* 選択中のボタンの色 */
-}
-
-.activeButton:hover {
-  background-color: #3fde44; /* 選択中のボタンの色 */
 }
 
 /* 花火玉の名前を表示する部分 */
