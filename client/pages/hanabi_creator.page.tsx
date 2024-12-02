@@ -3,6 +3,7 @@
 
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { darkenColor } from 'utils/colors/colorUtils';
 import styles from './hanabi_creator.module.css'; // CSSファイルをインポート
 
 const gridSize = 7; // グリッドサイズを7x7に設定
@@ -303,20 +304,32 @@ const FireworkShell: React.FC = () => {
             </div>
           )}
           <div className={styles.buttonContainer}>
-            <button className={styles.colorPickerButton} style={{ backgroundColor: selectedColor }}>
+            <button
+              className={styles.colorPickerButton}
+              style={{
+                backgroundColor: selectedColor,
+                boxShadow: `-4px 0 ${darkenColor(selectedColor, 20)}, 4px 0 ${darkenColor(selectedColor, 20)}, 0 4px ${darkenColor(selectedColor, 20)}, 0 -4px ${darkenColor(selectedColor, 20)}`,
+              }}
+            >
               色を選択: {selectedColor || '未選択'}
             </button>{' '}
             <button
               onClick={clearCellColor}
               className={styles.extractButton}
-              style={{ backgroundColor: selectedColor }}
+              style={{
+                backgroundColor: selectedColor,
+                boxShadow: `-4px 0 ${darkenColor(selectedColor, 20)}, 4px 0 ${darkenColor(selectedColor, 20)}, 0 4px ${darkenColor(selectedColor, 20)}, 0 -4px ${darkenColor(selectedColor, 20)}`,
+              }}
             >
               抜き取る
             </button>
             <button
               onClick={resetColors}
               className={styles.resetButton}
-              style={{ backgroundColor: selectedColor }}
+              style={{
+                backgroundColor: selectedColor,
+                boxShadow: `-4px 0 ${darkenColor(selectedColor, 20)}, 4px 0 ${darkenColor(selectedColor, 20)}, 0 4px ${darkenColor(selectedColor, 20)}, 0 -4px ${darkenColor(selectedColor, 20)}`,
+              }}
             >
               リセット
             </button>
