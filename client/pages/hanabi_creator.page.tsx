@@ -3,6 +3,7 @@
 
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { colors } from 'utils/colors/colors';
 import { darkenColor } from 'utils/colors/colorUtils';
 import styles from './hanabi_creator.module.css'; // CSSファイルをインポート
 
@@ -201,83 +202,7 @@ const FireworkShell: React.FC = () => {
       )}
       <div className={styles.fireworkContainer}>
         <div className={styles.colorPickerModal}>
-          {[
-            '#FF4500',
-            '#FF6347',
-            '#FF7F50',
-            '#FF8C00',
-            '#FFA500',
-            '#FFD700',
-            '#FFFF00',
-            '#FFFACD',
-            '#FAFAD2',
-            '#FFEFD5',
-            '#FFE4B5',
-            '#FFDAB9',
-            '#EEE8AA',
-            '#F0E68C',
-            '#BDB76B',
-            '#ADFF2F',
-            '#7FFF00',
-            '#7CFC00',
-            '#00FF00',
-            '#32CD32',
-            '#98FB98',
-            '#90EE90',
-            '#00FA9A',
-            '#00FF7F',
-            '#3CB371',
-            '#2E8B57',
-            '#228B22',
-            '#008000',
-            '#006400',
-            '#66CDAA',
-            '#8FBC8F',
-            '#20B2AA',
-            '#48D1CC',
-            '#40E0D0',
-            '#00CED1',
-            '#00BFFF',
-            '#1E90FF',
-            '#6495ED',
-            '#4682B4',
-            '#4169E1',
-            '#0000FF',
-            '#0000CD',
-            '#8A2BE2',
-            '#4B0082',
-            '#6A5ACD',
-            '#7B68EE',
-            '#9370DB',
-            '#8B008B',
-            '#9932CC',
-            '#9400D3',
-            '#BA55D3',
-            '#DDA0DD',
-            '#EE82EE',
-            '#FF00FF',
-            '#FF1493',
-            '#FF69B4',
-            '#FFB6C1',
-            '#FFC0CB',
-            '#FF6347',
-            '#FF4500',
-            '#FF7F50',
-            '#FF8C00',
-            '#FFA07A',
-            '#FFD700',
-            '#FFFF00',
-            '#DAA520',
-            '#B8860B',
-            '#CD5C5C',
-            '#DC143C',
-            '#B22222',
-            '#8B0000',
-            '#A52A2A',
-            '#D2691E',
-            '#FF8C00',
-            '#FF6347',
-          ].map((color) => (
+          {colors.map((color) => (
             <button
               key={color}
               draggable
