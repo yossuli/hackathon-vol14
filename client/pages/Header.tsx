@@ -1,10 +1,13 @@
+import { useRouter } from 'next/router';
 import React from 'react';
-import styles from './header.module.css'; // スタイルシートのインポート
+import styles from './header.module.css';
 
 const Header: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
+  const router = useRouter();
+
   return (
     <header className={styles.header}>
-      <div className={styles.logo}>
+      <div className={styles.logo} onClick={() => router.push('/')}>
         <img src="/images/logo_white.png" alt="Logo" className={styles.logoImage} />
         <h1></h1>
       </div>
@@ -24,7 +27,7 @@ const Header: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
           </li>
         </ul>
       </nav>
-      {children} {/* 子要素をレンダリング */}
+      {children}
     </header>
   );
 };
