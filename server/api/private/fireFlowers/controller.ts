@@ -34,7 +34,7 @@ export default defineController(() => ({
       },
     ],
   }),
-  delete: ({ user, body }) => ({
+  delete: ({ user: _user, body: _body }) => ({
     status: 200,
   }),
 }));
