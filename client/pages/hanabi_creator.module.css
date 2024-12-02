@@ -1,289 +1,202 @@
 .container {
   display: flex;
+  flex-direction: column;
   align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  color: #fff;
+  background-color: #111;
 }
 
 .fireworkContainer {
   position: relative;
-  display: ruby;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  margin: 20px;
+  padding: 20px;
+  background-color: #1a1a1a;
+  border: 2px solid #333;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgb(0 0 0 / 50%);
 }
 
 .gridContainer {
   display: grid;
-  grid-template-columns: repeat(7, 60px);
+  grid-template-columns: repeat(7, 40px);
   gap: 1px;
+  justify-content: center;
+  padding: 30px;
+  background-color: #333;
+  border: 1px solid #444;
 }
 
 .gridCell {
-  box-sizing: border-box;
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
-  background-color: lightgray;
-  border: 1px solid #ccc;
+  background-color: #222;
+  border: 1px solid #444;
+  transition: all 0.2s ease;
 }
 
-.colorPickerContainer {
-  margin: 5%;
+.gridCell:hover {
+  background-color: #2a2a2a;
+
+  /* box-shadow: 0 0 5px #fff; */
 }
 
-.controlButton {
-  padding: 10px 20px;
-  margin: 5px;
-  font-size: 16px;
-  color: white;
+.colorPickerModal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #000;
+  border: 2px solid #333;
+  border-radius: 4px;
+}
+
+.colorButton {
+  width: 25px;
+  height: 25px;
+  margin: 2px;
   cursor: pointer;
-  background-color: #4caf50;
   border: none;
-  border-radius: 5px;
+}
+
+.colorButton:hover {
+  box-shadow: 0 0 5px rgb(255 255 255 / 50%);
+  transform: scale(1.1);
 }
 
 .buttonContainer {
   display: flex;
   gap: 10px;
-  align-items: center;
   justify-content: center;
-  padding: 10px;
+  margin: 15px 0;
 }
 
-/* モーダルのオーバーレイ */
-.modalOverlay {
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-
-.colorPickerModal {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 25%;
-  padding: 10px;
-  background: rgb(253 252 252);
-  box-shadow:
-    4px 0 black,
-    -4px 0 black,
-    0 4px black,
-    0 -4px black;
-}
-
-.colorButton {
-  width: 20px;
-  height: 20px;
-  margin: 5px;
-  cursor: pointer;
-  border: none;
-  box-shadow:
-    1px 0 gray,
-    -1px 0 gray,
-    0 1px gray,
-    0 -1px gray;
-}
-
-.closeButton {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  background: transparent;
-  border: none;
-}
-
-/* 色を選択するボタン */
-.colorPickerButton {
-  padding: 8px 16px;
-  font-size: 16px;
-  color: white;
-  cursor: pointer;
-  background-color: #4caf50;
-  border: none;
-  box-shadow:
-    4px 0 rgb(63 147 66),
-    -4px 0 rgb(63 147 66),
-    0 4px rgb(63 147 66),
-    0 -4px rgb(63 147 66);
-}
-
+.colorPickerButton,
+.extractButton,
 .resetButton {
   padding: 8px 16px;
-  margin: 5px;
-  font-size: 16px;
-  color: white;
+  font-size: 14px;
+  color: #fff;
   cursor: pointer;
-  background-color: #4caf50;
+  background-color: #222;
   border: none;
-  box-shadow:
-    4px 0 rgb(63 147 66),
-    -4px 0 rgb(63 147 66),
-    0 4px rgb(63 147 66),
-    0 -4px rgb(63 147 66);
+  border-radius: 4px;
+  transition: all 0.2s ease;
 }
 
-.extractButton {
-  padding: 8px 16px;
-  margin: 5px;
-  font-size: 16px;
-  color: white;
-  cursor: pointer;
-  background-color: #4caf50;
-  border: none;
-  box-shadow:
-    4px 0 rgb(63 147 66),
-    -4px 0 rgb(63 147 66),
-    0 4px rgb(63 147 66),
-    0 -4px rgb(63 147 66);
-}
-
-.extractButton:hover,
 .colorPickerButton:hover,
-.resetButton:hover,
-.controlButton:hover {
-  background-color: #45a049;
+.extractButton:hover,
+.resetButton:hover {
+  background-color: #444;
 }
 
-.activeButton {
-  background-color: #3fde44; /* 選択中のボタンの色 */
+.colorPickerContainer {
+  display: grid;
 }
 
-.activeButton:hover {
-  background-color: #3fde44; /* 選択中のボタンの色 */
-}
-
-/* 花火玉の名前を表示する部分 */
 .fireworkNameDisplay {
   padding: 10px;
-  margin-bottom: 20px;
-  font-size: 1.5rem;
-  color: #333;
-  text-align: center;
-  background-color: #f8f8f8;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #222;
+  border: 1px solid #444;
+  border-radius: 4px;
 }
 
-/* 名前入力ダイアログ */
 .nameDialog {
   position: fixed;
   top: 50%;
   left: 50%;
-  z-index: 1000; /* 画面の上に表示するために高い値に設定 */
+  z-index: 1000;
   padding: 20px;
-  background-color: white;
-  border-radius: 1px;
-  box-shadow: 0 4px 8px rgb(0 0 0 / 20%);
+  background-color: #111;
+  border: 4px solid #444;
+  border-radius: 10px;
   transform: translate(-50%, -50%);
 }
 
 .nameDialog h2 {
-  margin: 0 0 10px;
-  font-size: 1.5rem;
+  margin-bottom: 15px;
+  font-size: 18px;
   text-align: center;
 }
 
 .nameDialog input {
   width: 100%;
-  padding: 6px;
-  margin-bottom: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  box-shadow:
-    4px 0 gray,
-    -4px 0 gray,
-    0 4px gray,
-    0 -4px gray;
+  padding: 10px;
+  margin-bottom: 15px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 14px;
+  color: #fff;
+  background-color: #222;
+  border: 2px solid #555;
 }
 
 .nameDialog button {
-  display: block;
   width: 100%;
   padding: 10px;
-  font-size: 1rem;
-  font-weight: bold;
-  color: white;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 14px;
+  color: #fff;
   cursor: pointer;
-  background-color: #353535;
-  background-image: linear-gradient(
-      135deg,
-      transparent 0 20px,
-      #353535 30px calc(100% - 30px),
-      transparent calc(100% - 20px)
-    ),
-    radial-gradient(#d8afc1 30%, transparent 30%);
-  background-repeat: no-repeat, repeat;
-  background-size:
-    100% 100%,
-    10px 10px;
+  background-color: #444;
   border: none;
-  border-radius: 5px;
-  transition: background-color 0.3s;
 }
 
-s .nameDialog button:hover {
-  background-color: #1a1a1c;
-}
-
-.hovered {
-  border: 2px solid #ffd700; /* ゴールド色で縁を光らせる */
-  box-shadow: 0 0 10px #ffd700; /* 光のエフェクトを追加 */
-}
-
-.layer1 {
-  box-shadow: 0 0 20px rgb(255 215 0 / 80%); /* ゴールドの光 */
-}
-
-.layer2 {
-  box-shadow: 0 0 20px rgb(0 191 255 / 80%); /* 青の光 */
-}
-
-.layer3 {
-  box-shadow: 0 0 20px rgb(124 252 0 / 80%); /* 緑の光 */
-}
-
-.layer4 {
-  box-shadow: 0 0 20px rgb(255 69 0 / 80%); /* 赤の光 */
+.nameDialog button:hover {
+  background-color: #666;
 }
 
 .saveundoContainer {
-  display: flex;
-  align-items: center; /* 中央に配置 */
-  justify-content: center; /* 中央に配置 */
+  margin-top: 20px;
+  text-align: center;
 }
 
 .save {
   display: flex;
-  flex-direction: column; /* 子要素を縦に並べる */
-  gap: 20px; /* 要素間のスペースを設定 */
+  flex-direction: column;
+  gap: 10px;
 }
 
 .buttonText {
-  margin: 0; /* デフォルトのマージンをリセット */
-  font-size: 42px; /* フォントサイズを調整 */
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+  background-color: #333;
+  border: none;
+  border-radius: 4px;
+  transition: all 0.2s ease;
 }
 
-@media (width <= 720px) {
+.buttonText:hover {
+  background-color: #444;
+}
+
+@media (width <= 600px) {
+  .gridContainer {
+    grid-template-columns: repeat(7, 30px);
+  }
+
+  .gridCell {
+    width: 30px;
+    height: 30px;
+  }
+
   .colorPickerModal {
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    width: -webkit-fill-available;
-    padding: 10px;
-    background: rgb(253 252 252);
-    box-shadow:
-      4px 0 black,
-      -4px 0 black,
-      0 4px black,
-      0 -4px black;
+    max-width: 280px;
+  }
+
+  .buttonText {
+    font-size: 14px;
   }
 }
