@@ -1,5 +1,5 @@
-import { useState } from "react";
-import styles from "./room.module.css"
+import { useState } from 'react';
+import styles from './room.module.css';
 
 // 吹き出しコンポーネント
 const ChatBubble = ({ messages }: { messages: string[] }) => {
@@ -76,7 +76,7 @@ const Room = () => {
         <ChatOptions options={chatOptions} onSelect={handleSelectMessage} />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Room;
