@@ -18,6 +18,7 @@ const FireworkShell: React.FC = () => {
   const [isMouseDown, setIsMouseDown] = useState<boolean>(false); // マウスの押下状態
   const [showNameDialog, setShowNameDialog] = useState<boolean>(true); // 名前ダイアログの表示状態
   const [fireworkName, setFireworkName] = useState<string>(''); // 花火玉の名前
+  const [isVisible, setIsVisible] = useState(false);
 
   // レイヤーの座標を定義
   const layerCoordinates = {
@@ -168,7 +169,6 @@ const FireworkShell: React.FC = () => {
 
   const renderCell = (row: number, col: number) => {
     // ドラッグ中かつホバー中かどうかを判定
-
     return (
       <div
         key={`${row}-${col}`}
@@ -197,10 +197,19 @@ const FireworkShell: React.FC = () => {
             onChange={(e) => setFireworkName(e.target.value)}
             placeholder="花火玉の名前"
           />
-          <button onClick={handleNameSubmit}>決定</button>
+          <button
+            onClick={() => {
+              handleNameSubmit(), setIsVisible(true);
+            }}
+          >
+            決定
+          </button>
         </div>
       )}
-      <div className={styles.fireworkContainer}>
+      <div
+        className={styles.fireworkContainer}
+        style={{ opacity: isVisible ? 1 : 0.5, pointerEvents: isVisible ? 'auto' : 'none' }}
+      >
         <div className={styles.colorPickerModal}>
           {colors.map((color) => (
             <button
