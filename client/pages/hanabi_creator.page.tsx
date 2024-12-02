@@ -3,7 +3,6 @@
 
 import Link from 'next/link';
 import React, { useState } from 'react';
-import { darkenColor } from 'utils/colors/colorUtils';
 import styles from './hanabi_creator.module.css'; // CSSファイルをインポート
 
 const gridSize = 7; // グリッドサイズを7x7に設定
@@ -12,7 +11,7 @@ const FireworkShell: React.FC = () => {
   const [cellColors, setCellColors] = useState<Array<Array<string>>>(
     Array.from({ length: gridSize }, () => Array(gridSize).fill('')),
   );
-  const [selectedColor, setSelectedColor] = useState<string>('#000'); // デフォルトの色
+  const [selectedColor, setSelectedColor] = useState<string>(''); // デフォルトの色
   const [draggingColor, setDraggingColor] = useState<string | null>(null); // ドラッグ中の色
   const [isMouseDown, setIsMouseDown] = useState<boolean>(false); // マウスの押下状態
   const [showNameDialog, setShowNameDialog] = useState<boolean>(true); // 名前ダイアログの表示状態
@@ -304,32 +303,20 @@ const FireworkShell: React.FC = () => {
             </div>
           )}
           <div className={styles.buttonContainer}>
-            <button
-              className={styles.colorPickerButton}
-              style={{
-                backgroundColor: selectedColor,
-                boxShadow: `-4px 0 ${darkenColor(selectedColor, 20)}, 4px 0 ${darkenColor(selectedColor, 20)}, 0 4px ${darkenColor(selectedColor, 20)}, 0 -4px ${darkenColor(selectedColor, 20)}`,
-              }}
-            >
+            <button className={styles.colorPickerButton} style={{ backgroundColor: selectedColor }}>
               色を選択: {selectedColor || '未選択'}
             </button>{' '}
             <button
               onClick={clearCellColor}
               className={styles.extractButton}
-              style={{
-                backgroundColor: selectedColor,
-                boxShadow: `-4px 0 ${darkenColor(selectedColor, 20)}, 4px 0 ${darkenColor(selectedColor, 20)}, 0 4px ${darkenColor(selectedColor, 20)}, 0 -4px ${darkenColor(selectedColor, 20)}`,
-              }}
+              style={{ backgroundColor: selectedColor }}
             >
               抜き取る
             </button>
             <button
               onClick={resetColors}
               className={styles.resetButton}
-              style={{
-                backgroundColor: selectedColor,
-                boxShadow: `-4px 0 ${darkenColor(selectedColor, 20)}, 4px 0 ${darkenColor(selectedColor, 20)}, 0 4px ${darkenColor(selectedColor, 20)}, 0 -4px ${darkenColor(selectedColor, 20)}`,
-              }}
+              style={{ backgroundColor: selectedColor }}
             >
               リセット
             </button>
