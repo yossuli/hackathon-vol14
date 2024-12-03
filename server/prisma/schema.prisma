@@ -17,6 +17,12 @@ model User {
   fireFlower    fireFlower[]
   Liker         likedFireFlower[] @relation(name: "LikerRelation")
   suggestedUser likedFireFlower[] @relation(name: "SuggestedUserRelation")
+  chat          chat[]
+}
+
+model UserInRoom {
+  id              String @id
+  setFireFlowerId String
 }
 
 model Task {
@@ -39,6 +45,7 @@ model Room {
   lastUsedAt DateTime?
   creatorId  String     @map("createdBy")
   Creator    User       @relation(fields: [creatorId], references: [id])
+  chat       chat[]
 }
 
 enum RoomStatus {
@@ -69,4 +76,14 @@ model likedFireFlower {
 
   @@unique([userId, fireFlowerId])
   @@index([fireFlowerId])
+}
+
+model chat {
+  id        String   @id
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  roomId    String
+  room      Room     @relation(fields: [roomId], references: [id])
+  content   String
+  createdAt DateTime
 }
