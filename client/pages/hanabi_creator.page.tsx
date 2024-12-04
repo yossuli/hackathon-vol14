@@ -117,10 +117,10 @@ const FireworkShell: React.FC = () => {
     return (
       <div
         key={`${row}-${col}`}
-        className={`${styles.gridCell}  draggable`}
+        className={`${styles.gridCell}  draggable `}
         data-row={row}
         data-col={col}
-        style={{ backgroundColor: cellColors[row][col] }}
+        style={{ backgroundColor: cellColors[row][col], touchAction: 'none', userSelect: 'none' }}
         onClick={() => handleCellClick(row, col)}
         onMouseMove={() => handleCellMouseMove(row, col)}
         onMouseDown={handleMouseDown}
