@@ -97,7 +97,7 @@
 }
 
 .colorPickerContainer {
-  display: grid;
+  display: contents;
 }
 
 .fireworkNameDisplay {
