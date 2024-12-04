@@ -7,7 +7,7 @@ function Document() {
     <Html lang="ja">
       <Head>
         <meta name="description" content={APP_NAME} />
-        <link rel="icon" href={staticPath.favicon_png} />
+        <link rel="icon" href={staticPath.images.favicon_png} />
       </Head>
       <body>
         <Main />

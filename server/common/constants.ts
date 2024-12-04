@@ -1,4 +1,4 @@
-export const APP_NAME = 'CATAPULT';
+export const APP_NAME = 'Fireworks-display-online';
 
 export const ID_NAME_LIST = ['user', 'task', 'room', 'fireFlower'] as const;
 
