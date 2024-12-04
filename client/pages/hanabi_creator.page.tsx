@@ -155,19 +155,6 @@ const FireworkShell: React.FC = () => {
         className={styles.fireworkContainer}
         style={{ opacity: isVisible ? 1 : 0.5, pointerEvents: isVisible ? 'auto' : 'none' }}
       >
-        <div className={styles.colorPickerModal}>
-          {colors.map((color) => (
-            <button
-              key={color}
-              draggable
-              onDragStart={() => handleColorPick(color)}
-              onDragEnd={handleMouseUp}
-              className={styles.colorButton}
-              style={{ backgroundColor: color }}
-              onClick={() => handleColorPick(color)}
-            />
-          ))}
-        </div>
         <div className={styles.colorPickerContainer}>
           {/* 花火玉の名前を表示 */}
           {!showNameDialog && (
@@ -175,21 +162,28 @@ const FireworkShell: React.FC = () => {
               <h2>花火玉の名前: {fireworkName}</h2>
             </div>
           )}
+
+          <div className={styles.gridContainer}>
+            {[...Array(gridSize)].map((_, row) =>
+              [...Array(gridSize)].map((_, col) => renderCell(row, col)),
+            )}
+          </div>
+
           <div className={styles.buttonContainer}>
             <button
               className={styles.colorPickerButton}
               style={{
-                backgroundColor: selectedColor,
+                // backgroundColor: selectedColor,
                 boxShadow: `-4px 0 ${darkenColor(selectedColor, 20)}, 4px 0 ${darkenColor(selectedColor, 20)}, 0 4px ${darkenColor(selectedColor, 20)}, 0 -4px ${darkenColor(selectedColor, 20)}`,
               }}
             >
-              色を選択: {selectedColor || '未選択'}
-            </button>{' '}
+              色を選択: <span style={{ color: selectedColor }}>{selectedColor || '未選択'}</span>
+            </button>
             <button
               onClick={clearCellColor}
               className={styles.extractButton}
               style={{
-                backgroundColor: selectedColor,
+                // backgroundColor: selectedColor,
                 boxShadow: `-4px 0 ${darkenColor(selectedColor, 20)}, 4px 0 ${darkenColor(selectedColor, 20)}, 0 4px ${darkenColor(selectedColor, 20)}, 0 -4px ${darkenColor(selectedColor, 20)}`,
               }}
             >
@@ -199,17 +193,26 @@ const FireworkShell: React.FC = () => {
               onClick={resetColors}
               className={styles.resetButton}
               style={{
-                backgroundColor: selectedColor,
+                // backgroundColor: selectedColor,
                 boxShadow: `-4px 0 ${darkenColor(selectedColor, 20)}, 4px 0 ${darkenColor(selectedColor, 20)}, 0 4px ${darkenColor(selectedColor, 20)}, 0 -4px ${darkenColor(selectedColor, 20)}`,
               }}
             >
               リセット
             </button>
           </div>
-          <div className={styles.gridContainer}>
-            {[...Array(gridSize)].map((_, row) =>
-              [...Array(gridSize)].map((_, col) => renderCell(row, col)),
-            )}
+
+          <div className={styles.colorPickerModal}>
+            {colors.map((color) => (
+              <button
+                key={color}
+                draggable
+                onDragStart={() => handleColorPick(color)}
+                onDragEnd={handleMouseUp}
+                className={styles.colorButton}
+                style={{ backgroundColor: color }}
+                onClick={() => handleColorPick(color)}
+              />
+            ))}
           </div>
         </div>
 
