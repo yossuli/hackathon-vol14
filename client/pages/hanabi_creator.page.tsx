@@ -159,7 +159,14 @@ const FireworkShell: React.FC = () => {
           {/* 花火玉の名前を表示 */}
           {!showNameDialog && (
             <div className={styles.fireworkNameDisplay}>
-              <h2>花火玉の名前: {fireworkName}</h2>
+              花火玉の名前:
+              <input
+                type="text"
+                value={fireworkName}
+                onChange={(e) => setFireworkName(e.target.value)}
+                placeholder="花火玉の名前"
+                className={styles.inputDisplay}
+              />
             </div>
           )}
 
@@ -177,7 +184,8 @@ const FireworkShell: React.FC = () => {
                 boxShadow: `-4px 0 ${darkenColor(selectedColor, 20)}, 4px 0 ${darkenColor(selectedColor, 20)}, 0 4px ${darkenColor(selectedColor, 20)}, 0 -4px ${darkenColor(selectedColor, 20)}`,
               }}
             >
-              色を選択: <span style={{ color: selectedColor }}>{selectedColor || '未選択'}</span>
+              色を選択: <br />
+              <span style={{ color: selectedColor }}>{selectedColor || '未選択'}</span>
             </button>
             <button
               onClick={clearCellColor}
