@@ -1,6 +1,5 @@
 /* eslint-disable max-lines */
 /* eslint-disable complexity, max-depth */
-
 import { usePreventDefault } from 'hooks/usePreventDefault';
 import Link from 'next/link';
 import React, { useState } from 'react';
@@ -52,7 +51,6 @@ const FireworkShell: React.FC = () => {
           break;
         }
       }
-
       if (layerToFill) {
         setColorAtCoordinates(layerCoordinates[layerToFill], draggingColor);
       }
@@ -112,14 +110,14 @@ const FireworkShell: React.FC = () => {
 
   const renderCell = (row: number, col: number) => {
     const isHovered = hoveredCells.some((cell) => cell.row === row && cell.col === col);
-
     const hoverCellStyle = {
-      backgroundColor: isHovered ? darkenColor(selectedColor, 60) : 'initial',
+      backgroundColor: isHovered ? darkenColor(selectedColor, 60) : '',
     };
+
     return (
       <div
         key={`${row}-${col}`}
-        className={`${styles.gridCell}  draggable `}
+        className={`${styles.gridCell} draggable `}
         data-row={row}
         data-col={col}
         style={{
@@ -147,7 +145,7 @@ const FireworkShell: React.FC = () => {
         onDrop={() => {
           handleCellDrop(row, col);
         }}
-        onMouseEnter={() => setHoveredCells([])}
+        onMouseEnter={() => setHoveredCells([{ row, col }])}
         onMouseLeave={() => setHoveredCells([])}
       />
     );
@@ -175,7 +173,10 @@ const FireworkShell: React.FC = () => {
       )}
       <div
         className={styles.fireworkContainer}
-        style={{ opacity: isVisible ? 1 : 0.5, pointerEvents: isVisible ? 'auto' : 'none' }}
+        style={{
+          opacity: isVisible ? 1 : 0.5,
+          pointerEvents: isVisible ? 'auto' : 'none',
+        }}
       >
         <div className={styles.colorPickerContainer}>
           {!showNameDialog && (
@@ -190,13 +191,11 @@ const FireworkShell: React.FC = () => {
               />
             </div>
           )}
-
           <div className={styles.gridContainer}>
             {[...Array(gridSize)].map((_, row) =>
               [...Array(gridSize)].map((_, col) => renderCell(row, col)),
             )}
           </div>
-
           <div className={styles.buttonContainer}>
             <button
               className={styles.colorPickerButton}
@@ -207,7 +206,8 @@ const FireworkShell: React.FC = () => {
                 )}, 0 4px ${darkenColor(selectedColor, 20)}, 0 -4px ${darkenColor(selectedColor, 20)}`,
               }}
             >
-              色を選択: <br />
+              色を選択:
+              <br />
               <span style={{ color: selectedColor }}>{selectedColor || '未選択'}</span>
             </button>
             <button
@@ -235,7 +235,6 @@ const FireworkShell: React.FC = () => {
               リセット
             </button>
           </div>
-
           <div className={styles.colorPickerModal}>
             {colors.map((color, index) => {
               const buttonRef = usePreventDefault<HTMLButtonElement>();
@@ -274,7 +273,6 @@ const FireworkShell: React.FC = () => {
             })}
           </div>
         </div>
-
         <div className={styles.saveundoContainer}>
           <div className={styles.save}>
             <Link href="/" legacyBehavior>
