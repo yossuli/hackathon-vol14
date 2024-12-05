@@ -7,8 +7,10 @@ export const usePreventDefault = <T extends HTMLElement>() => {
     const current = ref.current;
     if (!current) return;
 
-    const handler = (event: Event) => {
-      event.preventDefault();
+    const handler = (e: Event) => {
+      if (e.cancelable) {
+        e.preventDefault();
+      }
     };
 
     current.addEventListener('touchstart', handler, { passive: false });
