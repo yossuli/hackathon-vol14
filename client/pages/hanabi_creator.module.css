@@ -41,10 +41,6 @@
   transition: all 0.2s ease;
 }
 
-.gridCell:hover {
-  background-color: #2a2a2a;
-}
-
 .colorPickerModal {
   display: flex;
   flex-wrap: wrap;
