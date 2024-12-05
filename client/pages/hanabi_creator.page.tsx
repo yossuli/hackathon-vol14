@@ -1,6 +1,7 @@
 /* eslint-disable max-lines */
 /* eslint-disable complexity, max-depth */
 
+import { usePreventDefault } from 'hooks/usePreventDefault';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { colors } from 'utils/colors/colors';
@@ -20,6 +21,9 @@ const FireworkShell: React.FC = () => {
   const [showNameDialog, setShowNameDialog] = useState<boolean>(true); // 名前ダイアログの表示状態
   const [fireworkName, setFireworkName] = useState<string>(''); // 花火玉の名前
   const [isVisible, setIsVisible] = useState(false);
+  const [touchStartPosition, setTouchStartPosition] = useState<{ x: number; y: number } | null>(
+    null,
+  );
 
   // レイヤーの座標を定義
   const layerCoordinates = { layer1, layer2, layer3, layer4 };
@@ -120,7 +124,7 @@ const FireworkShell: React.FC = () => {
         className={`${styles.gridCell}  draggable `}
         data-row={row}
         data-col={col}
-        style={{ backgroundColor: cellColors[row][col], touchAction: 'none', userSelect: 'none' }}
+        style={{ backgroundColor: cellColors[row][col] }}
         onClick={() => handleCellClick(row, col)}
         onMouseMove={() => handleCellMouseMove(row, col)}
         onMouseDown={handleMouseDown}
@@ -210,17 +214,41 @@ const FireworkShell: React.FC = () => {
           </div>
 
           <div className={styles.colorPickerModal}>
-            {colors.map((color) => (
-              <button
-                key={color}
-                draggable
-                onDragStart={() => handleColorPick(color)}
-                onDragEnd={handleMouseUp}
-                className={styles.colorButton}
-                style={{ backgroundColor: color }}
-                onClick={() => handleColorPick(color)}
-              />
-            ))}
+            {colors.map((color, index) => {
+              const buttonRef = usePreventDefault<HTMLButtonElement>();
+              return (
+                <button
+                  ref={buttonRef}
+                  key={`${index}-${color}`}
+                  draggable
+                  onDragStart={() => handleColorPick(color)}
+                  onDragEnd={handleMouseUp}
+                  onTouchStart={(e) => {
+                    const touch = e.touches[0];
+                    setTouchStartPosition({ x: touch.clientX, y: touch.clientY });
+                    handleColorPick(color);
+                  }}
+                  onTouchMove={() => {
+                    if (!touchStartPosition) return;
+                  }}
+                  onTouchEnd={(e) => {
+                    if (!touchStartPosition) return;
+                    const touch = e.changedTouches[0];
+                    const element = document.elementFromPoint(touch.clientX, touch.clientY);
+                    if (element?.classList.contains(styles.gridCell)) {
+                      const row = parseInt(element.getAttribute('data-row') || '0');
+                      const col = parseInt(element.getAttribute('data-col') || '0');
+                      handleCellDrop(row, col);
+                    }
+                    setTouchStartPosition(null);
+                    handleMouseUp();
+                  }}
+                  className={styles.colorButton}
+                  style={{ backgroundColor: color }}
+                  onClick={() => handleColorPick(color)}
+                />
+              );
+            })}
           </div>
         </div>
 

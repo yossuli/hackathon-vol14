@@ -33,7 +33,9 @@
 .gridCell {
   width: 40px;
   height: 40px;
-  cursor: pointer;
+  touch-action: none; /* スクロールを防止 */
+  cursor: pointer; /* テキスト選択を防止 */
+  user-select: none;
   background-color: #222;
   border: 1px solid #444;
   transition: all 0.2s ease;
@@ -41,8 +43,6 @@
 
 .gridCell:hover {
   background-color: #2a2a2a;
-
-  /* box-shadow: 0 0 5px #fff; */
 }
 
 .colorPickerModal {
@@ -52,6 +52,7 @@
   width: 100%;
   padding: 10px;
   margin-bottom: 20px;
+  user-select: none;
   background-color: #000;
   border: 2px solid #333;
   border-radius: 4px;
@@ -63,6 +64,7 @@
   margin: 2px;
   cursor: pointer;
   border: none;
+  -webkit-touch-callout: none;
 }
 
 .colorButton:hover {
