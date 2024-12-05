@@ -5,6 +5,7 @@
   min-height: 100vh;
   padding: 20px;
   color: #fff;
+  user-select: none;
   background-color: #111;
 }
 
@@ -33,9 +34,7 @@
 .gridCell {
   width: 40px;
   height: 40px;
-  touch-action: none; /* スクロールを防止 */
-  cursor: pointer; /* テキスト選択を防止 */
-  user-select: none;
+  cursor: pointer;
   background-color: #222;
   border: 1px solid #444;
   transition: all 0.2s ease;
@@ -48,7 +47,6 @@
   width: 100%;
   padding: 10px;
   margin-bottom: 20px;
-  user-select: none;
   background-color: #000;
   border: 2px solid #333;
   border-radius: 4px;
@@ -60,7 +58,6 @@
   margin: 2px;
   cursor: pointer;
   border: none;
-  -webkit-touch-callout: none;
 }
 
 .colorButton:hover {
