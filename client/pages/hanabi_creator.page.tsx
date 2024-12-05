@@ -1,30 +1,32 @@
 /* eslint-disable max-lines */
 /* eslint-disable complexity, max-depth */
-
+import { usePreventDefault } from 'hooks/usePreventDefault';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { colors } from 'utils/colors/colors';
 import { darkenColor } from 'utils/colors/colorUtils';
 import { layer1, layer2, layer3, layer4 } from 'utils/layer';
-import styles from './hanabi_creator.module.css'; // CSSファイルをインポート
+import styles from './hanabi_creator.module.css';
 
-const gridSize = 7; // グリッドサイズを7x7に設定
+const gridSize = 7;
 
 const FireworkShell: React.FC = () => {
   const [cellColors, setCellColors] = useState<Array<Array<string>>>(
     Array.from({ length: gridSize }, () => Array(gridSize).fill('')),
   );
-  const [selectedColor, setSelectedColor] = useState<string>(''); // デフォルトの色
-  const [draggingColor, setDraggingColor] = useState<string | null>(null); // ドラッグ中の色
-  const [isMouseDown, setIsMouseDown] = useState<boolean>(false); // マウスの押下状態
-  const [showNameDialog, setShowNameDialog] = useState<boolean>(true); // 名前ダイアログの表示状態
-  const [fireworkName, setFireworkName] = useState<string>(''); // 花火玉の名前
+  const [selectedColor, setSelectedColor] = useState<string>('');
+  const [draggingColor, setDraggingColor] = useState<string | null>(null);
+  const [showNameDialog, setShowNameDialog] = useState<boolean>(true);
+  const [fireworkName, setFireworkName] = useState<string>('');
   const [isVisible, setIsVisible] = useState(false);
+  const [touchStartPosition, setTouchStartPosition] = useState<{ x: number; y: number } | null>(
+    null,
+  );
+  const [hoveredCells, setHoveredCells] = useState<Array<{ row: number; col: number }>>([]);
 
-  // レイヤーの座標を定義
   const layerCoordinates = { layer1, layer2, layer3, layer4 };
+  let layerToFill: 'layer1' | 'layer2' | 'layer3' | 'layer4' | null = null;
 
-  // セルの色を設定
   const setColorAtCoordinates = (
     coordinates: Array<{ row: number; col: number }>,
     color: string,
@@ -37,52 +39,23 @@ const FireworkShell: React.FC = () => {
     setCellColors(newCellColors);
   };
 
-  const handleCellMouseMove = (row: number, col: number) => {
-    // eslint-disable-next-line complexity
-    /* eslint-disable complexity, max-depth */
-    if (isMouseDown && draggingColor) {
-      let layerToFill: 'layer1' | 'layer2' | 'layer3' | 'layer4' | null = null;
-
-      for (const [layer, coordinates] of Object.entries(layerCoordinates)) {
-        // eslint-disable-next-line complexity
-        if (coordinates.some((coord) => coord.row === row && coord.col === col)) {
-          layerToFill = layer as 'layer1' | 'layer2' | 'layer3' | 'layer4';
-          break;
-        }
-      }
-
-      if (layerToFill) {
-        // eslint-disable-next-line complexity
-        setColorAtCoordinates(layerCoordinates[layerToFill], draggingColor);
-      }
-    }
-  };
-
   const handleCellClick = (row: number, col: number) => {
     const newCellColors = [...cellColors];
     newCellColors[row] = [...newCellColors[row]];
-
-    // セルの色を選択された色に設定
     newCellColors[row][col] = selectedColor;
     setCellColors(newCellColors);
   };
 
-  const handleMouseDown = () => {
-    setIsMouseDown(true);
-  };
-
   const handleMouseUp = () => {
-    setIsMouseDown(false);
     setDraggingColor(null);
+    setHoveredCells([]);
   };
 
   const handleCellDrop = (row: number, col: number) => {
     if (draggingColor) {
-      let layerToFill: 'layer1' | 'layer2' | 'layer3' | 'layer4' | null = null;
       for (const [layer, coordinates] of Object.entries(layerCoordinates)) {
         if (coordinates.some((coord) => coord.row === row && coord.col === col)) {
           layerToFill = layer as 'layer1' | 'layer2' | 'layer3' | 'layer4';
-
           break;
         }
       }
@@ -108,25 +81,47 @@ const FireworkShell: React.FC = () => {
 
   const handleNameSubmit = () => {
     if (fireworkName.trim()) {
-      setShowNameDialog(false); // ダイアログを閉じる
+      setShowNameDialog(false);
     }
   };
 
   const renderCell = (row: number, col: number) => {
-    // ドラッグ中かつホバー中かどうかを判定
+    const isHovered = hoveredCells.some((cell) => cell.row === row && cell.col === col);
+    const hoverCellStyle = {
+      backgroundColor: isHovered ? darkenColor(selectedColor, 60) : '',
+    };
+
     return (
       <div
         key={`${row}-${col}`}
-        className={`${styles.gridCell}  draggable `}
+        className={`${styles.gridCell} draggable `}
         data-row={row}
         data-col={col}
-        style={{ backgroundColor: cellColors[row][col], touchAction: 'none', userSelect: 'none' }}
+        style={{
+          ...hoverCellStyle,
+          backgroundColor: cellColors[row][col] || hoverCellStyle.backgroundColor,
+        }}
         onClick={() => handleCellClick(row, col)}
-        onMouseMove={() => handleCellMouseMove(row, col)}
-        onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
-        onDragOver={(e) => e.preventDefault()}
-        onDrop={() => handleCellDrop(row, col)}
+        onDragOver={(e) => {
+          e.preventDefault();
+          if (draggingColor) {
+            for (const [layer, coordinates] of Object.entries(layerCoordinates)) {
+              if (coordinates.some((coord) => coord.row === row && coord.col === col)) {
+                layerToFill = layer as 'layer1' | 'layer2' | 'layer3' | 'layer4';
+                setHoveredCells(coordinates);
+              }
+            }
+          }
+        }}
+        onDragLeave={() => {
+          setHoveredCells([]);
+        }}
+        onDrop={() => {
+          handleCellDrop(row, col);
+        }}
+        onMouseEnter={() => setHoveredCells([{ row, col }])}
+        onMouseLeave={() => setHoveredCells([])}
       />
     );
   };
@@ -153,10 +148,12 @@ const FireworkShell: React.FC = () => {
       )}
       <div
         className={styles.fireworkContainer}
-        style={{ opacity: isVisible ? 1 : 0.5, pointerEvents: isVisible ? 'auto' : 'none' }}
+        style={{
+          opacity: isVisible ? 1 : 0.5,
+          pointerEvents: isVisible ? 'auto' : 'none',
+        }}
       >
         <div className={styles.colorPickerContainer}>
-          {/* 花火玉の名前を表示 */}
           {!showNameDialog && (
             <div className={styles.fireworkNameDisplay}>
               花火玉の名前:
@@ -169,30 +166,33 @@ const FireworkShell: React.FC = () => {
               />
             </div>
           )}
-
           <div className={styles.gridContainer}>
             {[...Array(gridSize)].map((_, row) =>
               [...Array(gridSize)].map((_, col) => renderCell(row, col)),
             )}
           </div>
-
           <div className={styles.buttonContainer}>
             <button
               className={styles.colorPickerButton}
               style={{
-                // backgroundColor: selectedColor,
-                boxShadow: `-4px 0 ${darkenColor(selectedColor, 20)}, 4px 0 ${darkenColor(selectedColor, 20)}, 0 4px ${darkenColor(selectedColor, 20)}, 0 -4px ${darkenColor(selectedColor, 20)}`,
+                boxShadow: `-4px 0 ${darkenColor(selectedColor, 20)}, 4px 0 ${darkenColor(
+                  selectedColor,
+                  20,
+                )}, 0 4px ${darkenColor(selectedColor, 20)}, 0 -4px ${darkenColor(selectedColor, 20)}`,
               }}
             >
-              色を選択: <br />
+              色を選択:
+              <br />
               <span style={{ color: selectedColor }}>{selectedColor || '未選択'}</span>
             </button>
             <button
               onClick={clearCellColor}
               className={styles.extractButton}
               style={{
-                // backgroundColor: selectedColor,
-                boxShadow: `-4px 0 ${darkenColor(selectedColor, 20)}, 4px 0 ${darkenColor(selectedColor, 20)}, 0 4px ${darkenColor(selectedColor, 20)}, 0 -4px ${darkenColor(selectedColor, 20)}`,
+                boxShadow: `-4px 0 ${darkenColor(selectedColor, 20)}, 4px 0 ${darkenColor(
+                  selectedColor,
+                  20,
+                )}, 0 4px ${darkenColor(selectedColor, 20)}, 0 -4px ${darkenColor(selectedColor, 20)}`,
               }}
             >
               抜き取る
@@ -201,29 +201,53 @@ const FireworkShell: React.FC = () => {
               onClick={resetColors}
               className={styles.resetButton}
               style={{
-                // backgroundColor: selectedColor,
-                boxShadow: `-4px 0 ${darkenColor(selectedColor, 20)}, 4px 0 ${darkenColor(selectedColor, 20)}, 0 4px ${darkenColor(selectedColor, 20)}, 0 -4px ${darkenColor(selectedColor, 20)}`,
+                boxShadow: `-4px 0 ${darkenColor(selectedColor, 20)}, 4px 0 ${darkenColor(
+                  selectedColor,
+                  20,
+                )}, 0 4px ${darkenColor(selectedColor, 20)}, 0 -4px ${darkenColor(selectedColor, 20)}`,
               }}
             >
               リセット
             </button>
           </div>
-
           <div className={styles.colorPickerModal}>
-            {colors.map((color) => (
-              <button
-                key={color}
-                draggable
-                onDragStart={() => handleColorPick(color)}
-                onDragEnd={handleMouseUp}
-                className={styles.colorButton}
-                style={{ backgroundColor: color }}
-                onClick={() => handleColorPick(color)}
-              />
-            ))}
+            {colors.map((color, index) => {
+              const buttonRef = usePreventDefault<HTMLButtonElement>();
+              return (
+                <button
+                  ref={buttonRef}
+                  key={`${index}-${color}`}
+                  draggable
+                  onDragStart={() => handleColorPick(color)}
+                  onDragEnd={handleMouseUp}
+                  onTouchStart={(e) => {
+                    const touch = e.touches[0];
+                    setTouchStartPosition({ x: touch.clientX, y: touch.clientY });
+                    handleColorPick(color);
+                  }}
+                  onTouchMove={() => {
+                    if (!touchStartPosition) return;
+                  }}
+                  onTouchEnd={(e) => {
+                    if (!touchStartPosition) return;
+                    const touch = e.changedTouches[0];
+                    const element = document.elementFromPoint(touch.clientX, touch.clientY);
+                    if (element?.classList.contains(styles.gridCell)) {
+                      const row = parseInt(element.getAttribute('data-row') || '0');
+                      const col = parseInt(element.getAttribute('data-col') || '0');
+                      handleCellDrop(row, col);
+                    }
+                    setTouchStartPosition(null);
+                    handleMouseUp();
+                  }}
+                  className={styles.colorButton}
+                  style={{ backgroundColor: color }}
+                  onClick={() => handleColorPick(color)}
+                />
+              );
+            })}
           </div>
         </div>
-
         <div className={styles.saveundoContainer}>
           <div className={styles.save}>
             <Link href="/" legacyBehavior>

@@ -5,6 +5,7 @@
   min-height: 100vh;
   padding: 20px;
   color: #fff;
+  user-select: none;
   background-color: #111;
 }
 
@@ -37,12 +38,6 @@
   background-color: #222;
   border: 1px solid #444;
   transition: all 0.2s ease;
-}
-
-.gridCell:hover {
-  background-color: #2a2a2a;
-
-  /* box-shadow: 0 0 5px #fff; */
 }
 
 .colorPickerModal {
