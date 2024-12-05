@@ -16,7 +16,6 @@ const FireworkShell: React.FC = () => {
   );
   const [selectedColor, setSelectedColor] = useState<string>('');
   const [draggingColor, setDraggingColor] = useState<string | null>(null);
-  const [isMouseDown, setIsMouseDown] = useState<boolean>(false);
   const [showNameDialog, setShowNameDialog] = useState<boolean>(true);
   const [fireworkName, setFireworkName] = useState<string>('');
   const [isVisible, setIsVisible] = useState(false);
@@ -40,23 +39,6 @@ const FireworkShell: React.FC = () => {
     setCellColors(newCellColors);
   };
 
-  const handleCellMouseMove = (row: number, col: number) => {
-    if (isMouseDown && draggingColor) {
-      for (const [layer, coordinates] of Object.entries(layerCoordinates)) {
-        if (coordinates.some((coord) => coord.row === row && coord.col === col)) {
-          layerToFill = layer as 'layer1' | 'layer2' | 'layer3' | 'layer4';
-          coordinates.forEach((coord) => {
-            setHoveredCells([coord]);
-          });
-          break;
-        }
-      }
-      if (layerToFill) {
-        setColorAtCoordinates(layerCoordinates[layerToFill], draggingColor);
-      }
-    }
-  };
-
   const handleCellClick = (row: number, col: number) => {
     const newCellColors = [...cellColors];
     newCellColors[row] = [...newCellColors[row]];
@@ -64,12 +46,7 @@ const FireworkShell: React.FC = () => {
     setCellColors(newCellColors);
   };
 
-  const handleMouseDown = () => {
-    setIsMouseDown(true);
-  };
-
   const handleMouseUp = () => {
-    setIsMouseDown(false);
     setDraggingColor(null);
     setHoveredCells([]);
   };
@@ -125,8 +102,6 @@ const FireworkShell: React.FC = () => {
           backgroundColor: cellColors[row][col] || hoverCellStyle.backgroundColor,
         }}
         onClick={() => handleCellClick(row, col)}
-        onMouseMove={() => handleCellMouseMove(row, col)}
-        onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onDragOver={(e) => {
           e.preventDefault();
