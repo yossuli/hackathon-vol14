@@ -7,6 +7,7 @@ import { colors } from 'utils/colors/colors';
 import { darkenColor } from 'utils/colors/colorUtils';
 import { layer1, layer2, layer3, layer4 } from 'utils/layer';
 import styles from './hanabi_creator.module.css';
+import Header from './Header';
 
 const gridSize = 7;
 
@@ -127,135 +128,139 @@ const FireworkShell: React.FC = () => {
   };
 
   return (
-    <div className={styles.container}>
-      {showNameDialog && (
-        <div className={styles.nameDialog}>
-          <h2>花火玉の名前を決めてください</h2>
-          <input
-            type="text"
-            value={fireworkName}
-            onChange={(e) => setFireworkName(e.target.value)}
-            placeholder="花火玉の名前"
-          />
-          <button
-            onClick={() => {
-              handleNameSubmit(), setIsVisible(true);
-            }}
-          >
-            決定
-          </button>
-        </div>
-      )}
-      <div
-        className={styles.fireworkContainer}
-        style={{
-          opacity: isVisible ? 1 : 0.5,
-          pointerEvents: isVisible ? 'auto' : 'none',
-        }}
-      >
-        <div className={styles.colorPickerContainer}>
-          {!showNameDialog && (
-            <div className={styles.fireworkNameDisplay}>
-              花火玉の名前:
-              <input
-                type="text"
-                value={fireworkName}
-                onChange={(e) => setFireworkName(e.target.value)}
-                placeholder="花火玉の名前"
-                className={styles.inputDisplay}
-              />
-            </div>
-          )}
-          <div className={styles.gridContainer}>
-            {[...Array(gridSize)].map((_, row) =>
-              [...Array(gridSize)].map((_, col) => renderCell(row, col)),
-            )}
-          </div>
-          <div className={styles.buttonContainer}>
+    <div>
+      {' '}
+      <Header />
+      <div className={styles.container}>
+        {showNameDialog && (
+          <div className={styles.nameDialog}>
+            <h2>花火玉の名前を決めてください</h2>
+            <input
+              type="text"
+              value={fireworkName}
+              onChange={(e) => setFireworkName(e.target.value)}
+              placeholder="花火玉の名前"
+            />
             <button
-              className={styles.colorPickerButton}
-              style={{
-                boxShadow: `-4px 0 ${darkenColor(selectedColor, 20)}, 4px 0 ${darkenColor(
-                  selectedColor,
-                  20,
-                )}, 0 4px ${darkenColor(selectedColor, 20)}, 0 -4px ${darkenColor(selectedColor, 20)}`,
+              onClick={() => {
+                handleNameSubmit(), setIsVisible(true);
               }}
             >
-              色を選択:
-              <br />
-              <span style={{ color: selectedColor }}>{selectedColor || '未選択'}</span>
-            </button>
-            <button
-              onClick={clearCellColor}
-              className={styles.extractButton}
-              style={{
-                boxShadow: `-4px 0 ${darkenColor(selectedColor, 20)}, 4px 0 ${darkenColor(
-                  selectedColor,
-                  20,
-                )}, 0 4px ${darkenColor(selectedColor, 20)}, 0 -4px ${darkenColor(selectedColor, 20)}`,
-              }}
-            >
-              抜き取る
-            </button>
-            <button
-              onClick={resetColors}
-              className={styles.resetButton}
-              style={{
-                boxShadow: `-4px 0 ${darkenColor(selectedColor, 20)}, 4px 0 ${darkenColor(
-                  selectedColor,
-                  20,
-                )}, 0 4px ${darkenColor(selectedColor, 20)}, 0 -4px ${darkenColor(selectedColor, 20)}`,
-              }}
-            >
-              リセット
+              決定
             </button>
           </div>
-          <div className={styles.colorPickerModal}>
-            {colors.map((color, index) => {
-              const buttonRef = usePreventDefault<HTMLButtonElement>();
-              return (
-                <button
-                  ref={buttonRef}
-                  key={`${index}-${color}`}
-                  draggable
-                  onDragStart={() => handleColorPick(color)}
-                  onDragEnd={handleMouseUp}
-                  onTouchStart={(e) => {
-                    const touch = e.touches[0];
-                    setTouchStartPosition({ x: touch.clientX, y: touch.clientY });
-                    handleColorPick(color);
-                  }}
-                  onTouchMove={() => {
-                    if (!touchStartPosition) return;
-                  }}
-                  onTouchEnd={(e) => {
-                    if (!touchStartPosition) return;
-                    const touch = e.changedTouches[0];
-                    const element = document.elementFromPoint(touch.clientX, touch.clientY);
-                    if (element?.classList.contains(styles.gridCell)) {
-                      const row = parseInt(element.getAttribute('data-row') || '0');
-                      const col = parseInt(element.getAttribute('data-col') || '0');
-                      handleCellDrop(row, col);
-                    }
-                    setTouchStartPosition(null);
-                    handleMouseUp();
-                  }}
-                  className={styles.colorButton}
-                  style={{ backgroundColor: color }}
-                  onClick={() => handleColorPick(color)}
+        )}
+        <div
+          className={styles.fireworkContainer}
+          style={{
+            opacity: isVisible ? 1 : 0.5,
+            pointerEvents: isVisible ? 'auto' : 'none',
+          }}
+        >
+          <div className={styles.colorPickerContainer}>
+            {!showNameDialog && (
+              <div className={styles.fireworkNameDisplay}>
+                花火玉の名前:
+                <input
+                  type="text"
+                  value={fireworkName}
+                  onChange={(e) => setFireworkName(e.target.value)}
+                  placeholder="花火玉の名前"
+                  className={styles.inputDisplay}
                 />
-              );
-            })}
+              </div>
+            )}
+            <div className={styles.gridContainer}>
+              {[...Array(gridSize)].map((_, row) =>
+                [...Array(gridSize)].map((_, col) => renderCell(row, col)),
+              )}
+            </div>
+            <div className={styles.buttonContainer}>
+              <button
+                className={styles.colorPickerButton}
+                style={{
+                  boxShadow: `-4px 0 ${darkenColor(selectedColor, 20)}, 4px 0 ${darkenColor(
+                    selectedColor,
+                    20,
+                  )}, 0 4px ${darkenColor(selectedColor, 20)}, 0 -4px ${darkenColor(selectedColor, 20)}`,
+                }}
+              >
+                色を選択:
+                <br />
+                <span style={{ color: selectedColor }}>{selectedColor || '未選択'}</span>
+              </button>
+              <button
+                onClick={clearCellColor}
+                className={styles.extractButton}
+                style={{
+                  boxShadow: `-4px 0 ${darkenColor(selectedColor, 20)}, 4px 0 ${darkenColor(
+                    selectedColor,
+                    20,
+                  )}, 0 4px ${darkenColor(selectedColor, 20)}, 0 -4px ${darkenColor(selectedColor, 20)}`,
+                }}
+              >
+                抜き取る
+              </button>
+              <button
+                onClick={resetColors}
+                className={styles.resetButton}
+                style={{
+                  boxShadow: `-4px 0 ${darkenColor(selectedColor, 20)}, 4px 0 ${darkenColor(
+                    selectedColor,
+                    20,
+                  )}, 0 4px ${darkenColor(selectedColor, 20)}, 0 -4px ${darkenColor(selectedColor, 20)}`,
+                }}
+              >
+                リセット
+              </button>
+            </div>
+            <div className={styles.colorPickerModal}>
+              {colors.map((color, index) => {
+                const buttonRef = usePreventDefault<HTMLButtonElement>();
+                return (
+                  <button
+                    ref={buttonRef}
+                    key={`${index}-${color}`}
+                    draggable
+                    onDragStart={() => handleColorPick(color)}
+                    onDragEnd={handleMouseUp}
+                    onTouchStart={(e) => {
+                      const touch = e.touches[0];
+                      setTouchStartPosition({ x: touch.clientX, y: touch.clientY });
+                      handleColorPick(color);
+                    }}
+                    onTouchMove={() => {
+                      if (!touchStartPosition) return;
+                    }}
+                    onTouchEnd={(e) => {
+                      if (!touchStartPosition) return;
+                      const touch = e.changedTouches[0];
+                      const element = document.elementFromPoint(touch.clientX, touch.clientY);
+                      if (element?.classList.contains(styles.gridCell)) {
+                        const row = parseInt(element.getAttribute('data-row') || '0');
+                        const col = parseInt(element.getAttribute('data-col') || '0');
+                        handleCellDrop(row, col);
+                      }
+                      setTouchStartPosition(null);
+                      handleMouseUp();
+                    }}
+                    className={styles.colorButton}
+                    style={{ backgroundColor: color }}
+                    onClick={() => handleColorPick(color)}
+                  />
+                );
+              })}
+            </div>
           </div>
-        </div>
-        <div className={styles.saveundoContainer}>
-          <div className={styles.save}>
-            <Link href="/" legacyBehavior>
-              <a className={styles.buttonText}>保存する</a>
-            </Link>
-            <Link href="/" legacyBehavior>
-              <a className={styles.buttonText}>戻る</a>
-            </Link>
+          <div className={styles.saveundoContainer}>
+            <div className={styles.save}>
+              <Link href="/" legacyBehavior>
+                <a className={styles.buttonText}>保存する</a>
+              </Link>
+              <Link href="/" legacyBehavior>
+                <a className={styles.buttonText}>戻る</a>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
