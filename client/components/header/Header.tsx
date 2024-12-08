@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React from 'react';
-import styles from './header.module.css';
+import styles from './Header.module.css';
 
 const Header: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const router = useRouter();

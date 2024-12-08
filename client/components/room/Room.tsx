@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styles from './room.module.css';
+import styles from './Rooms.module.css';
 
 // 吹き出しコンポーネント
 const ChatBubble = ({ messages }: { messages: string[] }) => {
