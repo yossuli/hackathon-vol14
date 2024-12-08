@@ -23,7 +23,13 @@ const Header: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
             <a href="/works"></a>
           </li>
           <li>
-            <a href="/contact">INIAD.ts</a>
+            <a
+              href="https://github.com/yossuli/hackathon-vol14"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              INIAD.ts
+            </a>
           </li>
         </ul>
       </nav>
