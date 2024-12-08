@@ -17,9 +17,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "types": ["vitest/importMeta"],
-
-    "incremental": true,
-    "paths": { "@prisma/client": ["../server/node_modules/@prisma/client"] }
+    "incremental": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules", "api/**/*.ts"]
