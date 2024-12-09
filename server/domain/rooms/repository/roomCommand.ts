@@ -14,6 +14,7 @@ export const roomCommand = {
       create: {
         id: val.room.id,
         name: val.room.name,
+        password: val.room.password,
         status: val.room.status,
         createdAt: new Date(val.room.createdAt),
         updatedAt: undefined,
