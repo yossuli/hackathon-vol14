@@ -28,14 +28,14 @@ export const roomUseCase = {
   findAll: (): Promise<RoomDto[]> =>
     transaction('RepeatableRead', async (tx) => {
       const rooms = await roomQuery.listByCreatedAt(tx);
-      const found = roomMethod.findMany(rooms, {});
+      const found = roomMethod.findMany(rooms);
 
       return toRoomsDto(found.rooms);
     }),
   findByQuery: (query: RoomFindVal): Promise<RoomDto[]> =>
     transaction('RepeatableRead', async (tx) => {
       const rooms = await roomQuery.findByQuery(tx, query);
-      const found = roomMethod.findMany(rooms, {});
+      const found = roomMethod.findMany(rooms);
 
       return toRoomsDto(found.rooms);
     }),

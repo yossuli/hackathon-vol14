@@ -22,6 +22,7 @@ const listByCreatedAt = async (
 ): Promise<RoomEntity[]> => {
   const prismaRooms = await tx.room.findMany({
     take: limit,
+    where: { status: 'PUBLIC' },
     orderBy: { createdAt: 'desc' },
     include: { Creator: true },
   });

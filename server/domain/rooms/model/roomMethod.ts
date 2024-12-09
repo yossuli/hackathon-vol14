@@ -30,20 +30,17 @@ export const roomMethod = {
   },
   update: (user: UserDto, room: RoomEntity, val: { name: string }): RoomSaveVal => {
     assert(user.id === String(room.creator.id));
-    return { room: { ...room, name: roomNameValidator.parse(val.name) } };
+    return { room: { ...room, name: roomNameValidator.parse(val.name), updatedAt: Date.now() } };
   },
   find: (room: RoomEntity, val: { password?: string }): { found: boolean; room: RoomEntity } => {
     assert(
-      (room.status !== RoomStatus['PRIVATE'] && !val.password) ||
+      (room.status !== RoomStatus['PRIVATE'] && !!val.password) ||
         (room.status === RoomStatus['PRIVATE'] && val.password === room.password),
     );
     return { found: true, room };
   },
-  findMany: (
-    rooms: RoomEntity[],
-    val: { password?: string },
-  ): { found: boolean; rooms: RoomEntity[] } => {
-    assert(rooms.every((room) => roomMethod.find(room, { password: val.password }).found));
+  findMany: (rooms: RoomEntity[]): { found: boolean; rooms: RoomEntity[] } => {
+    assert(rooms.every((room) => roomMethod.find(room, {}).found));
     return { found: true, rooms };
   },
   delete: (user: UserDto, room: RoomEntity): { deletable: boolean; room: RoomEntity } => {
