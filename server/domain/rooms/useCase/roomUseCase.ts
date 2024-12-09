@@ -19,7 +19,7 @@ export const roomUseCase = {
   updateRoomName: (user: UserDto, val: RoomUpdateVal, roomId: string): Promise<RoomDto> =>
     transaction('RepeatableRead', async (tx) => {
       const room = await roomQuery.findById(tx, roomId);
-      const updated = await roomMethod.update(user, room, val);
+      const updated = roomMethod.update(user, room, val);
 
       await roomCommand.save(tx, updated);
 
@@ -28,31 +28,27 @@ export const roomUseCase = {
   findAll: (): Promise<RoomDto[]> =>
     transaction('RepeatableRead', async (tx) => {
       const rooms = await roomQuery.listByCreatedAt(tx);
-      const found = await roomMethod.findMany(rooms, {});
+      const found = roomMethod.findMany(rooms, {});
 
       return toRoomsDto(found.rooms);
     }),
   findByQuery: (query: RoomFindVal): Promise<RoomDto[]> =>
     transaction('RepeatableRead', async (tx) => {
       const rooms = await roomQuery.findByQuery(tx, query);
-      const found = await roomMethod.findMany(rooms, {});
+      const found = roomMethod.findMany(rooms, {});
 
       return toRoomsDto(found.rooms);
     }),
   findByIdWithPassword: (roomId: string, password: string): Promise<RoomDto> =>
     transaction('RepeatableRead', async (tx) => {
-      const room = await roomQuery.findById(tx, roomId).then((room) => {
-        return room;
-      });
-      const found = await roomMethod.find(room, { password });
+      const room = await roomQuery.findById(tx, roomId);
+      const found = roomMethod.find(room, { password });
 
       return toRoomDto(found.room);
     }),
   delete: (user: UserDto, roomId: string): Promise<RoomDto> =>
     transaction('RepeatableRead', async (tx) => {
-      const room = await roomQuery.findById(tx, roomId).then((room) => {
-        return room;
-      });
+      const room = await roomQuery.findById(tx, roomId);
       const deleted = roomMethod.delete(user, room);
 
       await roomCommand.delete(tx, deleted);
