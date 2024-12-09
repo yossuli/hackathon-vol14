@@ -22,8 +22,10 @@ export const roomMethod = {
       updatedAt: undefined,
       lastUsedAt: undefined,
     };
-    assert(val.password === undefined && val.status !== RoomStatus['PRIVATE']);
-    assert(val.password !== undefined && val.status === RoomStatus['PRIVATE']);
+    assert(
+      (val.password === undefined && val.status !== RoomStatus['PRIVATE']) ||
+        (val.password !== undefined && val.status === RoomStatus['PRIVATE']),
+    );
     return { room };
   },
   update: (user: UserDto, room: RoomEntity, val: { name: string }): RoomSaveVal => {
@@ -32,7 +34,8 @@ export const roomMethod = {
   },
   find: (room: RoomEntity, val: { password?: string }): { found: boolean; room: RoomEntity } => {
     assert(
-      (room.status !== RoomStatus['PRIVATE'] && !val.password) || val.password === room.password,
+      (room.status !== RoomStatus['PRIVATE'] && !val.password) ||
+        (room.status === RoomStatus['PRIVATE'] && val.password === room.password),
     );
     return { found: true, room };
   },
@@ -40,10 +43,8 @@ export const roomMethod = {
     rooms: RoomEntity[],
     val: { password?: string },
   ): { found: boolean; rooms: RoomEntity[] } => {
-    return {
-      found: rooms.every((room) => roomMethod.find(room, { password: val.password }).found),
-      rooms,
-    };
+    assert(rooms.every((room) => roomMethod.find(room, { password: val.password }).found));
+    return { found: true, rooms };
   },
   delete: (user: UserDto, room: RoomEntity): { deletable: boolean; room: RoomEntity } => {
     assert(user.id === String(room.creator.id));
