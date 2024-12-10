@@ -1,4 +1,5 @@
 import assert from 'assert';
+import type { DtoId } from 'common/types/brandedId';
 import type { FireFlowerUpdateVal } from 'common/types/fireFlower';
 import type { UserDto } from 'common/types/user';
 import { fireFlowerNameValidator, prismaFireFlowerValidator } from 'common/validators/fireFlower';

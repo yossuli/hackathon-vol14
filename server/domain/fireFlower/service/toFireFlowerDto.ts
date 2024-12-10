@@ -9,7 +9,6 @@ export const toFireFlowerDto = (fireFlower: FireFlowerEntity): FireFlowerDto => 
   updatedAt: fireFlower.updatedAt,
   structure: fireFlower.structure,
   creator: {
-    id: brandedId.user.dto.parse(fireFlower.creator.id),
     signInName: fireFlower.creator.signInName,
   },
 });

@@ -10,7 +10,7 @@ export type FireFlowerDto = {
   createdAt: number;
   updatedAt?: number;
   structure: FireFlower;
-  creator: { id: DtoId['user']; signInName: string };
+  creator: { signInName: string };
 };
 
 export type FireFlowerCreateVal = {
