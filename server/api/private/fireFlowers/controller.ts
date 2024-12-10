@@ -1,40 +1,17 @@
-import type { DtoId } from 'common/types/brandedId';
+import { fireFlowerUseCase } from 'domain/fireFlower/useCase/fireFlowerUseCase';
 import { defineController } from './$relay';
 
 export default defineController(() => ({
-  get: () => ({
+  get: async () => ({
     status: 200,
-    body: [
-      {
-        id: '1' as DtoId['fireFlower'],
-        name: 'Fire Flower',
-        createdAt: 0,
-        updatedAt: undefined,
-        structure: [['#f00']],
-        creator: {
-          id: '1' as DtoId['user'],
-          signInName: 'teat',
-        },
-      },
-    ],
+    body: await fireFlowerUseCase.findAll(),
   }),
-  post: ({ user }) => ({
+  post: async ({ user, body }) => ({
     status: 201,
-    body: [
-      {
-        id: '1' as DtoId['fireFlower'],
-        name: 'Fire Flower',
-        createdAt: 0,
-        updatedAt: undefined,
-        structure: [['#f00']],
-        creator: {
-          id: user.id,
-          signInName: user.signInName,
-        },
-      },
-    ],
+    body: await fireFlowerUseCase.create(user, body),
   }),
-  delete: ({ user: _user, body: _body }) => ({
+  delete: async ({ user, body }) => ({
     status: 200,
+    body: await fireFlowerUseCase.delete(user, body.id),
   }),
 }));
