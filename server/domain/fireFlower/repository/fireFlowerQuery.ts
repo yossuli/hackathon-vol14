@@ -1,5 +1,5 @@
 import type { fireFlower, Prisma, User } from '@prisma/client';
-import type { FireFlowerFindVal } from 'common/types/fireFlower';
+import type { DtoId } from 'common/types/brandedId';
 import { prismaFireFlowerValidator } from 'common/validators/fireFlower';
 import { brandedId } from 'service/brandedId';
 import type { FireFlowerEntity } from '../model/fireFlowerType';
@@ -35,18 +35,13 @@ export const fireFlowerQuery = {
       .findUniqueOrThrow({ where: { id: fireFlowerId }, include: { Creator: true } })
       .then(toEntity),
 
-  // eslint-disable-next-line complexity
-  findByQuery: async (
+  findByCreatorId: async (
     tx: Prisma.TransactionClient,
-    query: FireFlowerFindVal,
+    creatorId: DtoId['user'],
   ): Promise<FireFlowerEntity[]> => {
     const prismaFireFlowers = await tx.fireFlower.findMany({
       where: {
-        id: query.id ? brandedId.fireFlower.entity.parse(query.id) : undefined,
-        name: query.name,
-        createdAt: query.createdAt ? new Date(query.createdAt) : undefined,
-        updatedAt: query.updatedAt ? new Date(query.updatedAt) : undefined,
-        creatorId: query.creatorId ? brandedId.user.entity.parse(query.creatorId) : undefined,
+        creatorId: brandedId.user.entity.parse(creatorId),
       },
       include: { Creator: true },
     });

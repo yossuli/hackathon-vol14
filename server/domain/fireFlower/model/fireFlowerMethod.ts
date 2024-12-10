@@ -45,15 +45,6 @@ export const fireFlowerMethod = {
       fireFlower,
     };
   },
-  find: (fireFlower: FireFlowerEntity): { found: boolean; fireFlower: FireFlowerEntity } => {
-    return { found: true, fireFlower };
-  },
-  findMany: (
-    fireFlowers: FireFlowerEntity[],
-  ): { found: boolean; fireFlowers: FireFlowerEntity[] } => {
-    return {
-    };
-  },
   delete: (
     user: UserDto,
     fireFlower: FireFlowerEntity,

@@ -9,7 +9,7 @@ import { transaction } from 'service/prismaClient';
 import { fireFlowerMethod } from '../model/fireFlowerMethod';
 import { fireFlowerCommand } from '../repository/fireFlowerCommand';
 import { fireFlowerQuery } from '../repository/fireFlowerQuery';
-import { toFireFlowerDto, toFireFlowersDto } from '../service/toFireFlowerDto';
+import { toFireFlowerDto } from '../service/toFireFlowerDto';
 
 export const fireFlowerUseCase = {
   create: (user: UserDto, val: FireFlowerCreateVal): Promise<FireFlowerDto> =>
@@ -28,26 +28,6 @@ export const fireFlowerUseCase = {
       await fireFlowerCommand.save(tx, updated);
 
       return toFireFlowerDto(updated.fireFlower);
-    }),
-  findAll: (): Promise<FireFlowerDto[]> =>
-    transaction('RepeatableRead', async (tx) => {
-      const fireFlowers = await fireFlowerQuery.listByCreatedAt(tx);
-      const found = await fireFlowerMethod.findMany(fireFlowers);
-
-      return toFireFlowersDto(found.fireFlowers);
-    }),
-  findByQuery: (query: FireFlowerFindVal): Promise<FireFlowerDto[]> =>
-    transaction('RepeatableRead', async (tx) => {
-      const fireFlowers = await fireFlowerQuery.findByQuery(tx, query);
-      const found = await fireFlowerMethod.findMany(fireFlowers);
-
-      return toFireFlowersDto(found.fireFlowers);
-    }),
-  findById: (fireFlowerId: string): Promise<FireFlowerDto> =>
-    transaction('RepeatableRead', async (tx) => {
-      const fireFlower = await fireFlowerQuery.findById(tx, fireFlowerId);
-
-      return toFireFlowerDto(fireFlower);
     }),
   delete: (user: UserDto, fireFlowerId: string): Promise<FireFlowerDto> =>
     transaction('RepeatableRead', async (tx) => {
