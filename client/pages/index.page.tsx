@@ -12,7 +12,7 @@ const Home = () => {
         <a href="/hanabi_creator" className={styles.button}>
           花火を作成する
         </a>
-        <a href="/hanabi_watch" className={styles.button}>
+        <a href="/rooms/global-room" className={styles.button}>
           ランダムに入室
         </a>
         <div className={styles.options}>
@@ -21,6 +21,9 @@ const Home = () => {
           </a>
           <a href="/works" className={styles.optionButton}>
             作品
+          </a>
+          <a href="/www" className={styles.optionButton}>
+            ダミー
           </a>
         </div>
       </div>

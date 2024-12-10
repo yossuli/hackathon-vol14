@@ -4,6 +4,8 @@ import helmet from '@fastify/helmet';
 import fastifyHttpProxy from '@fastify/http-proxy';
 import type { TokenOrHeader } from '@fastify/jwt';
 import fastifyJwt from '@fastify/jwt';
+import websocketPlugin from '@fastify/websocket';
+
 import assert from 'assert';
 import { IS_PROD } from 'common/constants';
 import type { FastifyInstance, FastifyRequest } from 'fastify';
@@ -19,6 +21,7 @@ import {
   COGNITO_USER_POOL_ID,
   SERVER_PORT,
 } from './envValues';
+import websocketHandler from './websocket';
 
 export const init = (): FastifyInstance => {
   const fastify = Fastify();
@@ -27,6 +30,7 @@ export const init = (): FastifyInstance => {
   fastify.register(helmet);
   fastify.register(fastifyEtag, { weak: true });
   fastify.register(cookie);
+  fastify.register(websocketPlugin);
 
   fastify.register(fastifyJwt, {
     cookie: { cookieName: COOKIE_NAME, signed: false },
@@ -59,6 +63,8 @@ export const init = (): FastifyInstance => {
   });
 
   server(fastify, { basePath: API_BASE_PATH });
+
+  fastify.register(websocketHandler, { prefix: '/api/private/rooms' });
 
   return fastify;
 };
