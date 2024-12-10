@@ -1,5 +1,5 @@
-import Header from './Header';
-import Room from './Room';
+import Header from '../../../components/header/Header';
+import Room from '../../../components/room/Room';
 
 // メインコンポーネント
 export const ChatApp = () => {
