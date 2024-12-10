@@ -2,7 +2,7 @@ import type { fireFlower, Prisma, User } from '@prisma/client';
 import type { DtoId } from 'common/types/brandedId';
 import { prismaFireFlowerValidator } from 'common/validators/fireFlower';
 import { brandedId } from 'service/brandedId';
-import type { FireFlowerEntity } from '../model/fireFlowerType';
+import type { FireFlowerEntity, LikedFireFlowerDeleteServerVal } from '../model/fireFlowerType';
 
 const toEntity = (prismaFireFlower: fireFlower & { Creator: User }): FireFlowerEntity => ({
   id: brandedId.fireFlower.entity.parse(prismaFireFlower.id),
@@ -28,8 +28,49 @@ const listByCreatedAt = async (
   return prismaFireFlowers.map(toEntity);
 };
 
+const listByLiker = async (
+  tx: Prisma.TransactionClient,
+  likerId: DtoId['user'],
+  limit?: number,
+): Promise<FireFlowerEntity[]> => {
+  const prismaFireFlowers = await tx.fireFlower.findMany({
+    take: limit,
+    orderBy: { createdAt: 'desc' },
+    include: { Creator: true },
+    where: {
+      likedBy: {
+        some: { userId: brandedId.user.entity.parse(likerId) },
+      },
+    },
+  });
+
+  return prismaFireFlowers.map(toEntity);
+};
+
+const findByFireFlowerId = async (
+  tx: Prisma.TransactionClient,
+  fireFlowerId: DtoId['fireFlower'],
+  likerId: DtoId['user'],
+): Promise<LikedFireFlowerDeleteServerVal | null> => {
+  const prismaFireFlowers = await tx.likedFireFlower.findUnique({
+    where: {
+      userId_fireFlowerId: {
+        fireFlowerId: brandedId.fireFlower.entity.parse(fireFlowerId),
+        userId: brandedId.user.entity.parse(likerId),
+      },
+    },
+  });
+  return (
+    prismaFireFlowers && {
+      id: brandedId.likedFireFlower.entity.parse(prismaFireFlowers.id),
+      userId: brandedId.user.entity.parse(prismaFireFlowers.userId),
+    }
+  );
+};
+
 export const fireFlowerQuery = {
   listByCreatedAt,
+  listByLiker,
   findById: async (tx: Prisma.TransactionClient, fireFlowerId: string): Promise<FireFlowerEntity> =>
     tx.fireFlower
       .findUniqueOrThrow({ where: { id: fireFlowerId }, include: { Creator: true } })
@@ -47,5 +88,8 @@ export const fireFlowerQuery = {
     });
 
     return prismaFireFlowers.map(toEntity);
+  },
+  like: {
+    findByFireFlowerId,
   },
 };

@@ -35,4 +35,21 @@ export const fireFlowerUseCase = {
 
       return toFireFlowerDto(deleted.fireFlower);
     }),
+  like: {
+    update: (user: UserDto, fireFlowerId: DtoId['fireFlower']): Promise<{ success: boolean }> =>
+      transaction('RepeatableRead', async (tx) => {
+        const likedFireFlower = await fireFlowerQuery.like.findByFireFlowerId(
+          tx,
+          fireFlowerId,
+          user.id,
+        );
+        if (likedFireFlower) {
+          const deleted = fireFlowerMethod.like.delete(user, likedFireFlower);
+          await fireFlowerCommand.like.delete(tx, deleted);
+          return { success: true };
+        }
+        await fireFlowerCommand.like.create(tx, fireFlowerMethod.like.create(user, fireFlowerId));
+        return { success: true };
+      }),
+  },
 };

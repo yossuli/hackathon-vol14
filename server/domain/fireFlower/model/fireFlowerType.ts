@@ -9,6 +9,20 @@ export type FireFlowerEntity = StrictOmit<FireFlowerDto, 'id' | 'creator' | 'str
   creator: FireFlowerDto['creator'] & { id: EntityId['user'] };
   structure: Prisma.InputJsonValue;
 };
+
+export type LikedFireFlowerEntity = {
+  id: EntityId['likedFireFlower'];
+  userId: EntityId['user'];
+  fireFlowerId: EntityId['fireFlower'];
+  likedAt: number;
+  suggestedUserId?: EntityId['user'];
+};
+
+export type LikedFireFlowerDeleteServerVal = Pick<LikedFireFlowerEntity, 'id' | 'userId'>;
+
+export type LikedFireFlowerDeleteVal = {
+  deletable: boolean;
+  likedFireFlowerId: EntityId['likedFireFlower'];
 };
 
 export type FireFlowerCreateServerVal = {

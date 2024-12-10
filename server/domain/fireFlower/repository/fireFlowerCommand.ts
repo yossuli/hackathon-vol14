@@ -1,6 +1,10 @@
 import type { Prisma } from '@prisma/client';
 import assert from 'assert';
-import type { FireFlowerSaveVal } from '../model/fireFlowerType';
+import type {
+  FireFlowerSaveVal,
+  LikedFireFlowerDeleteVal,
+  LikedFireFlowerEntity,
+} from '../model/fireFlowerType';
 
 export const fireFlowerCommand = {
   save: async (tx: Prisma.TransactionClient, val: FireFlowerSaveVal): Promise<void> => {
@@ -29,5 +33,23 @@ export const fireFlowerCommand = {
     assert(val.deletable);
 
     await tx.fireFlower.delete({ where: { id: val.fireFlower.id } });
+  },
+  like: {
+    create: async (tx: Prisma.TransactionClient, val: LikedFireFlowerEntity): Promise<void> => {
+      await tx.likedFireFlower.create({
+        data: {
+          id: val.id,
+          userId: val.userId,
+          fireFlowerId: val.fireFlowerId,
+          likedAt: new Date(val.likedAt),
+          suggestedUserId: val.suggestedUserId,
+        },
+      });
+    },
+    delete: async (tx: Prisma.TransactionClient, val: LikedFireFlowerDeleteVal): Promise<void> => {
+      assert(val.deletable);
+
+      await tx.likedFireFlower.delete({ where: { id: val.likedFireFlowerId } });
+    },
   },
 };

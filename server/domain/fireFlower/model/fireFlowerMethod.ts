@@ -9,6 +9,9 @@ import type {
   FireFlowerCreateServerVal,
   FireFlowerEntity,
   FireFlowerSaveVal,
+  LikedFireFlowerDeleteServerVal,
+  LikedFireFlowerDeleteVal,
+  LikedFireFlowerEntity,
 } from './fireFlowerType';
 
 export const fireFlowerMethod = {
@@ -52,5 +55,23 @@ export const fireFlowerMethod = {
   ): { deletable: boolean; fireFlower: FireFlowerEntity } => {
     assert(user.id === String(fireFlower.creator.id));
     return { deletable: true, fireFlower };
+  },
+  like: {
+    create: (user: UserDto, fireFlowerId: DtoId['fireFlower']): LikedFireFlowerEntity => {
+      const likedFireFlower: LikedFireFlowerEntity = {
+        id: brandedId.likedFireFlower.entity.parse(ulid()),
+        userId: brandedId.user.entity.parse(user.id),
+        fireFlowerId: brandedId.fireFlower.entity.parse(fireFlowerId),
+        likedAt: Date.now(),
+      };
+      return likedFireFlower;
+    },
+    delete: (
+      user: UserDto,
+      likedFireFlower: LikedFireFlowerDeleteServerVal,
+    ): LikedFireFlowerDeleteVal => {
+      assert(user.id === String(likedFireFlower.userId));
+      return { deletable: true, likedFireFlowerId: likedFireFlower.id };
+    },
   },
 };
