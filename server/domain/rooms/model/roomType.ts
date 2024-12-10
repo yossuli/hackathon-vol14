@@ -1,5 +1,6 @@
 import type { RoomStatus } from '@prisma/client';
 import type { RoomDto } from 'common/types/room';
+import type { StrictOmit } from 'common/types/utils';
 import type { EntityId } from 'service/brandedId';
 
 export type RoomEntity = StrictOmit<RoomDto, 'id' | 'creator'> & {
