@@ -1,4 +1,5 @@
 import type { FireFlowerDto } from 'common/types/fireFlower';
+import { fireFlowerValidator } from 'common/validators/fireFlower';
 import { brandedId } from 'service/brandedId';
 import type { FireFlowerEntity } from '../model/fireFlowerType';
 
@@ -7,7 +8,7 @@ export const toFireFlowerDto = (fireFlower: FireFlowerEntity): FireFlowerDto => 
   name: fireFlower.name,
   createdAt: fireFlower.createdAt,
   updatedAt: fireFlower.updatedAt,
-  structure: fireFlower.structure,
+  structure: fireFlowerValidator.parse(fireFlower.structure),
   creator: {
     signInName: fireFlower.creator.signInName,
   },
