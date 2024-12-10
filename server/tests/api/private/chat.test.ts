@@ -4,7 +4,14 @@ import { GET, POST } from '../utils';
 
 test(POST(noCookieClient.private.chat._roomId('roomId')), async () => {
   const apiClient = await createSessionClients();
-  const res = await apiClient.private.chat._roomId('roomId').post({
+  const room = await apiClient.private.rooms.$post({
+    body: {
+      name: 'test-room',
+      password: 'test1234',
+      status: 'PRIVATE',
+    },
+  });
+  const res = await apiClient.private.chat._roomId(room.id).post({
     body: { content: 'test' },
   });
 
@@ -21,7 +28,14 @@ test(GET(noCookieClient.private.chat), async () => {
 
 test(GET(noCookieClient.private.chat), async () => {
   const apiClient = await createSessionClients();
-  const chat = await apiClient.private.chat._roomId('roomId').post({
+  const room = await apiClient.private.rooms.$post({
+    body: {
+      name: 'test-room',
+      password: 'test1234',
+      status: 'PRIVATE',
+    },
+  });
+  const chat = await apiClient.private.chat._roomId(room.id).post({
     body: { content: 'test' },
   });
 
