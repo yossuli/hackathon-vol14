@@ -7,8 +7,8 @@ import type { RawData } from 'ws';
 const websocketHandler: FastifyPluginAsync = async (fastify) => {
   fastify.register(websocketPlugin);
 
-  fastify.get('/:roomId', { websocket: true }, (socket, req) => {
-    const { roomId } = req.params as { roomId: string };
+  fastify.get('/ws', { websocket: true }, (socket) => {
+    const roomId = 'global-room';
 
     console.log(`Client connected to room ${roomId}`);
 
