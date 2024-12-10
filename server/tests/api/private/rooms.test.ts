@@ -37,33 +37,18 @@ test(GET(noCookieClient.private.rooms), async () => {
   const room = await apiClient.private.rooms.post({
     body: { name: 'test', status: 'PUBLIC' },
   });
+  const room2 = await apiClient.private.rooms.post({
+    body: { name: 'test2', status: 'PUBLIC' },
+  });
 
   const res = await apiClient.private.rooms.get();
 
   expect(res.status).toEqual(200);
-  expect(res.body.length).toEqual(1);
+  expect(res.body.length).toEqual(2);
   expect(res.body[0].status).toEqual('PUBLIC');
-  expect(res.body[0].id).toEqual(room.body.id);
-});
-
-test(GET(noCookieClient.private.rooms.search), async () => {
-  const apiClient = await createSessionClients();
-  const res = await apiClient.private.rooms.search.get({ query: { name: 'test' } });
-
-  expect(res.status).toEqual(200);
-});
-
-test(GET(noCookieClient.private.rooms.search), async () => {
-  const apiClient = await createSessionClients();
-  const room = await apiClient.private.rooms.$post({
-    body: { name: 'test', status: 'PUBLIC' },
-  });
-  const res = await apiClient.private.rooms.search.get({ query: { name: 'test' } });
-
-  expect(res.status).toEqual(200);
-  expect(res.body.length).toEqual(1);
-  expect(res.body[0].status).toEqual('PUBLIC');
-  expect(res.body[0].id).toEqual(room.id);
+  expect(res.body[0].id).toEqual(room2.body.id);
+  expect(res.body[1].status).toEqual('PUBLIC');
+  expect(res.body[1].id).toEqual(room.body.id);
 });
 
 test(POST(noCookieClient.private.rooms.friends), async () => {

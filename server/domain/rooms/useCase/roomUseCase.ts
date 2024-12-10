@@ -30,12 +30,12 @@ export const roomUseCase = {
       const rooms = await roomQuery.listByCreatedAt(tx);
       const found = roomMethod.findMany(rooms);
 
-      return toRoomsDto(found.rooms);
+      return toRoomsDto(found);
     }),
   findByIdWithPassword: (roomId: string, password: string): Promise<RoomDto> =>
     transaction('RepeatableRead', async (tx) => {
       const room = await roomQuery.findById(tx, roomId);
-      const found = roomMethod.find(room, { password });
+      const found = roomMethod.find(room, password);
 
       return toRoomDto(found.room);
     }),
