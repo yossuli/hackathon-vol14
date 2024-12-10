@@ -1,14 +1,17 @@
-import type { FireFlower, FireFlowerDto } from 'common/types/fireFlower';
+import type { Prisma } from '@prisma/client';
+import type { MaybeId } from 'common/types/brandedId';
+import type { FireFlowerDto } from 'common/types/fireFlower';
+import type { StrictOmit } from 'common/types/utils';
 import type { EntityId } from 'service/brandedId';
 
-export type FireFlowerEntity = Omit<FireFlowerDto, 'id' | 'creator'> & {
+export type FireFlowerEntity = StrictOmit<FireFlowerDto, 'id' | 'creator' | 'structure'> & {
   id: EntityId['fireFlower'];
-  creator: Omit<FireFlowerDto['creator'], 'id'> & { id: EntityId['user'] };
+  structure: Prisma.InputJsonValue;
+};
 };
 
 export type FireFlowerCreateServerVal = {
   name: string;
-  structure: FireFlower;
 };
 
 export type FireFlowerSaveVal = { fireFlower: FireFlowerEntity };

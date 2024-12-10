@@ -1,4 +1,5 @@
 import type {
+  FireFlowerCreateVal
   FireFlowerDto,
   FireFlowerFindVal,
   FireFlowerUpdateVal,
@@ -6,13 +7,12 @@ import type {
 import type { UserDto } from 'common/types/user';
 import { transaction } from 'service/prismaClient';
 import { fireFlowerMethod } from '../model/fireFlowerMethod';
-import type { FireFlowerCreateServerVal } from '../model/fireFlowerType';
 import { fireFlowerCommand } from '../repository/fireFlowerCommand';
 import { fireFlowerQuery } from '../repository/fireFlowerQuery';
 import { toFireFlowerDto, toFireFlowersDto } from '../service/toFireFlowerDto';
 
 export const fireFlowerUseCase = {
-  create: (user: UserDto, val: FireFlowerCreateServerVal): Promise<FireFlowerDto> =>
+  create: (user: UserDto, val: FireFlowerCreateVal): Promise<FireFlowerDto> =>
     transaction('RepeatableRead', async (tx) => {
       const created = fireFlowerMethod.create(user, val);
 

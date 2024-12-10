@@ -15,7 +15,6 @@ export type FireFlowerDto = {
 
 export type FireFlowerCreateVal = {
   name: string;
-  structure: FireFlower;
 };
 
 export type FireFlowerUpdateVal = {
