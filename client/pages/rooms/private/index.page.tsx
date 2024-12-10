@@ -24,7 +24,7 @@ const PenetrateRoom = () => {
             value={roomName}
             onChange={(e) => setRoomName(e.target.value)}
             placeholder="合言葉"
-            />
+          />
           <input
             type="password"
             value={password}
