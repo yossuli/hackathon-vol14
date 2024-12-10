@@ -2,7 +2,7 @@ import assert from 'assert';
 import type { DtoId } from 'common/types/brandedId';
 import type { FireFlowerUpdateVal } from 'common/types/fireFlower';
 import type { UserDto } from 'common/types/user';
-import { fireFlowerNameValidator, prismaFireFlowerValidator } from 'common/validators/fireFlower';
+import { fireFlowerNameValidator, fireFlowerValidator } from 'common/validators/fireFlower';
 import { brandedId } from 'service/brandedId';
 import { ulid } from 'ulid';
 import type {
@@ -21,7 +21,7 @@ export const fireFlowerMethod = {
       name: fireFlowerNameValidator.parse(val.name),
       createdAt: Date.now(),
       updatedAt: undefined,
-      structure: prismaFireFlowerValidator.parse(Array(7).fill(Array(7).fill(null))),
+      structure: fireFlowerValidator.parse(Array(7).fill(Array(7).fill(null))),
       creator: { id: brandedId.user.entity.parse(user.id), signInName: user.signInName },
     };
     return { savable: true, fireFlower };
@@ -35,7 +35,7 @@ export const fireFlowerMethod = {
     if (val.structure) {
       return {
         savable: true,
-        fireFlower: { ...fireFlower, structure: prismaFireFlowerValidator.parse(val.structure) },
+        fireFlower: { ...fireFlower, structure: fireFlowerValidator.parse(val.structure) },
       };
     }
     if (val.name) {

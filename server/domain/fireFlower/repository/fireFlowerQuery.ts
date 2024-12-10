@@ -1,6 +1,6 @@
 import type { fireFlower, Prisma, User } from '@prisma/client';
 import type { DtoId } from 'common/types/brandedId';
-import { prismaFireFlowerValidator } from 'common/validators/fireFlower';
+import { fireFlowerValidator } from 'common/validators/fireFlower';
 import { brandedId } from 'service/brandedId';
 import type { FireFlowerEntity, LikedFireFlowerDeleteServerVal } from '../model/fireFlowerType';
 
@@ -9,7 +9,7 @@ const toEntity = (prismaFireFlower: fireFlower & { Creator: User }): FireFlowerE
   name: prismaFireFlower.name,
   createdAt: prismaFireFlower.createdAt.getTime(),
   updatedAt: prismaFireFlower.updatedAt?.getTime() ?? undefined,
-  structure: prismaFireFlowerValidator.parse(prismaFireFlower.structure),
+  structure: fireFlowerValidator.parse(prismaFireFlower.structure),
   creator: {
     id: brandedId.user.entity.parse(prismaFireFlower.creatorId),
     signInName: prismaFireFlower.Creator.signInName,
