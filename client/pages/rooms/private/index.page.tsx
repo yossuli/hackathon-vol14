@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import Header from '../../components/header/Header';
-import Room from '../../components/room/Room';
-import styles from './private.module.css';
+import Header from '../../../components/header/Header';
+import Room from '../../../components/room/Room';
+import styles from './index.module.css';
 
 const PenetrateRoom = () => {
   const [showRoomNameDialog, setShowRoomNameDialog] = useState<boolean>(true);
@@ -24,7 +24,7 @@ const PenetrateRoom = () => {
             value={roomName}
             onChange={(e) => setRoomName(e.target.value)}
             placeholder="合言葉"
-          />
+            />
           <input
             type="password"
             value={password}

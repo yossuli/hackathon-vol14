@@ -1,5 +1,5 @@
 import Header from '../../components/header/Header';
-import styles from './hanabi_list.module.css';
+import styles from './index.module.css';
 
 const works = () => {
   const dummyData = {
