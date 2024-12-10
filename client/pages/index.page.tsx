@@ -19,7 +19,7 @@ const Home = () => {
           <a href="/rooms/private/" className={styles.optionButton}>
             プライベートルーム
           </a>
-          <a href="/hanabi_list/hanabi_list" className={styles.optionButton}>
+          <a href="/hanabi_list/" className={styles.optionButton}>
             作品
           </a>
         </div>
