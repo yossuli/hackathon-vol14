@@ -4,8 +4,8 @@ import type { EntityId } from 'service/brandedId';
 
 export type ChatEntity = Omit<ChatDto, 'id' | 'authorId' | 'roomId'> & {
   id: EntityId['chat'];
-  authorId: EntityId['user'];
-  roomId: EntityId['room'];
+  author: { id: EntityId['user']; name: string };
+  room: { id: EntityId['room']; name: string };
 };
 
 export type ChatCreateServerVal = {

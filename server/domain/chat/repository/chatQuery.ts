@@ -1,14 +1,25 @@
-import type { Chat, Prisma } from '@prisma/client';
+import type { Chat, Prisma, Room, User } from '@prisma/client';
 import type { DtoId } from 'common/types/brandedId';
 import { brandedId } from 'service/brandedId';
 import type { ChatEntity } from '../model/chatType';
 
-const toEntity = (prismaChat: Chat): ChatEntity => ({
+const toEntity = (
+  prismaChat: Chat & {
+    room: Room;
+    author: User;
+  },
+): ChatEntity => ({
   id: brandedId.chat.entity.parse(prismaChat.id),
-  authorId: brandedId.user.entity.parse(prismaChat.authorId),
-  roomId: brandedId.room.entity.parse(prismaChat.roomId),
   content: prismaChat.content,
   createdAt: prismaChat.createdAt.getTime(),
+  room: {
+    id: brandedId.room.entity.parse(prismaChat.room.id),
+    name: prismaChat.room.name,
+  },
+  author: {
+    id: brandedId.user.entity.parse(prismaChat.author.id),
+    name: prismaChat.author.signInName,
+  },
 });
 
 const listByAuthor = async (

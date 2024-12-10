@@ -6,8 +6,8 @@ export const chatCommand = {
     await tx.chat.create({
       data: {
         id: val.chat.id,
-        authorId: val.chat.authorId,
-        roomId: val.chat.roomId,
+        authorId: val.chat.author.id,
+        roomId: val.chat.room.id,
         content: val.chat.content,
         createdAt: new Date(val.chat.createdAt),
       },
