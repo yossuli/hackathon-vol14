@@ -20,7 +20,7 @@ export const fireFlowerMethod = {
       structure: prismaFireFlowerValidator.parse(Array(7).fill(Array(7).fill(null))),
       creator: { id: brandedId.user.entity.parse(user.id), signInName: user.signInName },
     };
-    return { fireFlower };
+    return { savable: true, fireFlower };
   },
   update: (
     user: UserDto,
@@ -30,13 +30,20 @@ export const fireFlowerMethod = {
     assert(user.id === String(fireFlower.creator.id));
     if (val.structure) {
       return {
+        savable: true,
         fireFlower: { ...fireFlower, structure: prismaFireFlowerValidator.parse(val.structure) },
       };
     }
     if (val.name) {
-      return { fireFlower: { ...fireFlower, name: val.name } };
+      return {
+        savable: true,
+        fireFlower: { ...fireFlower, name: val.name },
+      };
     }
-    return { fireFlower: { ...fireFlower } };
+    return {
+      savable: false,
+      fireFlower,
+    };
   },
   find: (fireFlower: FireFlowerEntity): { found: boolean; fireFlower: FireFlowerEntity } => {
     return { found: true, fireFlower };
@@ -45,8 +52,6 @@ export const fireFlowerMethod = {
     fireFlowers: FireFlowerEntity[],
   ): { found: boolean; fireFlowers: FireFlowerEntity[] } => {
     return {
-      found: fireFlowers.every((fireFlower) => fireFlowerMethod.find(fireFlower).found),
-      fireFlowers,
     };
   },
   delete: (

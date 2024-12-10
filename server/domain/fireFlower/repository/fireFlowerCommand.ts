@@ -4,6 +4,7 @@ import type { FireFlowerSaveVal } from '../model/fireFlowerType';
 
 export const fireFlowerCommand = {
   save: async (tx: Prisma.TransactionClient, val: FireFlowerSaveVal): Promise<void> => {
+    assert(val.savable);
     await tx.fireFlower.upsert({
       where: { id: val.fireFlower.id },
       update: {

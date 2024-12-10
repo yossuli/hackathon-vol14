@@ -14,6 +14,6 @@ export type FireFlowerCreateServerVal = {
   name: string;
 };
 
-export type FireFlowerSaveVal = { fireFlower: FireFlowerEntity };
+export type FireFlowerSaveVal = { savable: boolean; fireFlower: FireFlowerEntity };
 
 export type FireFlowerDeleteVal = { deletable: boolean; fireFlower: FireFlowerEntity };
