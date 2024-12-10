@@ -2,6 +2,7 @@ import { expect, test } from 'vitest';
 import { createSessionClients, noCookieClient } from '../apiClient';
 import { DELETE, GET, POST, PUT } from '../utils';
 
+// 取得テスト
 test(GET(noCookieClient.private.rooms), async () => {
   const apiClient = await createSessionClients();
   const res = await apiClient.private.rooms.get();
@@ -9,6 +10,7 @@ test(GET(noCookieClient.private.rooms), async () => {
   expect(res.status).toEqual(200);
 });
 
+// プライベートルーム作成テスト
 test(POST(noCookieClient.private.rooms), async () => {
   const apiClient = await createSessionClients();
   const res = await apiClient.private.rooms.post({
@@ -19,6 +21,7 @@ test(POST(noCookieClient.private.rooms), async () => {
   expect(res.body.status).toEqual('PRIVATE');
 });
 
+// パブリックルーム作成テスト
 test(POST(noCookieClient.private.rooms), async () => {
   const apiClient = await createSessionClients();
   const res = await apiClient.private.rooms.post({
@@ -29,6 +32,7 @@ test(POST(noCookieClient.private.rooms), async () => {
   expect(res.body.status).toEqual('PUBLIC');
 });
 
+// パブリックルームのみ取得テスト
 test(GET(noCookieClient.private.rooms), async () => {
   const apiClient = await createSessionClients();
   await apiClient.private.rooms.post({
@@ -51,6 +55,7 @@ test(GET(noCookieClient.private.rooms), async () => {
   expect(res.body[1].id).toEqual(room.body.id);
 });
 
+// プライベートルーム入室テスト
 test(POST(noCookieClient.private.rooms.friends), async () => {
   const apiClient = await createSessionClients();
 
@@ -66,6 +71,20 @@ test(POST(noCookieClient.private.rooms.friends), async () => {
   expect(res.body.id).toEqual(room.body.id);
 });
 
+// パブリックルーム入室テスト
+test(GET(noCookieClient.private.rooms._roomId('_roomId')), async () => {
+  const apiClient = await createSessionClients();
+  const room = await apiClient.private.rooms.$post({
+    body: { name: 'test', status: 'PUBLIC' },
+  });
+  const res = await apiClient.private.rooms._roomId(room.id).get();
+
+  expect(res.status).toEqual(200);
+  expect(res.body.status).toEqual('PUBLIC');
+  expect(res.body.id).toEqual(room.id);
+});
+
+// プライベートルーム名前変更テスト
 test(PUT(noCookieClient.private.rooms._roomId('_roomId')), async () => {
   const apiClient = await createSessionClients();
 
