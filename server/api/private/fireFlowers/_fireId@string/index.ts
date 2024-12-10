@@ -6,7 +6,7 @@ export type Methods = DefineMethods<{
     status: 200;
     resBody: FireFlowerDto;
   };
-  post: {
+  patch: {
     status: 201;
     reqBody: FireFlowerUpdateVal;
 
