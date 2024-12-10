@@ -1,11 +1,11 @@
 import { RoomStatus } from '@prisma/client';
+import assert from 'assert';
 import type { UserDto } from 'common/types/user';
 import {
   roomNameValidator,
   roomPasswordValidator,
   roomStatusValidator,
 } from 'common/validators/room';
-import { assert } from 'console';
 import { brandedId } from 'service/brandedId';
 import { ulid } from 'ulid';
 import type { RoomCreateServerVal, RoomEntity, RoomSaveVal } from './roomType';
