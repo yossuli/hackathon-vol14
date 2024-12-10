@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import Header from './Header';
-import Room from './Room';
-import styles from './penetrate.module.css';
+import Header from '../../../components/header/Header';
+import Room from '../../../components/room/Room';
+import styles from './index.module.css';
 
 const PenetrateRoom = () => {
   const [showRoomNameDialog, setShowRoomNameDialog] = useState<boolean>(true);

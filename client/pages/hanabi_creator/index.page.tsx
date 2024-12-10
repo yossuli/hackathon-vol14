@@ -6,8 +6,8 @@ import React, { useState } from 'react';
 import { colors } from 'utils/colors/colors';
 import { darkenColor } from 'utils/colors/colorUtils';
 import { layer1, layer2, layer3, layer4 } from 'utils/layer';
-import styles from './hanabi_creator.module.css';
-import Header from './Header';
+import Header from '../../components/header/Header';
+import styles from './index.module.css';
 
 const gridSize = 7;
 

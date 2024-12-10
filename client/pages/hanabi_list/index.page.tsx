@@ -1,5 +1,5 @@
-import Header from './Header';
-import styles from './works.module.css';
+import Header from '../../components/header/Header';
+import styles from './index.module.css';
 
 const works = () => {
   const dummyData = {
