@@ -50,6 +50,7 @@
     "@aws-sdk/client-cognito-identity-provider": "^3.632.0",
     "@types/busboy": "^1.5.4",
     "@types/node": "^20.14.15",
+    "@types/ws": "^8.5.13",
     "aspida2openapi": "^0.5.0",
     "axios": "^1.7.4",
     "esbuild": "^0.23.0",
