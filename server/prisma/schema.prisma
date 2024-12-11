@@ -60,7 +60,7 @@ model Room {
   creatorId  String       @map("createdBy")
   Creator    User         @relation(fields: [creatorId], references: [id])
   chat       chat[]
-  UserInRoom UserInRoom[]
+  UserInRooms UserInRoom[]
 }
 
 enum RoomStatus {
