@@ -6,6 +6,6 @@ import { defineController } from './$relay';
 export default defineController(() => ({
   get: async ({ user }) => ({
     status: 200,
-    body: await fireFlowerQuery.listByLiker(prismaClient, user.id).then(toFireFlowersDto),
+    body: await fireFlowerQuery.findByCreatorId(prismaClient, user.id).then(toFireFlowersDto),
   }),
 }));

@@ -1,27 +1,30 @@
-import type { DtoId } from 'common/types/brandedId';
+import { fireFlowerNameValidator, fireFlowerValidator } from 'common/validators/fireFlower';
+import { fireFlowerQuery } from 'domain/fireFlower/repository/fireFlowerQuery';
+import { toFireFlowerDto } from 'domain/fireFlower/service/toFireFlowerDto';
+import { fireFlowerUseCase } from 'domain/fireFlower/useCase/fireFlowerUseCase';
+import { brandedId } from 'service/brandedId';
+import { prismaClient } from 'service/prismaClient';
+import { z } from 'zod';
 import { defineController } from './$relay';
 
 export default defineController(() => ({
-  get: ({ params }) => ({
+  get: async ({ params }) => ({
     status: 200,
-    body: {
-      id: params.fireId as DtoId['fireFlower'],
-      name: 'Fire Flower',
-      createdAt: 0,
-      updatedAt: undefined,
-      structure: [['#f00']],
-      creator: { id: '1' as DtoId['user'], signInName: 'teat' },
-    },
+    body: await fireFlowerQuery.findById(prismaClient, params.fireId).then(toFireFlowerDto),
   }),
-  post: ({ user, params }) => ({
-    status: 201,
-    body: {
-      id: params.fireId as DtoId['fireFlower'],
-      name: 'Fire Flower',
-      createdAt: 0,
-      updatedAt: undefined,
-      structure: [['#f00']],
-      creator: { id: user.id, signInName: user.signInName },
+  patch: {
+    validators: {
+      body: z.object({
+        name: fireFlowerNameValidator.optional(),
+        structure: fireFlowerValidator.optional(),
+      }),
     },
-  }),
+    handler: async ({ user, body, params }) => ({
+      status: 201,
+      body: await fireFlowerUseCase.update(user, {
+        ...body,
+        fireFlowerId: brandedId.fireFlower.maybe.parse(params.fireId),
+      }),
+    }),
+  },
 }));

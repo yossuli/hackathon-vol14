@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useWebSocket } from 'hooks/useWebSocket';
 import styles from './Rooms.module.css';
 
 // 吹き出しコンポーネント
@@ -34,45 +34,26 @@ const ChatOptions = ({
 };
 
 const Room = () => {
-  const [messages, setMessages] = useState<string[]>([]);
-  // const [showFireworks, setShowFireworks] = useState<boolean>(false);
-  // const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
-
+  const { messages, sendMessage } = useWebSocket(`ws://localhost:31577/api/private/rooms/ws`);
   const chatOptions = ['こんにちは！', '今の花火良かった！', '今北', 'スクショした！', 'またね！'];
 
   const maxChat = 8;
+
   const handleSelectMessage = (message: string) => {
-    setMessages((prevMessages) => {
-      const updatedMessages = [...prevMessages, message];
-      return updatedMessages.length > maxChat
-        ? updatedMessages.slice(updatedMessages.length - maxChat)
-        : updatedMessages;
-    });
+    sendMessage(message); // WebSocket経由でメッセージを送信
   };
+
   return (
     <div>
       <div className={styles.container}>
         <div className={styles.artContainer}>
           <img src="/images/arakawa1_x8.png" alt="Logo" className={styles.logoImage} />
         </div>
-        {/* 左上の花火のピクセルアート部分
-      <div className={styles.artContainer}>
-        {showFireworks && <div className={styles.fireworks} style={fireworksStyle}></div>}
 
-        {/* 花火発射ボタン */}
-        {/* <button
-          className={styles.fireworkButton}
-          onClick={handleFireworkLaunch}
-          disabled={buttonDisabled}
-        >
-          花火を発射
-        </button>
-      </div> */}
+        {/* 吹き出し部分 */}
+        <ChatBubble messages={messages.slice(-maxChat)} />
 
-        {/* 右上に表示される吹き出し */}
-        <ChatBubble messages={messages} />
-
-        {/* 下部のチャット選択肢 */}
+        {/* チャット選択肢 */}
         <ChatOptions options={chatOptions} onSelect={handleSelectMessage} />
       </div>
     </div>
