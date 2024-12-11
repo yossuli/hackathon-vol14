@@ -4,6 +4,8 @@ import type { RoomSaveVal } from '../model/roomType';
 
 export const roomCommand = {
   save: async (tx: Prisma.TransactionClient, val: RoomSaveVal): Promise<void> => {
+    assert(val.savable);
+
     await tx.room.upsert({
       where: { id: val.room.id },
       update: {
@@ -14,6 +16,7 @@ export const roomCommand = {
       create: {
         id: val.room.id,
         name: val.room.name,
+        password: val.room.password,
         status: val.room.status,
         createdAt: new Date(val.room.createdAt),
         updatedAt: undefined,

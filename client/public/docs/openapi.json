@@ -632,6 +632,71 @@
       }
     },
     "/private/rooms/{roomId}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "roomId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "$ref": "#/components/schemas/Dto<\"room\">"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "$ref": "#/components/schemas/RoomStatus"
+                    },
+                    "createdAt": {
+                      "type": "number"
+                    },
+                    "updatedAt": {
+                      "type": "number"
+                    },
+                    "lastUsedAt": {
+                      "type": "number"
+                    },
+                    "creator": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "$ref": "#/components/schemas/Dto<\"user\">"
+                        },
+                        "signInName": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "signInName"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "createdAt",
+                    "creator",
+                    "id",
+                    "name",
+                    "status"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
       "put": {
         "parameters": [
           {
@@ -752,70 +817,6 @@
         },
         "responses": {
           "201": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "$ref": "#/components/schemas/Dto<\"room\">"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "status": {
-                      "$ref": "#/components/schemas/RoomStatus"
-                    },
-                    "createdAt": {
-                      "type": "number"
-                    },
-                    "updatedAt": {
-                      "type": "number"
-                    },
-                    "lastUsedAt": {
-                      "type": "number"
-                    },
-                    "creator": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "$ref": "#/components/schemas/Dto<\"user\">"
-                        },
-                        "signInName": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "id",
-                        "signInName"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "createdAt",
-                    "creator",
-                    "id",
-                    "name",
-                    "status"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Required<RoomCreateVal>"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
             "content": {
               "application/json": {
                 "schema": {
@@ -1001,128 +1002,6 @@
                     "name",
                     "status"
                   ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/private/rooms/search": {
-      "get": {
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "$ref": "#/components/schemas/Dto<\"room\">"
-            }
-          },
-          {
-            "name": "name",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "status",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "enum": [
-                "PRIVATE",
-                "PUBLIC"
-              ],
-              "type": "string"
-            }
-          },
-          {
-            "name": "createdBy",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "$ref": "#/components/schemas/Dto<\"user\">"
-            }
-          },
-          {
-            "name": "createdAt",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "updatedAt",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "lastUsedAt",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "$ref": "#/components/schemas/Dto<\"room\">"
-                      },
-                      "name": {
-                        "type": "string"
-                      },
-                      "status": {
-                        "$ref": "#/components/schemas/RoomStatus"
-                      },
-                      "createdAt": {
-                        "type": "number"
-                      },
-                      "updatedAt": {
-                        "type": "number"
-                      },
-                      "lastUsedAt": {
-                        "type": "number"
-                      },
-                      "creator": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "$ref": "#/components/schemas/Dto<\"user\">"
-                          },
-                          "signInName": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "id",
-                          "signInName"
-                        ]
-                      }
-                    },
-                    "required": [
-                      "createdAt",
-                      "creator",
-                      "id",
-                      "name",
-                      "status"
-                    ]
-                  }
                 }
               }
             }
@@ -1843,25 +1722,6 @@
           "PUBLIC"
         ],
         "type": "string"
-      },
-      "Required<RoomCreateVal>": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          },
-          "status": {
-            "$ref": "#/components/schemas/RoomStatus"
-          }
-        },
-        "required": [
-          "name",
-          "password",
-          "status"
-        ]
       },
       "Dto<\"task\">": {
         "allOf": [
