@@ -40,7 +40,7 @@
     "@prisma/client": "^5.18.0",
     "aspida": "^1.14.0",
     "dotenv": "^16.4.5",
-    "fastify": "^5.1.0",
+    "fastify": "^4.28.1",
     "get-jwks": "^9.0.2",
     "ulid": "^2.3.0",
     "velona": "^0.8.0",
