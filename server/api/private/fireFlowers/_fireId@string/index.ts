@@ -1,5 +1,4 @@
 import type { DefineMethods } from 'aspida';
-import type { DtoId } from 'common/types/brandedId';
 import type { FireFlowerDto, FireFlowerUpdateVal } from 'common/types/fireFlower';
 
 export type Methods = DefineMethods<{
@@ -7,12 +6,10 @@ export type Methods = DefineMethods<{
     status: 200;
     resBody: FireFlowerDto;
   };
-  post: {
+  patch: {
     status: 201;
-    reqBody: {
-      id: DtoId['fireFlower'];
-      update: FireFlowerUpdateVal;
-    };
+    reqBody: FireFlowerUpdateVal;
+
     resBody: FireFlowerDto;
   };
 }>;
