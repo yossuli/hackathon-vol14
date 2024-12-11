@@ -6,6 +6,10 @@ export type Methods = DefineMethods<{
     status: 200;
     resBody: RoomDto;
   };
+  post: {
+    status: 201;
+    resBody: RoomDto;
+  };
   put: {
     status: 204;
     reqBody: RoomUpdateVal;
