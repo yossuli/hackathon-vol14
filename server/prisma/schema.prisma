@@ -17,7 +17,7 @@ model User {
   fireFlower    fireFlower[]
   Liker         likedFireFlower[] @relation(name: "LikerRelation")
   suggestedUser likedFireFlower[] @relation(name: "SuggestedUserRelation")
-  chat          chat[]
+  chat          Chat[]
   UserInRoom    UserInRoom?
 }
 
@@ -59,7 +59,7 @@ model Room {
   lastUsedAt  DateTime?
   creatorId   String       @map("createdBy")
   Creator     User         @relation(fields: [creatorId], references: [id])
-  chat        chat[]
+  chat        Chat[]
   UserInRooms UserInRoom[]
 }
 
@@ -94,12 +94,14 @@ model likedFireFlower {
   @@index([fireFlowerId])
 }
 
-model chat {
+model Chat {
   id        String   @id
   authorId  String
-  author    User     @relation(fields: [authorId], references: [id])
   roomId    String
-  room      Room     @relation(fields: [roomId], references: [id])
   content   String
   createdAt DateTime
+  author    User     @relation(fields: [authorId], references: [id])
+  room      Room     @relation(fields: [roomId], references: [id])
+
+  @@map("chat")
 }
