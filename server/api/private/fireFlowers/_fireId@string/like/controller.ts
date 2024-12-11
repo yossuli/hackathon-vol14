@@ -1,16 +1,15 @@
+import { fireFlowerUseCase } from 'domain/fireFlower/useCase/fireFlowerUseCase';
+import { brandedId } from 'service/brandedId';
 import { defineController } from './$relay';
 
 export default defineController(() => ({
-  post: async ({ body: _body }) => {
+  patch: async ({ user, params }) => {
     return {
       status: 201,
-      body: { success: true },
-    };
-  },
-  delete: async ({ body: _body }) => {
-    return {
-      status: 201,
-      body: { success: true },
+      body: await fireFlowerUseCase.like.update(
+        user,
+        brandedId.fireFlower.dto.parse(params.fireId),
+      ),
     };
   },
 }));

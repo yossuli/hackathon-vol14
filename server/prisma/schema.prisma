@@ -58,7 +58,7 @@ model fireFlower {
   creatorId String
   name      String
   createdAt DateTime          @default(now())
-  updatedAt DateTime
+  updatedAt DateTime?
   structure Json
   Creator   User              @relation(fields: [creatorId], references: [id])
   likedBy   likedFireFlower[]

@@ -1,24 +1,38 @@
-import type { MultipartFile } from '@fastify/multipart';
+import type { Prisma } from '@prisma/client';
+import type { MaybeId } from 'common/types/brandedId';
+import type { FireFlowerDto, FireFlowerUpdateVal } from 'common/types/fireFlower';
+import type { StrictOmit } from 'common/types/utils';
 import type { EntityId } from 'service/brandedId';
-import type { S3PutParams } from 'service/s3Client';
 
-export type FireFlowerEntity = {
+export type FireFlowerEntity = StrictOmit<FireFlowerDto, 'id' | 'creator' | 'structure'> & {
   id: EntityId['fireFlower'];
-  name: string;
-  description: string;
-  imageKey: string | undefined;
-  creator: {
-    id: EntityId['user'];
-    name: string;
-  };
+  creator: FireFlowerDto['creator'] & { id: EntityId['user'] };
+  structure: Prisma.InputJsonValue;
+};
+
+export type LikedFireFlowerEntity = {
+  id: EntityId['likedFireFlower'];
+  userId: EntityId['user'];
+  fireFlowerId: EntityId['fireFlower'];
+  likedAt: number;
+  suggestedUserId?: EntityId['user'];
+};
+
+export type LikedFireFlowerDeleteServerVal = Pick<LikedFireFlowerEntity, 'id' | 'userId'>;
+
+export type LikedFireFlowerDeleteVal = {
+  deletable: boolean;
+  likedFireFlowerId: EntityId['likedFireFlower'];
 };
 
 export type FireFlowerCreateServerVal = {
   name: string;
-  description: string;
-  image?: MultipartFile;
 };
 
-export type FireFlowerSaveVal = { fireFlower: FireFlowerEntity; s3Params?: S3PutParams };
+export type FireFlowerUpdateServerVal = FireFlowerUpdateVal & {
+  fireFlowerId: MaybeId['fireFlower'];
+};
+
+export type FireFlowerSaveVal = { savable: boolean; fireFlower: FireFlowerEntity };
 
 export type FireFlowerDeleteVal = { deletable: boolean; fireFlower: FireFlowerEntity };
