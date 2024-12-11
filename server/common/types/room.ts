@@ -9,6 +9,7 @@ export type RoomDto = {
   updatedAt?: number;
   lastUsedAt?: number;
   creator: { id: DtoId['user']; signInName: string };
+  users?: { id: DtoId['user']; signInName: string }[];
 };
 
 export type RoomCreateVal = { name: string; password?: string; status: RoomStatus };

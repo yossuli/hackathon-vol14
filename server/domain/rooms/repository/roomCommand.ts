@@ -1,6 +1,6 @@
 import type { Prisma } from '@prisma/client';
 import assert from 'assert';
-import type { RoomSaveVal } from '../model/roomType';
+import type { RoomEnterSaveVal, RoomExitSaveVal, RoomSaveVal } from '../model/roomType';
 
 export const roomCommand = {
   save: async (tx: Prisma.TransactionClient, val: RoomSaveVal): Promise<void> => {
@@ -31,5 +31,21 @@ export const roomCommand = {
     assert(val.deletable);
 
     await tx.room.delete({ where: { id: val.room.id } });
+  },
+  giveUser: {
+    create: async (tx: Prisma.TransactionClient, val: RoomEnterSaveVal): Promise<void> => {
+      assert(val.savable);
+      await tx.userInRoom.create({
+        data: {
+          userId: val.userInRoom.userId,
+          roomId: val.userInRoom.roomId,
+          enteredAt: new Date(val.userInRoom.enteredAt),
+        },
+      });
+    },
+    delete: async (tx: Prisma.TransactionClient, val: RoomExitSaveVal): Promise<void> => {
+      assert(val.deletable);
+      await tx.userInRoom.delete({ where: { userId: val.userInRoomId } });
+    },
   },
 };
