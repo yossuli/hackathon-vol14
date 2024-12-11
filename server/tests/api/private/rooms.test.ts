@@ -71,17 +71,27 @@ test(POST(noCookieClient.private.rooms.friends), async () => {
   expect(res.body.id).toEqual(room.body.id);
 });
 
-// パブリックルーム入室テスト
-test(GET(noCookieClient.private.rooms._roomId('_roomId')), async () => {
+// パブリックルーム入退出テスト
+test(POST(noCookieClient.private.rooms._roomId('_roomId')), async () => {
   const apiClient = await createSessionClients();
   const room = await apiClient.private.rooms.$post({
     body: { name: 'test', status: 'PUBLIC' },
   });
-  const res = await apiClient.private.rooms._roomId(room.id).get();
+  const res = await apiClient.private.rooms._roomId(room.id).post();
 
-  expect(res.status).toEqual(200);
+  const res2 = await apiClient.private.rooms._roomId(room.id).$get();
+
+  const res3 = await apiClient.private.rooms.delete();
+
+  const res4 = await apiClient.private.rooms._roomId(room.id).$get();
+
+  expect(res.status).toEqual(201);
   expect(res.body.status).toEqual('PUBLIC');
   expect(res.body.id).toEqual(room.id);
+  expect(res2).toHaveProperty('users');
+  expect(res2.users?.length).toEqual(1);
+  expect(res3.status).toEqual(204);
+  expect(res4.users?.length).toEqual(0);
 });
 
 // プライベートルーム名前変更テスト
