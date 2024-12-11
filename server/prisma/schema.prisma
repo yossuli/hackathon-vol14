@@ -18,11 +18,25 @@ model User {
   Liker         likedFireFlower[] @relation(name: "LikerRelation")
   suggestedUser likedFireFlower[] @relation(name: "SuggestedUserRelation")
   chat          chat[]
+  UserInRoom    UserInRoom?
 }
 
 model UserInRoom {
-  id              String @id
-  setFireFlowerId String
+  userId            String               @id
+  enteredAt         DateTime
+  roomId            String
+  havingFireFlowers FireFlowerWithUser[]
+  User              User                 @relation(fields: [userId], references: [id])
+  Room              Room                 @relation(fields: [roomId], references: [id])
+}
+
+model FireFlowerWithUser {
+  userInRoomUserId String
+  fireFlowerId     String
+  UserInRoom       UserInRoom @relation(fields: [userInRoomUserId], references: [userId])
+  fireFlower       fireFlower @relation(fields: [fireFlowerId], references: [id])
+
+  @@id([userInRoomUserId, fireFlowerId])
 }
 
 model Task {
@@ -36,16 +50,17 @@ model Task {
 }
 
 model Room {
-  id         String     @id @default(uuid())
-  name       String
-  password   String?    @unique
-  status     RoomStatus
-  createdAt  DateTime
-  updatedAt  DateTime?
-  lastUsedAt DateTime?
-  creatorId  String     @map("createdBy")
-  Creator    User       @relation(fields: [creatorId], references: [id])
-  chat       chat[]
+  id          String       @id @default(uuid())
+  name        String
+  password    String?      @unique
+  status      RoomStatus
+  createdAt   DateTime
+  updatedAt   DateTime?
+  lastUsedAt  DateTime?
+  creatorId   String       @map("createdBy")
+  Creator     User         @relation(fields: [creatorId], references: [id])
+  chat        chat[]
+  UserInRooms UserInRoom[]
 }
 
 enum RoomStatus {
@@ -54,14 +69,15 @@ enum RoomStatus {
 }
 
 model fireFlower {
-  id        String            @id @default(uuid())
-  creatorId String
-  name      String
-  createdAt DateTime          @default(now())
-  updatedAt DateTime?
-  structure Json
-  Creator   User              @relation(fields: [creatorId], references: [id])
-  likedBy   likedFireFlower[]
+  id                 String               @id @default(uuid())
+  creatorId          String
+  name               String
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime?
+  structure          Json
+  Creator            User                 @relation(fields: [creatorId], references: [id])
+  likedBy            likedFireFlower[]
+  FireFlowerWithUser FireFlowerWithUser[]
 }
 
 model likedFireFlower {

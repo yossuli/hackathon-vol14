@@ -10,4 +10,8 @@ export default defineController(() => ({
     status: 201,
     body: await roomUseCase.create(user, body),
   }),
+  delete: async ({ user }) => ({
+    status: 204,
+    body: await roomUseCase.exitRoom(user),
+  }),
 }));

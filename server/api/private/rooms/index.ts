@@ -11,4 +11,7 @@ export type Methods = DefineMethods<{
     reqBody: RoomCreateVal;
     resBody: RoomDto;
   };
+  delete: {
+    status: 204;
+  };
 }>;

@@ -71,17 +71,30 @@ test(POST(noCookieClient.private.rooms.friends), async () => {
   expect(res.body.id).toEqual(room.body.id);
 });
 
-// パブリックルーム入室テスト
-test(GET(noCookieClient.private.rooms._roomId('_roomId')), async () => {
+// パブリックルーム入退出テスト
+test(POST(noCookieClient.private.rooms._roomId('_roomId')), async () => {
   const apiClient = await createSessionClients();
   const room = await apiClient.private.rooms.$post({
     body: { name: 'test', status: 'PUBLIC' },
   });
-  const res = await apiClient.private.rooms._roomId(room.id).get();
+  // 入室
+  const res = await apiClient.private.rooms._roomId(room.id).post();
+  // ルームのユーザー入室状況取得
+  const res2 = await apiClient.private.rooms._roomId(room.id).$get();
+  // 退出
+  const res3 = await apiClient.private.rooms.delete();
+  // ルームのユーザー入室状況取得
+  const res4 = await apiClient.private.rooms._roomId(room.id).$get();
 
-  expect(res.status).toEqual(200);
+  expect(res.status).toEqual(201);
   expect(res.body.status).toEqual('PUBLIC');
   expect(res.body.id).toEqual(room.id);
+  expect(res2).toHaveProperty('users');
+  // 入室しているので1人
+  expect(res2.users?.length).toEqual(1);
+  expect(res3.status).toEqual(204);
+  // 退出したので0人
+  expect(res4.users?.length).toEqual(0);
 });
 
 // プライベートルーム名前変更テスト
@@ -107,6 +120,7 @@ test(PUT(noCookieClient.private.rooms._roomId('_roomId')), async () => {
   expect(res2.body.updatedAt).toBeGreaterThan(updateTime);
 });
 
+// ルーム削除テスト
 test(DELETE(noCookieClient.private.rooms._roomId('_roomId')), async () => {
   const apiClient = await createSessionClients();
   const room = await apiClient.private.rooms.post({
