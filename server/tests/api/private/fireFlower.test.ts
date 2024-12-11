@@ -5,6 +5,7 @@ import { createSessionClients, noCookieClient } from '../apiClient';
 import { GET, PATCH, POST } from '../utils';
 import { DELETE } from './../utils';
 
+// 花火一覧空取得テスト
 test(GET(noCookieClient.private.fireFlowers), async () => {
   const apiClient = await createSessionClients();
   const res = await apiClient.private.fireFlowers.get();
@@ -12,6 +13,7 @@ test(GET(noCookieClient.private.fireFlowers), async () => {
   expect(res.status).toEqual(200);
 });
 
+// 花火作成テスト
 test(POST(noCookieClient.private.fireFlowers), async () => {
   const apiClient = await createSessionClients();
   const res = await apiClient.private.fireFlowers.post({
@@ -24,6 +26,7 @@ test(POST(noCookieClient.private.fireFlowers), async () => {
   expect(res.body.structure.length).toBe(7);
 });
 
+// 花火作成取得複合テスト
 test(GET(noCookieClient.private.fireFlowers), async () => {
   const apiClient = await createSessionClients();
   const fireFlower = await apiClient.private.fireFlowers.post({
@@ -38,6 +41,7 @@ test(GET(noCookieClient.private.fireFlowers), async () => {
   expect(res.body[0].id).toBe(fireFlower.body.id);
 });
 
+// 花火削除テスト
 test(DELETE(noCookieClient.private.fireFlowers), async () => {
   const apiClient = await createSessionClients();
 
@@ -54,9 +58,11 @@ test(DELETE(noCookieClient.private.fireFlowers), async () => {
   expect(res.status).toEqual(200);
 });
 
+// 花火作成複数取得削除複合テスト
 test(DELETE(noCookieClient.private.fireFlowers), async () => {
   const apiClient = await createSessionClients();
 
+  // 花火を複数作成
   const fireFlowers = await Promise.all([
     apiClient.private.fireFlowers.post({
       body: {
@@ -69,12 +75,13 @@ test(DELETE(noCookieClient.private.fireFlowers), async () => {
       },
     }),
   ]);
+  // 花火を複数取得
   const getRes = await apiClient.private.fireFlowers.get();
-
+  // 花火を削除
   const deleteRes = await apiClient.private.fireFlowers.delete({
     body: { id: fireFlowers[0].body.id },
   });
-
+  // 花火が減ったことを確認
   const getRes2 = await apiClient.private.fireFlowers.get();
 
   expect(getRes.status).toEqual(200);
@@ -85,6 +92,7 @@ test(DELETE(noCookieClient.private.fireFlowers), async () => {
   expect(getRes2.body[0].id).toBe(fireFlowers[1].body.id);
 });
 
+// 指定した花火を取得テスト
 test(GET(noCookieClient.private.fireFlowers._fireId('fireFlowerId')), async () => {
   const apiClient = await createSessionClients();
   const fireFlower = await apiClient.private.fireFlowers.post({
@@ -97,6 +105,7 @@ test(GET(noCookieClient.private.fireFlowers._fireId('fireFlowerId')), async () =
   expect(res.status).toEqual(200);
 });
 
+// 指定した花火の名前更新テスト
 test(PATCH(noCookieClient.private.fireFlowers._fireId('fireFlowerId')), async () => {
   const apiClient = await createSessionClients();
 
@@ -117,6 +126,7 @@ test(PATCH(noCookieClient.private.fireFlowers._fireId('fireFlowerId')), async ()
   expect(res2.body[0].name).toEqual('updatedName');
 });
 
+// 指定した花火の構造更新テスト
 test(PATCH(noCookieClient.private.fireFlowers._fireId('fireFlowerId')), async () => {
   const apiClient = await createSessionClients();
 
@@ -147,6 +157,7 @@ test(POST(noCookieClient.private.fireFlowers._fireId('fireFlowerId').share), asy
   expect(res.body).toHaveProperty('success', true);
 });
 
+// お気に入り取得テスト
 test(GET(noCookieClient.private.fireFlowers.favorites), async () => {
   const apiClient = await createSessionClients();
   const res = await apiClient.private.fireFlowers.favorites.get();
@@ -155,6 +166,7 @@ test(GET(noCookieClient.private.fireFlowers.favorites), async () => {
   expect(res.body.length).toBe(0);
 });
 
+// お気に入り更新テスト
 test(PATCH(noCookieClient.private.fireFlowers._fireId('fireFlowerId').like), async () => {
   const apiClient = await createSessionClients();
   const fireFlower = await apiClient.private.fireFlowers.$post({
@@ -163,12 +175,13 @@ test(PATCH(noCookieClient.private.fireFlowers._fireId('fireFlowerId').like), asy
     },
   });
 
+  // お気に入り登録
   const res = await apiClient.private.fireFlowers._fireId(fireFlower.id).like.patch();
-
+  // お気に入り取得
   const res2 = await apiClient.private.fireFlowers.favorites.get();
-
+  // お気に入り解除
   await apiClient.private.fireFlowers._fireId(fireFlower.id).like.patch();
-
+  // お気に入り解除を確認
   const res3 = await apiClient.private.fireFlowers.favorites.get();
 
   expect(res.status).toEqual(201);
@@ -179,6 +192,7 @@ test(PATCH(noCookieClient.private.fireFlowers._fireId('fireFlowerId').like), asy
   expect(res3.body.length).toBe(0);
 });
 
+// 自作の花火取得テスト
 test(GET(noCookieClient.private.fireFlowers.own), async () => {
   const apiClient = await createSessionClients();
   const apiClient2 = await createSessionClients();
