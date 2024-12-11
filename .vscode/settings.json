@@ -23,6 +23,7 @@
   "explorer.fileNesting.patterns": {
     "*.module.css": "${capture}.module.css.d.ts, ${capture}.module.css.d.ts.map",
     "controller.ts": "validators.ts, $relay.ts",
-    "tsconfig.json": "tsconfig.tsbuildinfo"
+    "tsconfig.json": "tsconfig.tsbuildinfo",
+    "$api.ts": "@openapi-*.ts"
   }
 }
