@@ -9,4 +9,4 @@ export type RoomEntity = Omit<RoomDto, 'id' | 'creator'> & {
 
 export type RoomCreateServerVal = { name: string; password?: string; status: RoomStatus };
 
-export type RoomSaveVal = { room: RoomEntity };
+export type RoomSaveVal = { savable: boolean; room: RoomEntity };

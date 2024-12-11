@@ -6,8 +6,4 @@ export default defineController(() => ({
     status: 201,
     body: await roomUseCase.findByIdWithPassword(body.id, body.password),
   }),
-  put: async ({ user, body }) => ({
-    status: 200,
-    body: await roomUseCase.create(user, body),
-  }),
 }));
