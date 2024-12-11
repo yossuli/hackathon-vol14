@@ -22,9 +22,6 @@ const Home = () => {
           <a href="/works" className={styles.optionButton}>
             作品
           </a>
-          <a href="/www" className={styles.optionButton}>
-            ダミー
-          </a>
         </div>
       </div>
     </div>

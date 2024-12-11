@@ -1,6 +1,6 @@
+import GlobalRoom from 'components/room/Room';
 import { useRouter } from 'next/router';
 import React from 'react';
-import ChatRoom from '../../components/ChatRoom';
 
 const RoomPage: React.FC = () => {
   const router = useRouter();
@@ -15,14 +15,14 @@ const RoomPage: React.FC = () => {
     return (
       <div>
         <h1>Welcome to the Global Room</h1>
-        <ChatRoom roomId={roomId} />
+        <GlobalRoom roomId={roomId} />
       </div>
     );
   }
   console.log('roomId:', roomId);
 
   // 通常の部屋処理
-  return <ChatRoom roomId={roomId} />;
+  return <GlobalRoom roomId={roomId} />;
 };
 
 export default RoomPage;

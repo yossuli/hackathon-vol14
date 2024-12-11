@@ -5,7 +5,7 @@ type ChatRoomProps = {
   roomId: string;
 };
 
-const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
+const GlobalRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
   const { messages, sendMessage } = useWebSocket(`ws://localhost:31577/api/private/rooms/ws`);
   const [input, setInput] = useState('');
 
@@ -34,4 +34,4 @@ const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
   );
 };
 
-export default ChatRoom;
+export default GlobalRoom;

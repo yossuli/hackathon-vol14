@@ -8,28 +8,31 @@ export const useWebSocket = (url: string) => {
     const socket = new WebSocket(url);
     socketRef.current = socket;
 
+    // 接続確立時
     socket.onopen = () => {
-      console.log('WebSocket connection opened');
+      console.log('WebSocket connected');
     };
 
+    // メッセージ受信時
     socket.onmessage = (event) => {
-      console.log('Message from server:', event.data);
+      setMessages((prevMessages) => [...prevMessages, event.data]);
     };
 
+    // エラー発生時
     socket.onerror = (error) => {
       console.error('WebSocket error:', error);
     };
 
+    // 接続終了時
     socket.onclose = () => {
-      console.log('WebSocket connection closed');
-    };
-
-    socket.onmessage = (event) => {
-      setMessages((prev) => [...prev, event.data]);
+      console.log('WebSocket disconnected');
     };
 
     return () => {
-      socket.close();
+      // クリーンアップ処理
+      if (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING) {
+        socket.close();
+      }
     };
   }, [url]);
 
@@ -38,8 +41,6 @@ export const useWebSocket = (url: string) => {
       socketRef.current.send(message);
     }
   };
-
-  console.log('WebSocket handler registered at /api/private/rooms/ws');
 
   return { messages, sendMessage };
 };

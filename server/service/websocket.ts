@@ -1,18 +1,29 @@
 import type { FastifyPluginAsync } from 'fastify';
+import { WebSocket } from 'ws';
 
 const websocketHandler: FastifyPluginAsync = async (fastify) => {
-  fastify.get('/ws', { websocket: true }, (socket) => {
-    const roomId = 'global-room';
-    console.log('Client connected to WebSocket');
+  // すべてのクライアントを追跡
+  const clients = new Set<WebSocket>();
 
+  fastify.get('/ws', { websocket: true }, (socket) => {
+    // クライアントをセットに追加
+    clients.add(socket);
+    console.log('Client connected. Total clients:', clients.size);
+
+    // メッセージ受信時に全クライアントにブロードキャスト
     socket.on('message', (message) => {
-      const messageText = message.toString();
       console.log('Message received:', message.toString());
-      socket.send(`Echo from room ${roomId}: ${messageText}`);
+      for (const client of clients) {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(message.toString());
+        }
+      }
     });
 
+    // クライアント切断時
     socket.on('close', () => {
-      console.log('Connection closed for room');
+      clients.delete(socket);
+      console.log('Client disconnected. Total clients:', clients.size);
     });
   });
 };
