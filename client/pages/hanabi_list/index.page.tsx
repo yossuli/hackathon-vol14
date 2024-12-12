@@ -37,10 +37,28 @@ const works = () => {
         <div className={styles.summary}>
           {Object.entries(dummyData).map(([key, data]) => (
             <div key={key} className={styles.flowerBlock}>
-              <h2 className={styles.flowerName}>{data.name}</h2>
-              <div className={styles.buttonContainer}>
-                <button className={styles.editButton}>編集</button>
-                <button className={styles.deleteButton}>消去</button>
+              <div className={styles.fireFlower}>
+                <div className={styles.background}>
+                  {data.flower.map((row, i) => (
+                    <div key={i} className={styles.pixel}>
+                      {row.map((col, j) => (
+                        <div
+                          key={j}
+                          className={styles.cell}
+                          style={{
+                            backgroundColor: col === 1 ? 'red' : col === 2 ? 'blue' : 'white',
+                          }}
+                        ></div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+
+                <h2 className={styles.flowerName}>{data.name}</h2>
+                <div className={styles.buttonContainer}>
+                  <button className={styles.editButton}>編集</button>
+                  <button className={styles.deleteButton}>消去</button>
+                </div>
               </div>
             </div>
           ))}
