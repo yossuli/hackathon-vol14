@@ -22,7 +22,7 @@ const works = () => {
     }
   };
 
-  const handleEdit = (id:string) => {
+  const handleEdit = (id: string) => {
     try {
       router.push(`../hanabi_creator/?id=${id}`);
     } catch (error) {
