@@ -3,7 +3,7 @@
 import { usePreventDefault } from 'hooks/usePreventDefault';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { apiClient } from 'utils/apiClient';
 import { colors } from 'utils/colors/colors';
 import { darkenColor } from 'utils/colors/colorUtils';
@@ -31,6 +31,7 @@ const FireworkShell: React.FC = () => {
   const layerCoordinates = { layer1, layer2, layer3, layer4 };
   let layerToFill: 'layer1' | 'layer2' | 'layer3' | 'layer4' | null = null;
   const router = useRouter();
+  const { id } = router.query;
 
   const setColorAtCoordinates = (
     coordinates: Array<{ row: number; col: number }>,
@@ -134,11 +135,6 @@ const FireworkShell: React.FC = () => {
   };
 
   const handleNameSave = async () => {
-    if (!fireworkName.trim()) {
-      alert('花火玉の名前を入力してください。');
-      return;
-    }
-
     try {
       const res = await apiClient.private.fireFlowers.post({
         body: {
@@ -152,7 +148,7 @@ const FireworkShell: React.FC = () => {
     } catch (error) {
       console.error('Error saving firework:', error);
       if (error instanceof Error) {
-        alert(`An error occurred while saving: ${error.message}`);
+        alert('An error occurred while saving');
       } else {
         alert('An unknown error occurred while saving.');
       }
@@ -166,6 +162,7 @@ const FireworkShell: React.FC = () => {
     }
 
     try {
+      await handleNameSave();
       const res2 = await apiClient.private.fireFlowers._fireId(fireworkId).patch({
         body: { structure: cellColors },
       });
@@ -174,13 +171,33 @@ const FireworkShell: React.FC = () => {
     } catch (error) {
       console.error('Error saving firework structure:', error);
       if (error instanceof Error) {
-        alert(`An error occurred while saving structure: ${error.message}`);
+        alert('An error occurred while saving structure');
       } else {
         alert('An unknown error occurred while saving structure.');
       }
     }
   };
 
+  useEffect(() => {
+    if (id) {
+      editFireFlower();
+    }
+  }, [id]);
+
+  const editFireFlower = async () => {
+    try {
+      const data = await apiClient.private.fireFlowers._fireId(id as string).$get();
+      setFireworkName(data.name);
+      setCellColors(data.structure.map((row: (string | null)[]) => row.map((col) => col ?? '')));
+      setFireworkId(data.id);
+      setShowNameDialog(false);
+      setIsVisible(true);
+    } catch (error) {
+      console.error('花火データの取得中にエラーが発生しました:', error);
+      alert('データの取得に失敗しました。');
+    }
+  };
+  console.log(fireworkName);
   return (
     <div>
       <Header />

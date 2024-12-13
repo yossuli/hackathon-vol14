@@ -1,6 +1,8 @@
 import type { DtoId } from 'common/types/brandedId';
 import type { RoomDto, RoomUpdateVal } from 'common/types/room';
 import type { UserDto } from 'common/types/user';
+import { fireFlowerCommand } from 'domain/fireFlower/repository/fireFlowerCommand';
+import { fireFlowerQuery } from 'domain/fireFlower/repository/fireFlowerQuery';
 import { transaction } from 'service/prismaClient';
 import { roomMethod } from '../model/roomMethod';
 import type { RoomCreateServerVal } from '../model/roomType';
@@ -40,15 +42,21 @@ export const roomUseCase = {
 
       return toRoomDto(found.room);
     }),
-  enterRoom: (user: UserDto, roomId: DtoId['room']): Promise<RoomDto> =>
+  enterRoom: (
+    user: UserDto,
+    roomId: DtoId['room'],
+    fireFlowerIds: DtoId['fireFlower'][],
+  ): Promise<RoomDto> =>
     transaction('RepeatableRead', async (tx) => {
       const userInRoom = await roomQuery.hasUser.findByUserId(tx, user.id);
       const room = await roomQuery.findById(tx, roomId);
+      const fireFlowers = await fireFlowerQuery.findByIds(tx, fireFlowerIds);
       const found = roomMethod.find(room);
-      const entered = roomMethod.entered(user, found, userInRoom.found);
+      const entered = roomMethod.entered(user, found, userInRoom.found, fireFlowers);
 
-      await roomCommand.giveUser.create(tx, entered);
+      await roomCommand.userIn.create(tx, entered);
       await roomCommand.save(tx, entered);
+      await fireFlowerCommand.withUser.create(tx, entered);
 
       return toRoomDto(entered.room);
     }),
@@ -58,7 +66,7 @@ export const roomUseCase = {
       const exit = roomMethod.exit(user, userInRoom);
       const room = await roomQuery.findById(tx, exit.roomId);
 
-      await roomCommand.giveUser.delete(tx, exit);
+      await roomCommand.userIn.delete(tx, exit);
 
       return toRoomDto(room);
     }),

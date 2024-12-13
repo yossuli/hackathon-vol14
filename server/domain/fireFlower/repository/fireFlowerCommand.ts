@@ -1,5 +1,6 @@
 import type { Prisma } from '@prisma/client';
 import assert from 'assert';
+import type { RoomEnterSaveVal } from 'domain/rooms/model/roomType';
 import type {
   FireFlowerSaveVal,
   LikedFireFlowerDeleteVal,
@@ -50,6 +51,16 @@ export const fireFlowerCommand = {
       assert(val.deletable);
 
       await tx.likedFireFlower.delete({ where: { id: val.likedFireFlowerId } });
+    },
+  },
+  withUser: {
+    create: async (tx: Prisma.TransactionClient, val: RoomEnterSaveVal): Promise<void> => {
+      await tx.fireFlowerWithUser.createMany({
+        data: val.fireFlowers.map((fireFlower) => ({
+          fireFlowerId: fireFlower.id,
+          userInRoomUserId: val.userInRoom.userId,
+        })),
+      });
     },
   },
 };

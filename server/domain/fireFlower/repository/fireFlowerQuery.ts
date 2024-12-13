@@ -68,14 +68,72 @@ const findByFireFlowerId = async (
   );
 };
 
+const findByIds = async (
+  tx: Prisma.TransactionClient,
+  fireFlowerIds: DtoId['fireFlower'][],
+): Promise<FireFlowerEntity[]> => {
+  const prismaFireFlowers = await tx.fireFlower.findMany({
+    where: {
+      id: {
+        in: fireFlowerIds.map((id) => brandedId.fireFlower.entity.parse(id)),
+      },
+    },
+    include: { Creator: true },
+  });
+  return prismaFireFlowers.map(toEntity);
+};
+
+const findByRoomId = async (
+  tx: Prisma.TransactionClient,
+  roomId: DtoId['room'],
+): Promise<FireFlowerEntity[]> => {
+  const prismaFireFlowers = await tx.fireFlowerWithUser.findMany({
+    include: {
+      fireFlower: { include: { Creator: true } },
+      UserInRoom: true,
+    },
+    where: {
+      UserInRoom: { roomId: brandedId.room.entity.parse(roomId) },
+    },
+  });
+  return prismaFireFlowers.map((v) => v.fireFlower).map(toEntity);
+};
+
 export const fireFlowerQuery = {
   listByCreatedAt,
   listByLiker,
+  findByIds,
+  findByRoomId,
   findById: async (tx: Prisma.TransactionClient, fireFlowerId: string): Promise<FireFlowerEntity> =>
     tx.fireFlower
       .findUniqueOrThrow({ where: { id: fireFlowerId }, include: { Creator: true } })
       .then(toEntity),
-
+  findRandom: async (tx: Prisma.TransactionClient, userId: string): Promise<FireFlowerEntity[]> =>
+    tx.$queryRaw`
+  SELECT "fireFlower".id AS "fireFlowerId", "fireFlower".*, creator.id AS "creatorId", creator.*
+  FROM "fireFlower"
+  JOIN "User" AS creator ON "fireFlower"."creatorId" = creator.id
+  WHERE creator.id != ${userId}
+  ORDER BY RANDOM()
+  LIMIT ${10}`.then((prismaFireFlowers) =>
+      (
+        prismaFireFlowers as (fireFlower &
+          User & {
+            fireFlowerId: string;
+          })[]
+      )
+        .map(
+          (fireFlower) =>
+            ({
+              ...fireFlower,
+              id: brandedId.fireFlower.entity.parse(fireFlower.fireFlowerId),
+              Creator: {
+                ...fireFlower,
+              },
+            }) as fireFlower & { Creator: User },
+        )
+        .map(toEntity),
+    ),
   findByCreatorId: async (
     tx: Prisma.TransactionClient,
     creatorId: DtoId['user'],
