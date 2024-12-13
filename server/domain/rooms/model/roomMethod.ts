@@ -44,10 +44,10 @@ export const roomMethod = {
       room: { ...room, name: roomNameValidator.parse(val.name), updatedAt: Date.now() },
     };
   },
-  find: (room: RoomEntity, password?: string): RoomFoundVal => {
+  find: (room: RoomEntity): RoomFoundVal => {
     assert(
-      (room.status !== RoomStatus['PRIVATE'] && !password) ||
-        (room.status === RoomStatus['PRIVATE'] && password === room.password),
+      (room.status !== RoomStatus['PRIVATE'] && !room.password) ||
+        (room.status === RoomStatus['PRIVATE'] && room.password === room.password),
     );
     return { found: true, room };
   },
