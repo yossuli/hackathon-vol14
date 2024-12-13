@@ -219,24 +219,21 @@ test(GET(noCookieClient.private.fireFlowers.random), async () => {
   const seedApiClient = await createSessionClients();
   const apiClient = await createSessionClients();
   const names = Array.from({ length: 20 }, (_, i) => `sampleFireFlower${i}`);
-  await Promise.all(
-    names.map((name) =>
-      seedApiClient.private.fireFlowers.post({
-        body: {
-          name,
-        },
-      }),
-    ),
-  );
-  await Promise.all(
-    names.map((name) =>
-      apiClient.private.fireFlowers.post({
-        body: {
-          name,
-        },
-      }),
-    ),
-  );
+  for (const name of names) {
+    await seedApiClient.private.fireFlowers.post({
+      body: {
+        name,
+      },
+    });
+  }
+
+  for (const name of names) {
+    await apiClient.private.fireFlowers.post({
+      body: {
+        name,
+      },
+    });
+  }
   const res = await apiClient.private.fireFlowers.random.get();
 
   expect(res.status).toEqual(200);

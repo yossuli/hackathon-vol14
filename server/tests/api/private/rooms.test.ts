@@ -83,15 +83,13 @@ test(POST(noCookieClient.private.rooms._roomId('_roomId')), async () => {
 
   // 花火をあらかじめ作成
   const names = Array.from({ length: 20 }, (_, i) => `sampleFireFlower${i}`);
-  await Promise.all(
-    names.map((name) =>
-      seedApiClient.private.fireFlowers.post({
-        body: {
-          name,
-        },
-      }),
-    ),
-  );
+  for (const name of names) {
+    await seedApiClient.private.fireFlowers.post({
+      body: {
+        name,
+      },
+    });
+  }
 
   // ランダムな花火を取得
   const randomFireFlower = await apiClient.private.fireFlowers.random.$get();
