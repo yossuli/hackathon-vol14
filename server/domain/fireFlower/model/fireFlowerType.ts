@@ -2,6 +2,7 @@ import type { Prisma } from '@prisma/client';
 import type { MaybeId } from 'common/types/brandedId';
 import type { FireFlowerDto, FireFlowerUpdateVal } from 'common/types/fireFlower';
 import type { StrictOmit } from 'common/types/utils';
+import type { UserEntity } from 'domain/user/model/userType';
 import type { EntityId } from 'service/brandedId';
 
 export type FireFlowerEntity = StrictOmit<FireFlowerDto, 'id' | 'creator' | 'structure'> & {
@@ -36,3 +37,8 @@ export type FireFlowerUpdateServerVal = FireFlowerUpdateVal & {
 export type FireFlowerSaveVal = { savable: boolean; fireFlower: FireFlowerEntity };
 
 export type FireFlowerDeleteVal = { deletable: boolean; fireFlower: FireFlowerEntity };
+
+export type FoundRandomServerVal = {
+  user: UserEntity;
+  found: boolean;
+};

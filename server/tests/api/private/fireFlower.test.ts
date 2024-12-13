@@ -2,8 +2,7 @@
 import type { DtoId } from 'common/types/brandedId';
 import { expect, test } from 'vitest';
 import { createSessionClients, noCookieClient } from '../apiClient';
-import { GET, PATCH, POST } from '../utils';
-import { DELETE } from './../utils';
+import { DELETE, GET, PATCH, POST } from '../utils';
 
 // 花火一覧空取得テスト
 test(GET(noCookieClient.private.fireFlowers), async () => {
@@ -213,4 +212,44 @@ test(GET(noCookieClient.private.fireFlowers.own), async () => {
   expect(res.status).toEqual(200);
   expect(res.body.length).toBe(1);
   expect(res.body[0].id).toBe(fireFlower.id);
+});
+
+// ランダムな花火取得テスト
+test(GET(noCookieClient.private.fireFlowers.random), async () => {
+  const seedApiClient = await createSessionClients();
+  const apiClient = await createSessionClients();
+  const names = Array.from({ length: 20 }, (_, i) => `sampleFireFlower${i}`);
+  await Promise.all(
+    names.map((name) =>
+      seedApiClient.private.fireFlowers.post({
+        body: {
+          name,
+        },
+      }),
+    ),
+  );
+  await Promise.all(
+    names.map((name) =>
+      apiClient.private.fireFlowers.post({
+        body: {
+          name,
+        },
+      }),
+    ),
+  );
+  const res = await apiClient.private.fireFlowers.random.get();
+
+  expect(res.status).toEqual(200);
+  expect(res.body.length).toBe(10);
+  expect(res.body.every((fireFlower) => names.includes(fireFlower.name))).toBe(true);
+  try {
+    await Promise.all(
+      res.body.map(({ id }) =>
+        seedApiClient.private.fireFlowers._fireId(id).patch({ body: { name: 'updated' } }),
+      ),
+    );
+    expect(false).toBe(true);
+  } catch (e) {
+    expect(true).toBe(true);
+  }
 });

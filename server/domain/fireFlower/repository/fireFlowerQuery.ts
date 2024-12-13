@@ -75,7 +75,27 @@ export const fireFlowerQuery = {
     tx.fireFlower
       .findUniqueOrThrow({ where: { id: fireFlowerId }, include: { Creator: true } })
       .then(toEntity),
-
+  findRandom: async (tx: Prisma.TransactionClient, userId: string): Promise<FireFlowerEntity[]> =>
+    tx.$queryRaw`
+    SELECT *
+    FROM "fireFlower"
+    JOIN "User" AS creator ON "fireFlower"."creatorId" = creator.id
+    WHERE creator.id != ${userId}
+    ORDER BY RANDOM()
+    LIMIT ${10}
+    `.then((prismaFireFlowers) =>
+      (prismaFireFlowers as (fireFlower & User)[])
+        .map(
+          (fireFlower) =>
+            ({
+              ...fireFlower,
+              Creator: {
+                ...fireFlower,
+              },
+            }) as fireFlower & { Creator: User },
+        )
+        .map(toEntity),
+    ),
   findByCreatorId: async (
     tx: Prisma.TransactionClient,
     creatorId: DtoId['user'],
