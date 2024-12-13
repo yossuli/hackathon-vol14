@@ -1,4 +1,7 @@
+'use client';
+
 import { useWebSocket } from 'hooks/useWebSocket';
+import { useState } from 'react';
 import styles from './Rooms.module.css';
 
 // 吹き出しコンポーネント
@@ -35,9 +38,14 @@ const ChatOptions = ({
 
 const Room = () => {
   const { messages, sendMessage } = useWebSocket(`ws://localhost:31577/api/private/rooms/ws`);
+  const [isChatVisible, setIsChatVisible] = useState(true); //チャットの表示切り替えのstate
   const chatOptions = ['こんにちは！', '今の花火良かった！', '今北', 'スクショした！', 'またね！'];
 
   const maxChat = 8;
+
+  const toggleChatVisibility = () => {
+    setIsChatVisible((prev) => !prev);
+  };
 
   const handleSelectMessage = (message: string) => {
     sendMessage(message); // WebSocket経由でメッセージを送信
@@ -47,11 +55,15 @@ const Room = () => {
     <div>
       <div className={styles.container}>
         <div className={styles.artContainer}>
-          <img src="/images/arakawa1_x8.png" alt="Logo" className={styles.logoImage} />
+          {/* 吹き出し部分 */}
+          {isChatVisible && <ChatBubble messages={messages.slice(-maxChat)} />}
+          <img src="/images/arakawa1_x8.png" alt="Logo" className={styles.pixelartImage} />
+          <div className={styles.toggleChatDisplayContainer}>
+            <button className={styles.toggleChatDisplayButton} onClick={toggleChatVisibility}>
+              {isChatVisible ? 'チャットを非表示' : 'チャットを表示'}
+            </button>
+          </div>
         </div>
-
-        {/* 吹き出し部分 */}
-        <ChatBubble messages={messages.slice(-maxChat)} />
 
         {/* チャット選択肢 */}
         <ChatOptions options={chatOptions} onSelect={handleSelectMessage} />
