@@ -1,4 +1,5 @@
 import type { FireFlowerDto } from 'common/types/fireFlower';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { apiClient } from 'utils/apiClient';
 import Header from '../../components/header/Header';
@@ -6,6 +7,7 @@ import styles from './index.module.css';
 
 const works = () => {
   const [fireFlowerData, setFireFlowerData] = useState<FireFlowerDto[]>([]);
+  const router = useRouter();
   useEffect(() => {
     fetchFireFlowerData();
   }, []);
@@ -14,9 +16,18 @@ const works = () => {
     try {
       const res = await apiClient.private.fireFlowers.$get();
       setFireFlowerData(res);
-      console.log('取得したデータ:', res);
+      console.log(res);
     } catch (error) {
       console.error('データの取得中にエラーが発生しました:', error);
+    }
+  };
+
+  const handleEdit = (id:string) => {
+    try {
+      router.push(`../hanabi_creator/?id=${id}`);
+    } catch (error) {
+      console.error('Error fetching firework ID:', error);
+      alert('IDの取得に失敗しました。');
     }
   };
 
@@ -47,7 +58,9 @@ const works = () => {
 
                 <h2 className={styles.flowerName}>{data.name}</h2>
                 <div className={styles.buttonContainer}>
-                  <button className={styles.editButton}>編集</button>
+                  <button className={styles.editButton} onClick={() => handleEdit(data.id)}>
+                    編集
+                  </button>
                   <button className={styles.deleteButton}>消去</button>
                 </div>
               </div>
