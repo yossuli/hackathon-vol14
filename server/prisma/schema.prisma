@@ -26,15 +26,15 @@ model UserInRoom {
   enteredAt         DateTime
   roomId            String
   havingFireFlowers FireFlowerWithUser[]
-  User              User                 @relation(fields: [userId], references: [id])
-  Room              Room                 @relation(fields: [roomId], references: [id])
+  User              User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Room              Room                 @relation(fields: [roomId], references: [id], onDelete: Cascade)
 }
 
 model FireFlowerWithUser {
   userInRoomUserId String
   fireFlowerId     String
-  fireFlower       fireFlower @relation(fields: [fireFlowerId], references: [id])
-  UserInRoom       UserInRoom @relation(fields: [userInRoomUserId], references: [userId])
+  UserInRoom       UserInRoom @relation(fields: [userInRoomUserId], references: [userId], onDelete: Cascade)
+  fireFlower       fireFlower @relation(fields: [fireFlowerId], references: [id], onDelete: Cascade)
 
   @@id([userInRoomUserId, fireFlowerId])
 }
@@ -45,7 +45,7 @@ model Task {
   done      Boolean
   imageKey  String?
   createdAt DateTime
-  Author    User     @relation(fields: [authorId], references: [id])
+  Author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId  String
 }
 
@@ -58,7 +58,7 @@ model Room {
   updatedAt   DateTime?
   lastUsedAt  DateTime?
   creatorId   String       @map("createdBy")
-  Creator     User         @relation(fields: [creatorId], references: [id])
+  Creator     User         @relation(fields: [creatorId], references: [id], onDelete: Cascade)
   chat        Chat[]
   UserInRooms UserInRoom[]
 }
@@ -75,7 +75,7 @@ model fireFlower {
   createdAt          DateTime             @default(now())
   updatedAt          DateTime?
   structure          Json
-  Creator            User                 @relation(fields: [creatorId], references: [id])
+  Creator            User                 @relation(fields: [creatorId], references: [id], onDelete: Cascade)
   likedBy            likedFireFlower[]
   FireFlowerWithUser FireFlowerWithUser[]
 }
@@ -86,9 +86,9 @@ model likedFireFlower {
   fireFlowerId    String
   likedAt         DateTime   @default(now())
   suggestedUserId String?
-  SuggestedUser   User?      @relation(name: "SuggestedUserRelation", fields: [suggestedUserId], references: [id])
-  Liker           User       @relation(name: "LikerRelation", fields: [userId], references: [id])
-  fireFlower      fireFlower @relation(fields: [fireFlowerId], references: [id])
+  SuggestedUser   User?      @relation(name: "SuggestedUserRelation", fields: [suggestedUserId], references: [id], onDelete: Cascade)
+  Liker           User       @relation(name: "LikerRelation", fields: [userId], references: [id], onDelete: Cascade)
+  fireFlower      fireFlower @relation(fields: [fireFlowerId], references: [id], onDelete: Cascade)
 
   @@unique([userId, fireFlowerId])
   @@index([fireFlowerId])
@@ -100,8 +100,8 @@ model Chat {
   roomId    String
   content   String
   createdAt DateTime
-  author    User     @relation(fields: [authorId], references: [id])
-  room      Room     @relation(fields: [roomId], references: [id])
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
 
   @@map("chat")
 }

@@ -7,7 +7,7 @@ export const transaction = <U>(
   fn: (tx: Prisma.TransactionClient) => Promise<U>,
   retry = 3,
 ): Promise<U> =>
-  prismaClient.$transaction<U>(fn, { isolationLevel }).catch((e) => {
+  prismaClient.$transaction<U>(fn, { isolationLevel, timeout: 30000 }).catch((e) => {
     if (
       e instanceof Prisma.PrismaClientKnownRequestError &&
       ['P2028', 'P2034'].includes(e.code) &&

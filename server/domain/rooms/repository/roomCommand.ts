@@ -32,7 +32,7 @@ export const roomCommand = {
 
     await tx.room.delete({ where: { id: val.room.id } });
   },
-  giveUser: {
+  userIn: {
     create: async (tx: Prisma.TransactionClient, val: RoomEnterSaveVal): Promise<void> => {
       assert(val.savable);
       await tx.userInRoom.create({
