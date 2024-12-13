@@ -2,7 +2,9 @@
 /* eslint-disable complexity, max-depth */
 import { usePreventDefault } from 'hooks/usePreventDefault';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+import { apiClient } from 'utils/apiClient';
 import { colors } from 'utils/colors/colors';
 import { darkenColor } from 'utils/colors/colorUtils';
 import { layer1, layer2, layer3, layer4 } from 'utils/layer';
@@ -27,6 +29,7 @@ const FireworkShell: React.FC = () => {
 
   const layerCoordinates = { layer1, layer2, layer3, layer4 };
   let layerToFill: 'layer1' | 'layer2' | 'layer3' | 'layer4' | null = null;
+  const router = useRouter();
 
   const setColorAtCoordinates = (
     coordinates: Array<{ row: number; col: number }>,
@@ -127,9 +130,33 @@ const FireworkShell: React.FC = () => {
     );
   };
 
+  const handleSave = async () => {
+    if (!fireworkName.trim()) {
+      alert('花火玉の名前を入力してください。');
+      return;
+    }
+
+    try {
+      const res = await apiClient.private.fireFlowers.post({
+        body: {
+          name: fireworkName,
+        },
+      });
+      console.log('API Response:', res);
+      if (res) {
+        alert('花火玉が正常に保存されました！');
+        router.push('/');
+      } else {
+        alert('花火玉の保存に失敗しました。');
+      }
+    } catch (error) {
+      console.error('Error saving firework:', error);
+      alert('An error occurred while saving.');
+    }
+  };
+
   return (
     <div>
-      {' '}
       <Header />
       <div className={styles.container}>
         {showNameDialog && (
@@ -254,9 +281,9 @@ const FireworkShell: React.FC = () => {
           </div>
           <div className={styles.saveundoContainer}>
             <div className={styles.save}>
-              <Link href="/" legacyBehavior>
-                <a className={styles.buttonText}>保存する</a>
-              </Link>
+              <button className={styles.buttonText} onClick={handleSave}>
+                保存する
+              </button>
               <Link href="/" legacyBehavior>
                 <a className={styles.buttonText}>戻る</a>
               </Link>
