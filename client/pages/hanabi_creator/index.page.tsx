@@ -135,11 +135,6 @@ const FireworkShell: React.FC = () => {
   };
 
   const handleNameSave = async () => {
-    if (!fireworkName.trim()) {
-      alert('花火玉の名前を入力してください。');
-      return;
-    }
-
     try {
       const res = await apiClient.private.fireFlowers.post({
         body: {
@@ -153,7 +148,7 @@ const FireworkShell: React.FC = () => {
     } catch (error) {
       console.error('Error saving firework:', error);
       if (error instanceof Error) {
-        alert(`An error occurred while saving: ${error.message}`);
+        alert('An error occurred while saving');
       } else {
         alert('An unknown error occurred while saving.');
       }
@@ -167,6 +162,7 @@ const FireworkShell: React.FC = () => {
     }
 
     try {
+      await handleNameSave();
       const res2 = await apiClient.private.fireFlowers._fireId(fireworkId).patch({
         body: { structure: cellColors },
       });
@@ -175,7 +171,7 @@ const FireworkShell: React.FC = () => {
     } catch (error) {
       console.error('Error saving firework structure:', error);
       if (error instanceof Error) {
-        alert(`An error occurred while saving structure: ${error.message}`);
+        alert('An error occurred while saving structure');
       } else {
         alert('An unknown error occurred while saving structure.');
       }
@@ -201,6 +197,7 @@ const FireworkShell: React.FC = () => {
       alert('データの取得に失敗しました。');
     }
   };
+  console.log(fireworkName);
   return (
     <div>
       <Header />
