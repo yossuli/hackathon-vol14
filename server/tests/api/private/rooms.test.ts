@@ -74,11 +74,25 @@ test(POST(noCookieClient.private.rooms.friends), async () => {
 // パブリックルーム入退出テスト
 test(POST(noCookieClient.private.rooms._roomId('_roomId')), async () => {
   const apiClient = await createSessionClients();
+  const seedApiClient = await createSessionClients();
+  const names = Array.from({ length: 20 }, (_, i) => `sampleFireFlower${i}`);
+  await Promise.all(
+    names.map((name) =>
+      seedApiClient.private.fireFlowers.post({
+        body: {
+          name,
+        },
+      }),
+    ),
+  );
+  const randomFireFlower = await apiClient.private.fireFlowers.random.$get();
   const room = await apiClient.private.rooms.$post({
     body: { name: 'test', status: 'PUBLIC' },
   });
   // 入室
-  const res = await apiClient.private.rooms._roomId(room.id).post();
+  const res = await apiClient.private.rooms._roomId(room.id).post({
+    body: randomFireFlower.slice(0, 3).map(({ id }) => id),
+  });
   // ルームのユーザー入室状況取得
   const res2 = await apiClient.private.rooms._roomId(room.id).$get();
   // 退出
@@ -92,6 +106,7 @@ test(POST(noCookieClient.private.rooms._roomId('_roomId')), async () => {
   expect(res2).toHaveProperty('users');
   // 入室しているので1人
   expect(res2.users?.length).toEqual(1);
+  expect(res2.fireFlowers.length).toEqual(3);
   expect(res3.status).toEqual(204);
   // 退出したので0人
   expect(res4.users?.length).toEqual(0);
