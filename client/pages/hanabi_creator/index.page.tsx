@@ -133,7 +133,7 @@ const FireworkShell: React.FC = () => {
     );
   };
 
-  const handleName = async () => {
+  const handleNameSave = async () => {
     if (!fireworkName.trim()) {
       alert('花火玉の名前を入力してください。');
       return;
@@ -148,7 +148,7 @@ const FireworkShell: React.FC = () => {
       console.log('API Response:', res);
       setShowNameDialog(false);
       setIsVisible(true);
-      setFireworkId(res.body.id); // IDを保存
+      setFireworkId(res.body.id);
     } catch (error) {
       console.error('Error saving firework:', error);
       if (error instanceof Error) {
@@ -196,7 +196,7 @@ const FireworkShell: React.FC = () => {
             />
             <button
               onClick={() => {
-                handleNameSubmit(), setIsVisible(true), handleName();
+                handleNameSubmit(), setIsVisible(true), handleNameSave();
               }}
               disabled={!fireworkName.trim()}
             >
