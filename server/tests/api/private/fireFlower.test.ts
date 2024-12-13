@@ -242,14 +242,14 @@ test(GET(noCookieClient.private.fireFlowers.random), async () => {
   expect(res.status).toEqual(200);
   expect(res.body.length).toBe(10);
   expect(res.body.every((fireFlower) => names.includes(fireFlower.name))).toBe(true);
-  try {
-    await Promise.all(
-      res.body.map(({ id }) =>
-        seedApiClient.private.fireFlowers._fireId(id).patch({ body: { name: 'updated' } }),
-      ),
-    );
-    expect(false).toBe(true);
-  } catch (e) {
-    expect(true).toBe(true);
-  }
+  const res2 = await Promise.all(
+    res.body.map(({ id }) =>
+      apiClient.private.fireFlowers
+        ._fireId(id)
+        .patch({ body: { name: 'updated' } })
+        .then(() => false)
+        .catch(() => true),
+    ),
+  );
+  expect(res2.every((res) => res)).toBe(true);
 });
