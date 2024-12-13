@@ -18,7 +18,7 @@ const ChatBubble = ({ messages }: { messages: string[] }) => {
 };
 
 // チャット選択肢コンポーネント
-const ChatOptions = ({
+const ChatSelect = ({
   options,
   onSelect,
 }: {
@@ -26,7 +26,7 @@ const ChatOptions = ({
   onSelect: (message: string) => void;
 }) => {
   return (
-    <div className={styles.chatOptions}>
+    <div className={styles.chatButtonContainer}>
       {options.map((option, index) => (
         <button key={index} className={styles.optionButton} onClick={() => onSelect(option)}>
           {option}
@@ -39,7 +39,7 @@ const ChatOptions = ({
 const Room = () => {
   const { messages, sendMessage } = useWebSocket(`ws://localhost:31577/api/private/rooms/ws`);
   const [isChatVisible, setIsChatVisible] = useState(true); //チャットの表示切り替えのstate
-  const chatOptions = ['こんにちは！', '今の花火良かった！', '今北', 'スクショした！', 'またね！'];
+  const chatSelect = ['こんにちは！', '今の花火良かった！', '今北', 'スクショした！', 'またね！'];
 
   const maxChat = 8;
 
@@ -54,19 +54,22 @@ const Room = () => {
   return (
     <div>
       <div className={styles.container}>
+        {/* 吹き出し部分 */}
+        {isChatVisible && <ChatBubble messages={messages.slice(-maxChat)} />}
         <div className={styles.artContainer}>
-          {/* 吹き出し部分 */}
-          {isChatVisible && <ChatBubble messages={messages.slice(-maxChat)} />}
           <img src="/images/arakawa1_x8.png" alt="Logo" className={styles.pixelartImage} />
-          <div className={styles.toggleChatDisplayContainer}>
+        </div>
+
+        {/* チャットメニュー */}
+        <div className={styles.chatOptions}>
+          <ChatSelect options={chatSelect} onSelect={handleSelectMessage} />
+          <div className={styles.chatFunctions}>
+            <button className={styles.screenshotButton}>スクショ</button>
             <button className={styles.toggleChatDisplayButton} onClick={toggleChatVisibility}>
               {isChatVisible ? 'チャットを非表示' : 'チャットを表示'}
             </button>
           </div>
         </div>
-
-        {/* チャット選択肢 */}
-        <ChatOptions options={chatOptions} onSelect={handleSelectMessage} />
       </div>
     </div>
   );

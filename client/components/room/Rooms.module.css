@@ -2,9 +2,8 @@
 .container {
   position: relative;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100vh;
+  flex-direction: row-reverse;
+  height: calc(100vh - 80px);
   padding: 20px;
   background-color: gray;
 }
@@ -14,10 +13,19 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  width: 80%;
-  height: calc(95% - 100px); /* ヘッダーの高さを考慮して調整 */
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: auto 0;
+  overflow: hidden scroll; /* 水平方向にスクロール可能 */ /* 垂直方向のスクロールを無効化 */
+  white-space: nowrap; /* 子要素を横並びに維持 */
+}
+
+.pixelartImage {
+  width: 100%;
+  aspect-ratio: 16/9;
   margin: 0 auto;
+  object-fit: cover;
 }
 
 .fireworks {
@@ -46,19 +54,19 @@
 
 .chatBubbleContainer {
   position: absolute;
-  top: 0;
+  z-index: 999;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  justify-content: flex-start;
-  width: 100%;
-  padding: 20px;
+  justify-content: flex-end;
+  max-height: calc(100vh - 120px);
+  padding: 10px;
+  overflow: scroll visible;
 }
 
 .chatBubble {
-  max-width: 50%;
-  padding: 8px 20px;
-  margin: 8px 0;
+  padding: 8px 16px;
+  margin: 4px 0;
   font-size: 1rem;
   color: white;
   word-wrap: break-word;
@@ -83,23 +91,41 @@
   }
 }
 
+.chatBubbleContainer:hover .chatBubble {
+  background-color: rgb(3 3 3 / 100%);
+}
+
 .chatOptions {
   position: fixed;
   right: 20px;
   bottom: 20px;
   left: 20px;
+  z-index: 9999;
   display: flex;
+  justify-content: space-around;
+  opacity: 0;
+}
+
+.chatOptions:hover {
+  opacity: 1;
+}
+
+.chatButtonContainer {
+  display: flex;
+  gap: 10px;
   justify-content: space-around;
 }
 
 .optionButton {
+  box-sizing: content-box;
   padding: 4px 16px;
   font-size: 0.8rem;
   color: #333;
   cursor: pointer;
+  user-select: none;
   background-color: #fff;
   border: 1px solid #ccc;
-  border-radius: 20px;
+  border-radius: 10px;
   transition: background-color 0.3s ease;
 }
 
@@ -107,95 +133,81 @@
   background-color: #ccc;
 }
 
-.pixelartImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.toggleChatDisplayContainer {
-  width: 40%;
+.chatFunctions {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: space-evenly;
 }
 
 .toggleChatDisplayButton {
-  color: #333;
+  width: 50%;
+  user-select: none;
+  border: 1px solid #fff;
+  border-radius: 10px;
 }
 
-/* レスポンシブ対応 */
-@media (width <= 1024px) {
-  .artContainer {
-    width: 100%;
-    height: calc(80% - 100px); /* ヘッダーの高さを考慮して調整 */
-  }
+.toggleChatDisplayButton:hover {
+  background-color: #ccc;
+}
 
-  .fireworks {
-    width: 200px;
-    height: 200px;
-  }
+.screenshotButton {
+  width: 50%;
+  padding: 4px 16px;
+  user-select: none;
+  border: 1px solid #fff;
+  border-radius: 10px;
+}
 
-  .fireworkButton {
-    right: -100px;
-    font-size: 14px;
-  }
+.screenshotButton:hover {
+  background-color: #ccc;
+}
 
-  .chatBubble {
-    max-width: 70%;
-    font-size: 14px;
-  }
-
-  .optionButton {
-    padding: 8px 16px;
+@media (aspect-ratio <= 1.44) {
+  .chatOptions {
+    opacity: 1;
   }
 }
 
-@media (width <= 768px) {
+/* スマホ表示 */
+@media (aspect-ratio <= 1) {
   .container {
     padding: 10px;
   }
 
-  .artContainer {
-    height: calc(70% - 80px); /* ヘッダーの高さを考慮して調整 */
+  .pixelartContainer {
+    box-sizing: border-box;
+    padding: 0;
     margin: 0;
+    white-space: nowrap; /* 横並びを維持 */
   }
 
-  .fireworks {
-    width: 150px;
-    height: 150px;
+  .pixelartImage {
+    width: fit-content;
+    height: 100%;
+    margin: auto 0;
   }
 
-  .fireworkButton {
-    right: -80px;
-    font-size: 12px;
-  }
-
-  .chatBubble {
-    max-width: 80%;
-    font-size: 12px;
-  }
-
-  .optionButton {
-    padding: 6px 12px;
-  }
-}
-
-@media (width <= 480px) {
   .artContainer {
-    height: calc(60% - 60px); /* ヘッダーの高さを考慮して調整 */
-  }
-
-  .fireworks {
-    width: 120px;
-    height: 120px;
+    height: calc(100vh - 330px);
+    margin: 0;
+    overflow: scroll hidden; /* 水平方向にスクロール可能 */ /* 垂直方向のスクロールを無効化 */
   }
 
   .chatOptions {
     flex-direction: column;
     gap: 10px;
-    height: 25%;
+    justify-content: center;
+    opacity: 1;
+  }
+
+  .chatButtonContainer {
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
   }
 
   .optionButton {
-    width: 100%;
-    margin: 4px;
+    margin: 0;
   }
 }
