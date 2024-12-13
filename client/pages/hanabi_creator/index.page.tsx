@@ -26,6 +26,7 @@ const FireworkShell: React.FC = () => {
     null,
   );
   const [hoveredCells, setHoveredCells] = useState<Array<{ row: number; col: number }>>([]);
+  const [fireworkId, setFireworkId] = useState<string | null>(null);
 
   const layerCoordinates = { layer1, layer2, layer3, layer4 };
   let layerToFill: 'layer1' | 'layer2' | 'layer3' | 'layer4' | null = null;
@@ -84,9 +85,11 @@ const FireworkShell: React.FC = () => {
   };
 
   const handleNameSubmit = () => {
-    if (fireworkName.trim()) {
-      setShowNameDialog(false);
+    if (!fireworkName.trim()) {
+      alert('花火玉の名前を入力してください。');
+      return;
     }
+    setShowNameDialog(false);
   };
 
   const renderCell = (row: number, col: number) => {
@@ -130,7 +133,7 @@ const FireworkShell: React.FC = () => {
     );
   };
 
-  const handleSave = async () => {
+  const handleName = async () => {
     if (!fireworkName.trim()) {
       alert('花火玉の名前を入力してください。');
       return;
@@ -143,15 +146,38 @@ const FireworkShell: React.FC = () => {
         },
       });
       console.log('API Response:', res);
-      if (res) {
-        alert('花火玉が正常に保存されました！');
-        router.push('/');
-      } else {
-        alert('花火玉の保存に失敗しました。');
-      }
+      setShowNameDialog(false);
+      setIsVisible(true);
+      setFireworkId(res.body.id); // IDを保存
     } catch (error) {
       console.error('Error saving firework:', error);
-      alert('An error occurred while saving.');
+      if (error instanceof Error) {
+        alert(`An error occurred while saving: ${error.message}`);
+      } else {
+        alert('An unknown error occurred while saving.');
+      }
+    }
+  };
+
+  const handleStructureSave = async () => {
+    if (!fireworkId) {
+      alert('花火玉のIDが見つかりません。');
+      return;
+    }
+
+    try {
+      const res2 = await apiClient.private.fireFlowers._fireId(fireworkId).patch({
+        body: { structure: cellColors },
+      });
+      console.log('API Response:', res2);
+      router.push('/');
+    } catch (error) {
+      console.error('Error saving firework structure:', error);
+      if (error instanceof Error) {
+        alert(`An error occurred while saving structure: ${error.message}`);
+      } else {
+        alert('An unknown error occurred while saving structure.');
+      }
     }
   };
 
@@ -170,8 +196,9 @@ const FireworkShell: React.FC = () => {
             />
             <button
               onClick={() => {
-                handleNameSubmit(), setIsVisible(true);
+                handleNameSubmit(), setIsVisible(true), handleName();
               }}
+              disabled={!fireworkName.trim()}
             >
               決定
             </button>
@@ -281,7 +308,7 @@ const FireworkShell: React.FC = () => {
           </div>
           <div className={styles.saveundoContainer}>
             <div className={styles.save}>
-              <button className={styles.buttonText} onClick={handleSave}>
+              <button className={styles.buttonText} onClick={handleStructureSave}>
                 保存する
               </button>
               <Link href="/" legacyBehavior>
