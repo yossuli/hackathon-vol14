@@ -54,7 +54,7 @@ export const roomUseCase = {
 
       return toRoomsDto(found);
     }),
-  findByIdWithPassword: (
+  enterPrivateRoom: (
     user: UserDto,
     password: string,
     fireFlowerIds: DtoId['fireFlower'][],
