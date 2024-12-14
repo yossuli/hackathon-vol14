@@ -34,7 +34,7 @@ const ChatOptions = ({
 };
 
 const Room = () => {
-  const { messages, sendMessage } = useWebSocket(`ws://localhost:31577/api/private/rooms/ws`);
+  const { messages, sendMessage } = useWebSocket(`wss://localhost:31577/api/private/rooms/ws`);
   const chatOptions = ['こんにちは！', '今の花火良かった！', '今北', 'スクショした！', 'またね！'];
 
   const maxChat = 8;
