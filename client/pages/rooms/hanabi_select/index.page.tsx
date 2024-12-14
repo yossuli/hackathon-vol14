@@ -50,11 +50,10 @@ const HanabiSelect: React.FC = () => {
   };
 
   const handleNextRoom = async () => {
+    const room = await apiClient.private.rooms.post({
+      body: { name: 'testRoom', status: 'PUBLIC' },
+    });
     try {
-      const room = await apiClient.private.rooms.post({
-        body: { name: 'testRoom', status: 'PUBLIC' },
-      });
-
       const res = await apiClient.private.rooms._roomId(room.body.id).post({
         body: selectedFireworks.map(({ id }) => id),
       });
@@ -64,10 +63,6 @@ const HanabiSelect: React.FC = () => {
       }
     } catch (error) {
       try {
-        const room = await apiClient.private.rooms.post({
-          body: { name: 'testRoom', status: 'PUBLIC' },
-        });
-
         await apiClient.private.rooms.delete();
 
         const res = await apiClient.private.rooms._roomId(room.body.id).post({
