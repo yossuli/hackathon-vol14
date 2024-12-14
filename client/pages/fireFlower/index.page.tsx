@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import styles from './index.module.css';
 
 const convertToCircleLine = (
-  matrix: number[][],
+  matrix: (string | null)[][],
   layerFromTheSurface: number,
-  result: number[][],
+  result: (string | null)[][],
   time: number,
 ) => {
   const sideLength = matrix.length;
@@ -63,11 +63,11 @@ const convertToCircleLine = (
 };
 
 // eslint-disable-next-line complexity
-const convertToCircle = (matrix: number[][], time: number): number[][] => {
+const convertToCircle = (matrix: (string | null)[][], time: number): (string | null)[][] => {
   const diameter = matrix.length + 2;
   const radius = diameter / 2;
-  const result: number[][] = Array.from({ length: diameter * 2 }, () =>
-    Array(diameter * 2).fill(0),
+  const result: (string | null)[][] = Array.from({ length: diameter * 2 }, () =>
+    Array(diameter * 2).fill('#0000'),
   );
 
   if (time === 0) {
@@ -90,12 +90,12 @@ const convertToCircle = (matrix: number[][], time: number): number[][] => {
 const PIXEL_SIZE = 30; // ドットのサイズ
 
 interface FireFlowerProps {
-  shape: number[][];
+  shape: (string | null)[][];
+  x: number;
 }
 
-const FireFlower: React.FC<FireFlowerProps> = ({ shape }) => {
-  const [time, setTime] = useState(0);
-  const circularShape = convertToCircle(shape, time);
+export const FireFlower: React.FC<FireFlowerProps> = ({ shape, x }) => {
+  const [time, setTime] = useState(-20);
 
   useEffect(() => {
     if (time > 3) {
@@ -103,28 +103,24 @@ const FireFlower: React.FC<FireFlowerProps> = ({ shape }) => {
     }
     const interval = setInterval(() => {
       setTime((prevTime) => prevTime + 1);
-    }, 1500);
+    }, 100);
 
     return () => clearInterval(interval);
   }, [time]);
 
+  // useEffect(() => {
+  //   setTime(-20);
+  // }, [shape]);
+
+  if (shape === undefined) return null;
+  const circularShape = convertToCircle(shape, Math.max(0, time));
   // ピクセルごとのボックスシャドウを生成する関数
-  const generateBoxShadows = (shape: number[][]): string => {
+  const generateBoxShadows = (shape: (string | null)[][]): string => {
     return shape
       .map((row, y) =>
         // eslint-disable-next-line complexity
-        row.map((pixel, x) => {
-          const color =
-            pixel === 1
-              ? 'red'
-              : pixel === 2
-                ? 'blue'
-                : pixel === 3
-                  ? 'green'
-                  : pixel === 4
-                    ? 'yellow'
-                    : 'transparent';
-          if (color === 'transparent') return null;
+        row.map((color, x) => {
+          if (color === null) return null;
           return `${x * PIXEL_SIZE}px ${y * PIXEL_SIZE}px ${color}`;
         }),
       )
@@ -144,7 +140,7 @@ const FireFlower: React.FC<FireFlowerProps> = ({ shape }) => {
     position: 'absolute',
     top: '50%',
     left: '50%',
-    transform: `translate(-${boxWidth / 2}px,-${boxHeight / 2}px)`,
+    transform: `translate(-${boxWidth / 2 - x * 100}px,-${boxHeight / 2}px)`,
   };
 
   return (
@@ -153,5 +149,3 @@ const FireFlower: React.FC<FireFlowerProps> = ({ shape }) => {
     </div>
   );
 };
-
-export default FireFlower;
