@@ -51,6 +51,17 @@ export const roomQuery = {
         },
       })
       .then(toEntity),
+  findByPassword: async (tx: Prisma.TransactionClient, password: string): Promise<RoomEntity> =>
+    tx.room
+      .findUniqueOrThrow({
+        where: {
+          password,
+        },
+        include: {
+          Creator: true,
+        },
+      })
+      .then(toEntity),
   hasUser: {
     findByUserId: async (
       tx: Prisma.TransactionClient,
