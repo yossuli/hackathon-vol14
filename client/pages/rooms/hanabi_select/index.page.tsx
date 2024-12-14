@@ -63,7 +63,23 @@ const HanabiSelect: React.FC = () => {
         router.push(`/rooms/hanabi_watch/`);
       }
     } catch (error) {
-      console.error('次の部屋への移動中にエラーが発生しました:', error);
+      try {
+        const room = await apiClient.private.rooms.post({
+          body: { name: 'testRoom', status: 'PUBLIC' },
+        });
+
+        await apiClient.private.rooms.delete();
+
+        const res = await apiClient.private.rooms._roomId(room.body.id).post({
+          body: selectedFireworks.map(({ id }) => id),
+        });
+        //eslint-disable-next-line
+        if (res.status === 201) {
+          router.push(`/rooms/hanabi_watch/`);
+        }
+      } catch (error) {
+        console.error('次の部屋への移動中にエラーが発生しました:', error);
+      }
     }
   };
 
