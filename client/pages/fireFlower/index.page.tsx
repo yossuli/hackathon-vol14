@@ -69,9 +69,11 @@ const convertToCircle = (matrix: number[][], time: number): number[][] => {
   const result: number[][] = Array.from({ length: diameter * 2 }, () =>
     Array(diameter * 2).fill(0),
   );
+
   if (time === 0) {
     return result;
   }
+
   let i;
   for (i = Math.ceil(radius - 3); i >= 0; i--) {
     convertToCircleLine(matrix, i, result, time);
@@ -87,17 +89,11 @@ const convertToCircle = (matrix: number[][], time: number): number[][] => {
 
 const PIXEL_SIZE = 30; // ドットのサイズ
 
-const FireFlower = () => {
-  const shape: number[][] = [
-    [1, 1, 1, 1, 1, 1, 1],
-    [1, 3, 3, 3, 3, 3, 1],
-    [1, 3, 4, 4, 4, 3, 1],
-    [1, 3, 4, 2, 4, 3, 1],
-    [1, 3, 4, 4, 4, 3, 1],
-    [1, 3, 3, 3, 3, 3, 1],
-    [1, 1, 1, 1, 1, 1, 1],
-  ];
+interface FireFlowerProps {
+  shape: number[][];
+}
 
+const FireFlower: React.FC<FireFlowerProps> = ({ shape }) => {
   const [time, setTime] = useState(0);
   const circularShape = convertToCircle(shape, time);
 
@@ -148,7 +144,7 @@ const FireFlower = () => {
     position: 'absolute',
     top: '50%',
     left: '50%',
-    transform: `translate(-${boxWidth / 2}px, -${boxHeight / 2}px)`,
+    transform: `translate(-${boxWidth / 2}px,-${boxHeight / 2}px)`,
   };
 
   return (
@@ -159,20 +155,3 @@ const FireFlower = () => {
 };
 
 export default FireFlower;
-// const shape2: number[][] = [
-//   [2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2],
-//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-//   [2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2],
-//   [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
-//   [2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2],
-// ];
