@@ -1,5 +1,7 @@
 FROM node:20-alpine
 
+RUN apk add --no-cache openssl
+
 WORKDIR /usr/src/app
 
 COPY package.json package-lock.json ./
@@ -21,6 +23,7 @@ ARG NEXT_PUBLIC_COGNITO_USER_POOL_CLIENT_ID
 ARG DATABASE_URL
 
 ENV NEXT_PUBLIC_API_BASE_PATH=$NEXT_PUBLIC_API_BASE_PATH
+ENV NEXT_PUBLIC_WS_URL=fireworks-display-online.onrender.com
 ENV NEXT_PUBLIC_SERVER_PORT=$PORT
 
 RUN npm run build

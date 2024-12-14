@@ -1,12 +1,33 @@
+import type { Prisma } from '@prisma/client';
 import type { DtoId } from 'common/types/brandedId';
 import type { RoomDto, RoomUpdateVal } from 'common/types/room';
 import type { UserDto } from 'common/types/user';
+import { fireFlowerCommand } from 'domain/fireFlower/repository/fireFlowerCommand';
+import { fireFlowerQuery } from 'domain/fireFlower/repository/fireFlowerQuery';
 import { transaction } from 'service/prismaClient';
 import { roomMethod } from '../model/roomMethod';
-import type { RoomCreateServerVal } from '../model/roomType';
+import type { RoomCreateServerVal, RoomEntity } from '../model/roomType';
 import { roomCommand } from '../repository/roomCommand';
 import { toRoomDto, toRoomsDto } from '../service/toRoomDto';
 import { roomQuery } from './../repository/roomQuery';
+
+const enterRoom = async (
+  tx: Prisma.TransactionClient,
+  user: UserDto,
+  room: RoomEntity,
+  fireFlowerIds: DtoId['fireFlower'][],
+): Promise<RoomDto> => {
+  const userInRoom = await roomQuery.hasUser.findByUserId(tx, user.id);
+  const found = roomMethod.find(room);
+  const fireFlowers = await fireFlowerQuery.findByIds(tx, fireFlowerIds);
+  const entered = roomMethod.entered(user, found, userInRoom.found, fireFlowers);
+
+  await roomCommand.userIn.create(tx, entered);
+  await roomCommand.save(tx, entered);
+  await fireFlowerCommand.withUser.create(tx, entered);
+
+  return toRoomDto(entered.room);
+};
 
 export const roomUseCase = {
   create: (user: UserDto, val: RoomCreateServerVal): Promise<RoomDto> =>
@@ -33,24 +54,24 @@ export const roomUseCase = {
 
       return toRoomsDto(found);
     }),
-  findByIdWithPassword: (roomId: string, password: string): Promise<RoomDto> =>
+  enterPrivateRoom: (
+    user: UserDto,
+    password: string,
+    fireFlowerIds: DtoId['fireFlower'][],
+  ): Promise<RoomDto> =>
     transaction('RepeatableRead', async (tx) => {
-      const room = await roomQuery.findById(tx, roomId);
-      const found = roomMethod.find(room, password);
+      const room = await roomQuery.findByPassword(tx, password);
 
-      return toRoomDto(found.room);
+      return await enterRoom(tx, user, room, fireFlowerIds);
     }),
-  enterRoom: (user: UserDto, roomId: DtoId['room']): Promise<RoomDto> =>
+  enterRoom: (
+    user: UserDto,
+    roomId: DtoId['room'],
+    fireFlowerIds: DtoId['fireFlower'][],
+  ): Promise<RoomDto> =>
     transaction('RepeatableRead', async (tx) => {
-      const userInRoom = await roomQuery.hasUser.findByUserId(tx, user.id);
       const room = await roomQuery.findById(tx, roomId);
-      const found = roomMethod.find(room);
-      const entered = roomMethod.entered(user, found, userInRoom.found);
-
-      await roomCommand.giveUser.create(tx, entered);
-      await roomCommand.save(tx, entered);
-
-      return toRoomDto(entered.room);
+      return await enterRoom(tx, user, room, fireFlowerIds);
     }),
   exitRoom: (user: UserDto): Promise<RoomDto> =>
     transaction('RepeatableRead', async (tx) => {
@@ -58,7 +79,7 @@ export const roomUseCase = {
       const exit = roomMethod.exit(user, userInRoom);
       const room = await roomQuery.findById(tx, exit.roomId);
 
-      await roomCommand.giveUser.delete(tx, exit);
+      await roomCommand.userIn.delete(tx, exit);
 
       return toRoomDto(room);
     }),

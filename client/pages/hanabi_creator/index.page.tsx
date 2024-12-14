@@ -2,7 +2,9 @@
 /* eslint-disable complexity, max-depth */
 import { usePreventDefault } from 'hooks/usePreventDefault';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import { apiClient } from 'utils/apiClient';
 import { colors } from 'utils/colors/colors';
 import { darkenColor } from 'utils/colors/colorUtils';
 import { layer1, layer2, layer3, layer4 } from 'utils/layer';
@@ -24,9 +26,12 @@ const FireworkShell: React.FC = () => {
     null,
   );
   const [hoveredCells, setHoveredCells] = useState<Array<{ row: number; col: number }>>([]);
+  const [fireworkId, setFireworkId] = useState<string | null>(null);
 
   const layerCoordinates = { layer1, layer2, layer3, layer4 };
   let layerToFill: 'layer1' | 'layer2' | 'layer3' | 'layer4' | null = null;
+  const router = useRouter();
+  const { id } = router.query;
 
   const setColorAtCoordinates = (
     coordinates: Array<{ row: number; col: number }>,
@@ -81,9 +86,11 @@ const FireworkShell: React.FC = () => {
   };
 
   const handleNameSubmit = () => {
-    if (fireworkName.trim()) {
-      setShowNameDialog(false);
+    if (!fireworkName.trim()) {
+      alert('花火玉の名前を入力してください。');
+      return;
     }
+    setShowNameDialog(false);
   };
 
   const renderCell = (row: number, col: number) => {
@@ -127,9 +134,71 @@ const FireworkShell: React.FC = () => {
     );
   };
 
+  const handleNameSave = async () => {
+    try {
+      const res = await apiClient.private.fireFlowers.post({
+        body: {
+          name: fireworkName,
+        },
+      });
+      console.log('API Response:', res);
+      setShowNameDialog(false);
+      setIsVisible(true);
+      setFireworkId(res.body.id);
+    } catch (error) {
+      console.error('Error saving firework:', error);
+      if (error instanceof Error) {
+        alert('An error occurred while saving');
+      } else {
+        alert('An unknown error occurred while saving.');
+      }
+    }
+  };
+
+  const handleStructureSave = async () => {
+    if (!fireworkId) {
+      alert('花火玉のIDが見つかりません。');
+      return;
+    }
+
+    try {
+      const res2 = await apiClient.private.fireFlowers._fireId(fireworkId).patch({
+        body: { structure: cellColors },
+      });
+      console.log('API Response:', res2);
+      router.push('/');
+    } catch (error) {
+      console.error('Error saving firework structure:', error);
+      if (error instanceof Error) {
+        alert('An error occurred while saving structure');
+      } else {
+        alert('An unknown error occurred while saving structure.');
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      editFireFlower();
+    }
+  }, [id]);
+
+  const editFireFlower = async () => {
+    try {
+      const data = await apiClient.private.fireFlowers._fireId(id as string).$get();
+      setFireworkName(data.name);
+      setCellColors(data.structure.map((row: (string | null)[]) => row.map((col) => col ?? '')));
+      setFireworkId(data.id);
+      setShowNameDialog(false);
+      setIsVisible(true);
+    } catch (error) {
+      console.error('花火データの取得中にエラーが発生しました:', error);
+      alert('データの取得に失敗しました。');
+    }
+  };
+  console.log(fireworkName);
   return (
     <div>
-      {' '}
       <Header />
       <div className={styles.container}>
         {showNameDialog && (
@@ -143,8 +212,9 @@ const FireworkShell: React.FC = () => {
             />
             <button
               onClick={() => {
-                handleNameSubmit(), setIsVisible(true);
+                handleNameSubmit(), setIsVisible(true), handleNameSave();
               }}
+              disabled={!fireworkName.trim()}
             >
               決定
             </button>
@@ -254,9 +324,9 @@ const FireworkShell: React.FC = () => {
           </div>
           <div className={styles.saveundoContainer}>
             <div className={styles.save}>
-              <Link href="/" legacyBehavior>
-                <a className={styles.buttonText}>保存する</a>
-              </Link>
+              <button className={styles.buttonText} onClick={handleStructureSave}>
+                保存する
+              </button>
               <Link href="/" legacyBehavior>
                 <a className={styles.buttonText}>戻る</a>
               </Link>

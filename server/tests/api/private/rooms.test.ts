@@ -55,46 +55,89 @@ test(GET(noCookieClient.private.rooms), async () => {
   expect(res.body[1].id).toEqual(room.body.id);
 });
 
-// プライベートルーム入室テスト
-test(POST(noCookieClient.private.rooms.friends), async () => {
-  const apiClient = await createSessionClients();
-
-  const room = await apiClient.private.rooms.post({
-    body: { name: 'test', password: 'test1234', status: 'PRIVATE' },
-  });
-  const res = await apiClient.private.rooms.friends.post({
-    body: { id: room.body.id, password: 'test1234' },
-  });
-
-  expect(res.status).toEqual(201);
-  expect(res.body.status).toEqual('PRIVATE');
-  expect(res.body.id).toEqual(room.body.id);
-});
-
 // パブリックルーム入退出テスト
 test(POST(noCookieClient.private.rooms._roomId('_roomId')), async () => {
   const apiClient = await createSessionClients();
+  const seedApiClient = await createSessionClients();
+
+  // ルーム作成
   const room = await apiClient.private.rooms.$post({
     body: { name: 'test', status: 'PUBLIC' },
   });
-  // 入室
-  const res = await apiClient.private.rooms._roomId(room.id).post();
+
+  // 花火をあらかじめ作成
+  const names = Array.from({ length: 20 }, (_, i) => `sampleFireFlower${i}`);
+  for (const name of names) {
+    await seedApiClient.private.fireFlowers.post({
+      body: {
+        name,
+      },
+    });
+  }
+
+  // ランダムな花火を取得
+  const randomFireFlower = await apiClient.private.fireFlowers.random.$get();
+
+  // ランダムな花火から3個選んで入室
+  const res = await apiClient.private.rooms._roomId(room.id).post({
+    body: randomFireFlower.slice(0, 3).map(({ id }) => id),
+  });
+
   // ルームのユーザー入室状況取得
   const res2 = await apiClient.private.rooms._roomId(room.id).$get();
+
   // 退出
   const res3 = await apiClient.private.rooms.delete();
+
   // ルームのユーザー入室状況取得
   const res4 = await apiClient.private.rooms._roomId(room.id).$get();
 
   expect(res.status).toEqual(201);
   expect(res.body.status).toEqual('PUBLIC');
   expect(res.body.id).toEqual(room.id);
+
   expect(res2).toHaveProperty('users');
   // 入室しているので1人
   expect(res2.users?.length).toEqual(1);
+  // 花火を3個/人*1人選んでいるので3個
+  expect(res2.fireFlowers.length).toEqual(3);
+
   expect(res3.status).toEqual(204);
   // 退出したので0人
   expect(res4.users?.length).toEqual(0);
+});
+
+// プライベートルーム入室テスト
+test(POST(noCookieClient.private.rooms.friends), async () => {
+  const apiClient = await createSessionClients();
+  const seedApiClient = await createSessionClients();
+
+  // ルーム作成
+  const room = await apiClient.private.rooms.post({
+    body: { name: 'test', password: 'test1234', status: 'PRIVATE' },
+  });
+
+  // 花火をあらかじめ作成
+  const names = Array.from({ length: 20 }, (_, i) => `sampleFireFlower${i}`);
+  for (const name of names) {
+    await seedApiClient.private.fireFlowers.post({
+      body: {
+        name,
+      },
+    });
+  }
+
+  // ランダムな花火を取得
+  const randomFireFlower = await apiClient.private.fireFlowers.random.$get();
+
+  // ランダムな花火から3個選んで入室
+  const res = await apiClient.private.rooms.friends.post({
+    body: { password: 'test1234', fireFlowerIds: randomFireFlower.slice(0, 3).map(({ id }) => id) },
+  });
+
+  expect(res.status).toEqual(201);
+  expect(res.body.status).toEqual('PRIVATE');
+  expect(res.body.id).toEqual(room.body.id);
 });
 
 // プライベートルーム名前変更テスト
@@ -108,8 +151,25 @@ test(PUT(noCookieClient.private.rooms._roomId('_roomId')), async () => {
   const res = await apiClient.private.rooms._roomId(room.body.id).put({
     body: { name: 'test2' },
   });
+  // ルーム作成
+  const seedApiClient = await createSessionClients();
+
+  // 花火をあらかじめ作成
+  const names = Array.from({ length: 20 }, (_, i) => `sampleFireFlower${i}`);
+  for (const name of names) {
+    await seedApiClient.private.fireFlowers.post({
+      body: {
+        name,
+      },
+    });
+  }
+
+  // ランダムな花火を取得
+  const randomFireFlower = await apiClient.private.fireFlowers.random.$get();
+
+  // ランダムな花火から3個選んで入室
   const res2 = await apiClient.private.rooms.friends.post({
-    body: { id: room.body.id, password: 'test1234' },
+    body: { password: 'test1234', fireFlowerIds: randomFireFlower.slice(0, 3).map(({ id }) => id) },
   });
   expect(room.body.createdAt).toBeLessThan(updateTime);
   expect(res.status).toEqual(204);

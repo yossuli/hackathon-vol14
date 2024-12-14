@@ -4,7 +4,6 @@ import { useLoading } from 'components/loading/useLoading';
 import { useAlert } from 'hooks/useAlert';
 import { useConfirm } from 'hooks/useConfirm';
 import { useUser } from 'hooks/useUser';
-import { BasicHeader } from 'layouts/basicHeader/BasicHeader';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { pagesPath } from 'utils/$path';
@@ -26,7 +25,6 @@ export const Layout = (props: { render: (user: UserDto) => React.ReactNode }) =>
 
   return (
     <div>
-      <BasicHeader user={user.data} />
       {props.render(user.data)}
       {loadingElm}
       {alertElm}

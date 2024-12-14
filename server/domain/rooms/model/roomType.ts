@@ -1,6 +1,7 @@
 import type { RoomStatus } from '@prisma/client';
 import type { RoomDto } from 'common/types/room';
 import type { StrictOmit } from 'common/types/utils';
+import type { FireFlowerEntity } from 'domain/fireFlower/model/fireFlowerType';
 import type { EntityId } from 'service/brandedId';
 
 export type RoomEntity = StrictOmit<RoomDto, 'id' | 'creator' | 'users'> & {
@@ -23,7 +24,10 @@ export type UserInRoomEntity = {
 
 export type UserInRoomFoundVal = { found: boolean; roomId: EntityId['room'] | undefined };
 
-export type RoomEnterSaveVal = RoomSaveVal & { userInRoom: UserInRoomEntity };
+export type RoomEnterSaveVal = RoomSaveVal & {
+  userInRoom: UserInRoomEntity;
+  fireFlowers: FireFlowerEntity[];
+};
 
 export type RoomExitSaveVal = {
   deletable: boolean;

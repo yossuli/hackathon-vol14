@@ -22,18 +22,24 @@
 
 .flowerBlock {
   display: flex;
-  flex-direction: column;
-  width: 300px;
+  flex-direction: row; /* 列方向に変更 */
+  align-items: center; /* 中央揃え */
+  width: 100%; /* 幅を100%に */
   padding: 10px;
+  margin-bottom: 10px; /* 下にマージンを追加 */
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
 .flowerName {
+  width: 150px; /* 幅を固定 */
   margin-right: 20px;
   margin-left: auto;
+  overflow: hidden; /* 溢れた部分を隠す */
   font-size: 16px;
   font-weight: bold;
+  text-overflow: ellipsis; /* 溢れた部分を省略記号で表示 */
+  white-space: nowrap; /* テキストを1行に */
 }
 
 .buttonContainer {
@@ -44,8 +50,8 @@
 }
 
 .cell {
-  width: 5px;
-  height: 5px;
+  width: 10px; /* 幅を2倍に */
+  height: 10px; /* 高さを2倍に */
 }
 
 .editButton,
@@ -60,17 +66,19 @@
 .background {
   display: flex;
   flex-wrap: wrap;
-  width: 28px;
-  height: 28px;
+  width: 56px; /* 幅を2倍に */
+  height: 56px; /* 高さを2倍に */
   margin-left: auto;
 }
 
 .pixel {
-  width: 4px;
-  height: 4px;
+  width: 8px; /* 幅を2倍に */
+  height: 8px; /* 高さを2倍に */
 }
 
 .fireFlower {
   display: flex;
   align-items: center;
+  justify-content: space-between; /* スペースを均等に */
+  width: 100%; /* 幅を100%に */
 }

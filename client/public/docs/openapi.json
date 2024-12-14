@@ -40,6 +40,146 @@
         }
       }
     },
+    "/private/chat/{roomId}": {
+      "post": {
+        "parameters": [
+          {
+            "name": "roomId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "content": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "content"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "$ref": "#/components/schemas/Dto<\"chat\">"
+                    },
+                    "content": {
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "type": "number"
+                    },
+                    "room": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name"
+                      ]
+                    },
+                    "author": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "author",
+                    "content",
+                    "createdAt",
+                    "id",
+                    "room"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/private/chat": {
+      "get": {
+        "responses": {
+          "2XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "$ref": "#/components/schemas/Dto<\"chat\">"
+                      },
+                      "content": {
+                        "type": "string"
+                      },
+                      "createdAt": {
+                        "type": "number"
+                      },
+                      "room": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "name"
+                        ]
+                      },
+                      "author": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "name"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "author",
+                      "content",
+                      "createdAt",
+                      "id",
+                      "room"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/private/fireFlowers/{fireId}": {
       "get": {
         "parameters": [
@@ -76,22 +216,21 @@
                       "items": {
                         "type": "array",
                         "items": {
-                          "type": "string"
+                          "type": [
+                            "null",
+                            "string"
+                          ]
                         }
                       }
                     },
                     "creator": {
                       "type": "object",
                       "properties": {
-                        "id": {
-                          "$ref": "#/components/schemas/Dto<\"user\">"
-                        },
                         "signInName": {
                           "type": "string"
                         }
                       },
                       "required": [
-                        "id",
                         "signInName"
                       ]
                     }
@@ -109,7 +248,7 @@
           }
         }
       },
-      "post": {
+      "patch": {
         "parameters": [
           {
             "name": "fireId",
@@ -126,31 +265,22 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "id": {
-                    "$ref": "#/components/schemas/Dto<\"fireFlower\">"
+                  "name": {
+                    "type": "string"
                   },
-                  "update": {
-                    "type": "object",
-                    "properties": {
-                      "name": {
-                        "type": "string"
-                      },
-                      "structure": {
-                        "type": "array",
-                        "items": {
-                          "type": "array",
-                          "items": {
-                            "type": "string"
-                          }
-                        }
+                  "structure": {
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": [
+                          "null",
+                          "string"
+                        ]
                       }
                     }
                   }
-                },
-                "required": [
-                  "id",
-                  "update"
-                ]
+                }
               }
             }
           }
@@ -179,22 +309,21 @@
                       "items": {
                         "type": "array",
                         "items": {
-                          "type": "string"
+                          "type": [
+                            "null",
+                            "string"
+                          ]
                         }
                       }
                     },
                     "creator": {
                       "type": "object",
                       "properties": {
-                        "id": {
-                          "$ref": "#/components/schemas/Dto<\"user\">"
-                        },
                         "signInName": {
                           "type": "string"
                         }
                       },
                       "required": [
-                        "id",
                         "signInName"
                       ]
                     }
@@ -214,7 +343,7 @@
       }
     },
     "/private/fireFlowers/{fireId}/like": {
-      "post": {
+      "patch": {
         "parameters": [
           {
             "name": "fireId",
@@ -225,71 +354,6 @@
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "$ref": "#/components/schemas/Dto<\"fireFlower\">"
-                  }
-                },
-                "required": [
-                  "id"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    }
-                  },
-                  "required": [
-                    "success"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "parameters": [
-          {
-            "name": "fireId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "$ref": "#/components/schemas/Dto<\"fireFlower\">"
-                  }
-                },
-                "required": [
-                  "id"
-                ]
-              }
-            }
-          }
-        },
         "responses": {
           "201": {
             "content": {
@@ -393,22 +457,21 @@
                         "items": {
                           "type": "array",
                           "items": {
-                            "type": "string"
+                            "type": [
+                              "null",
+                              "string"
+                            ]
                           }
                         }
                       },
                       "creator": {
                         "type": "object",
                         "properties": {
-                          "id": {
-                            "$ref": "#/components/schemas/Dto<\"user\">"
-                          },
                           "signInName": {
                             "type": "string"
                           }
                         },
                         "required": [
-                          "id",
                           "signInName"
                         ]
                       }
@@ -430,6 +493,16 @@
     },
     "/private/fireFlowers": {
       "get": {
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -456,22 +529,21 @@
                         "items": {
                           "type": "array",
                           "items": {
-                            "type": "string"
+                            "type": [
+                              "null",
+                              "string"
+                            ]
                           }
                         }
                       },
                       "creator": {
                         "type": "object",
                         "properties": {
-                          "id": {
-                            "$ref": "#/components/schemas/Dto<\"user\">"
-                          },
                           "signInName": {
                             "type": "string"
                           }
                         },
                         "required": [
-                          "id",
                           "signInName"
                         ]
                       }
@@ -495,14 +567,99 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "string",
-                "const": ""
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name"
+                ]
               }
             }
           }
         },
         "responses": {
           "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "$ref": "#/components/schemas/Dto<\"fireFlower\">"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "type": "number"
+                    },
+                    "updatedAt": {
+                      "type": "number"
+                    },
+                    "structure": {
+                      "type": "array",
+                      "items": {
+                        "type": "array",
+                        "items": {
+                          "type": [
+                            "null",
+                            "string"
+                          ]
+                        }
+                      }
+                    },
+                    "creator": {
+                      "type": "object",
+                      "properties": {
+                        "signInName": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "signInName"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "createdAt",
+                    "creator",
+                    "id",
+                    "name",
+                    "structure"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "$ref": "#/components/schemas/Dto<\"fireFlower\">"
+                  }
+                },
+                "required": [
+                  "id"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/private/fireFlowers/own": {
+      "get": {
+        "responses": {
+          "2XX": {
             "content": {
               "application/json": {
                 "schema": {
@@ -527,22 +684,21 @@
                         "items": {
                           "type": "array",
                           "items": {
-                            "type": "string"
+                            "type": [
+                              "null",
+                              "string"
+                            ]
                           }
                         }
                       },
                       "creator": {
                         "type": "object",
                         "properties": {
-                          "id": {
-                            "$ref": "#/components/schemas/Dto<\"user\">"
-                          },
                           "signInName": {
                             "type": "string"
                           }
                         },
                         "required": [
-                          "id",
                           "signInName"
                         ]
                       }
@@ -560,21 +716,64 @@
             }
           }
         }
-      },
-      "delete": {
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "$ref": "#/components/schemas/Dto<\"fireFlower\">"
+      }
+    },
+    "/private/fireFlowers/random": {
+      "get": {
+        "responses": {
+          "2XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "$ref": "#/components/schemas/Dto<\"fireFlower\">"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "createdAt": {
+                        "type": "number"
+                      },
+                      "updatedAt": {
+                        "type": "number"
+                      },
+                      "structure": {
+                        "type": "array",
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": [
+                              "null",
+                              "string"
+                            ]
+                          }
+                        }
+                      },
+                      "creator": {
+                        "type": "object",
+                        "properties": {
+                          "signInName": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "signInName"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "createdAt",
+                      "creator",
+                      "id",
+                      "name",
+                      "structure"
+                    ]
                   }
-                },
-                "required": [
-                  "id"
-                ]
+                }
               }
             }
           }
@@ -648,6 +847,163 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "$ref": "#/components/schemas/Dto<\"room\">"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "$ref": "#/components/schemas/RoomStatus"
+                        },
+                        "createdAt": {
+                          "type": "number"
+                        },
+                        "updatedAt": {
+                          "type": "number"
+                        },
+                        "lastUsedAt": {
+                          "type": "number"
+                        },
+                        "creator": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "$ref": "#/components/schemas/Dto<\"user\">"
+                            },
+                            "signInName": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "signInName"
+                          ]
+                        },
+                        "users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "$ref": "#/components/schemas/Dto<\"user\">"
+                              },
+                              "signInName": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "signInName"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "createdAt",
+                        "creator",
+                        "id",
+                        "name",
+                        "status"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "fireFlowers": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "$ref": "#/components/schemas/Dto<\"fireFlower\">"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "createdAt": {
+                                "type": "number"
+                              },
+                              "updatedAt": {
+                                "type": "number"
+                              },
+                              "structure": {
+                                "type": "array",
+                                "items": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": [
+                                      "null",
+                                      "string"
+                                    ]
+                                  }
+                                }
+                              },
+                              "creator": {
+                                "type": "object",
+                                "properties": {
+                                  "signInName": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "signInName"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "createdAt",
+                              "creator",
+                              "id",
+                              "name",
+                              "structure"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "fireFlowers"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "parameters": [
+          {
+            "name": "roomId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Dto<\"fireFlower\">"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
                   "type": "object",
                   "properties": {
                     "id": {
@@ -682,6 +1038,24 @@
                         "id",
                         "signInName"
                       ]
+                    },
+                    "users": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "$ref": "#/components/schemas/Dto<\"user\">"
+                          },
+                          "signInName": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "signInName"
+                        ]
+                      }
                     }
                   },
                   "required": [
@@ -764,6 +1138,24 @@
                         "id",
                         "signInName"
                       ]
+                    },
+                    "users": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "$ref": "#/components/schemas/Dto<\"user\">"
+                          },
+                          "signInName": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "signInName"
+                        ]
+                      }
                     }
                   },
                   "required": [
@@ -854,6 +1246,24 @@
                         "id",
                         "signInName"
                       ]
+                    },
+                    "users": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "$ref": "#/components/schemas/Dto<\"user\">"
+                          },
+                          "signInName": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "signInName"
+                        ]
+                      }
                     }
                   },
                   "required": [
@@ -913,6 +1323,24 @@
                           "id",
                           "signInName"
                         ]
+                      },
+                      "users": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "$ref": "#/components/schemas/Dto<\"user\">"
+                            },
+                            "signInName": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "signInName"
+                          ]
+                        }
                       }
                     },
                     "required": [
@@ -993,6 +1421,24 @@
                         "id",
                         "signInName"
                       ]
+                    },
+                    "users": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "$ref": "#/components/schemas/Dto<\"user\">"
+                          },
+                          "signInName": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "signInName"
+                        ]
+                      }
                     }
                   },
                   "required": [
@@ -1007,7 +1453,8 @@
             }
           }
         }
-      }
+      },
+      "delete": {}
     },
     "/private/tasks/{taskId}": {
       "patch": {
@@ -1681,6 +2128,17 @@
           "db",
           "s3",
           "server"
+        ]
+      },
+      "Dto<\"chat\">": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {}
+          },
+          {
+            "type": "string"
+          }
         ]
       },
       "Dto<\"fireFlower\">": {

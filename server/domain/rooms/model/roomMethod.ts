@@ -6,6 +6,7 @@ import {
   roomPasswordValidator,
   roomStatusValidator,
 } from 'common/validators/room';
+import type { FireFlowerEntity } from 'domain/fireFlower/model/fireFlowerType';
 import { brandedId } from 'service/brandedId';
 import { ulid } from 'ulid';
 import type {
@@ -43,10 +44,10 @@ export const roomMethod = {
       room: { ...room, name: roomNameValidator.parse(val.name), updatedAt: Date.now() },
     };
   },
-  find: (room: RoomEntity, password?: string): RoomFoundVal => {
+  find: (room: RoomEntity): RoomFoundVal => {
     assert(
-      (room.status !== RoomStatus['PRIVATE'] && !password) ||
-        (room.status === RoomStatus['PRIVATE'] && password === room.password),
+      (room.status !== RoomStatus['PRIVATE'] && !room.password) ||
+        (room.status === RoomStatus['PRIVATE'] && room.password === room.password),
     );
     return { found: true, room };
   },
@@ -58,15 +59,17 @@ export const roomMethod = {
     user: UserDto,
     { found, room }: RoomFoundVal,
     alreadyEntered: boolean,
+    fireFlowers: FireFlowerEntity[],
   ): RoomEnterSaveVal => {
     assert(!alreadyEntered);
     assert(found);
+    assert(fireFlowers.length === 3);
     const userInRoom = {
       userId: brandedId.user.entity.parse(user.id),
       roomId: room.id,
       enteredAt: Date.now(),
     };
-    return { savable: true, room: { ...room, lastUsedAt: Date.now() }, userInRoom };
+    return { savable: true, room: { ...room, lastUsedAt: Date.now() }, userInRoom, fireFlowers };
   },
   exit: (user: UserDto, userInRoom: UserInRoomFoundVal): RoomExitSaveVal => {
     assert(userInRoom.found);

@@ -26,5 +26,5 @@ export type RoomFindVal = {
   lastUsedAt?: number;
 };
 
-export type FriendRoomFindVal = { id: DtoId['room']; password: string };
+export type FriendRoomFindVal = { password: string; fireFlowerIds: DtoId['fireFlower'][] };
 export type RoomStatusEnum = RoomStatus;
