@@ -66,7 +66,6 @@ const Room = () => {
         <div className={styles.chatOptions}>
           <ChatSelect options={chatSelect} onSelect={handleSelectMessage} />
           <div className={styles.chatFunctions}>
-            <button className={styles.screenshotButton}>スクショ</button>
             <button className={styles.toggleChatDisplayButton} onClick={toggleChatVisibility}>
               {isChatVisible ? 'チャットを非表示' : 'チャットを表示'}
             </button>
