@@ -2,7 +2,7 @@
 
 import type { FireFlowerDto } from 'common/types/fireFlower';
 import { useWebSocket } from 'hooks/useWebSocket';
-import { FireFlower } from 'pages/fireFlower/index.page';
+import FireFlower from 'pages/fireFlower/index.page';
 import { useEffect, useState } from 'react';
 import styles from './Rooms.module.css';
 

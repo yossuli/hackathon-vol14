@@ -94,7 +94,7 @@ interface FireFlowerProps {
   x: number;
 }
 
-export const FireFlower: React.FC<FireFlowerProps> = ({ shape, x }) => {
+const FireFlower: React.FC<FireFlowerProps> = ({ shape, x }) => {
   const [time, setTime] = useState(-20);
 
   useEffect(() => {
@@ -149,3 +149,5 @@ export const FireFlower: React.FC<FireFlowerProps> = ({ shape, x }) => {
     </div>
   );
 };
+
+export default FireFlower;
