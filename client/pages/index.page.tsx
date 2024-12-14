@@ -15,7 +15,7 @@ const Home = () => {
             <a href="/hanabi_creator/" className={styles.button}>
               花火を作成する
             </a>
-            <a href="/rooms/hanabi_watch/" className={styles.button}>
+            <a href="/rooms/hanabi_select/" className={styles.button}>
               ランダムに入室
             </a>
             <div className={styles.options}>

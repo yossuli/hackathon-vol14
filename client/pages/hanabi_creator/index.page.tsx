@@ -162,7 +162,6 @@ const FireworkShell: React.FC = () => {
     }
 
     try {
-      await handleNameSave();
       const res2 = await apiClient.private.fireFlowers._fireId(fireworkId).patch({
         body: { structure: cellColors },
       });
