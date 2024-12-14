@@ -16,10 +16,10 @@ const Home = () => {
               花火を作成する
             </a>
             <a href="/rooms/hanabi_select/" className={styles.button}>
-              ランダムに入室
+              スーパー花火大会
             </a>
             <div className={styles.options}>
-              <a href="/rooms/private/" className={styles.optionButton}>
+              <a href="/rooms/private/restriction" className={styles.optionButton}>
                 プライベートルーム
               </a>
               <a href="/hanabi_list/" className={styles.optionButton}>
