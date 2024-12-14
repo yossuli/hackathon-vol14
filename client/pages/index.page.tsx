@@ -16,7 +16,7 @@ const Home = () => {
               花火を作成する
             </a>
             <a href="/rooms/hanabi_select/" className={styles.button}>
-              入室
+              大花火大会
             </a>
             <div className={styles.options}>
               <a href="/rooms/private/" className={styles.optionButton}>
