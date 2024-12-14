@@ -1192,15 +1192,18 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "id": {
-                    "$ref": "#/components/schemas/Dto<\"room\">"
-                  },
                   "password": {
                     "type": "string"
+                  },
+                  "fireFlowerIds": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Dto<\"fireFlower\">"
+                    }
                   }
                 },
                 "required": [
-                  "id",
+                  "fireFlowerIds",
                   "password"
                 ]
               }

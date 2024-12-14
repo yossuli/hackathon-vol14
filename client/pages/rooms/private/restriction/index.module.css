@@ -1,0 +1,15 @@
+.restrictionContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* 必要に応じて調整 */
+}
+
+.restrictionText {
+  text-align: center;
+}
+
+.link {
+  color: blue;
+  text-decoration: underline;
+}

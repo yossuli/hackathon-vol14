@@ -19,7 +19,7 @@ const Home = () => {
               ランダムに入室
             </a>
             <div className={styles.options}>
-              <a href="/rooms/private/" className={styles.optionButton}>
+              <a href="/rooms/private/restriction" className={styles.optionButton}>
                 プライベートルーム
               </a>
               <a href="/hanabi_list/" className={styles.optionButton}>
