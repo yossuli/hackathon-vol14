@@ -40,7 +40,7 @@ const ChatSelect = ({
 
 const Room = () => {
   const { messages, sendMessage } = useWebSocket(
-    `ws://${process.env.NEXT_PUBLIC_WS_URL}/api/private/rooms/ws`,
+    `wss://${process.env.NEXT_PUBLIC_WS_URL}/api/private/rooms/ws`,
   );
   const [isChatVisible, setIsChatVisible] = useState(true); //チャットの表示切り替えのstate
   const [fireFlowers, setFireFlowers] = useState<
