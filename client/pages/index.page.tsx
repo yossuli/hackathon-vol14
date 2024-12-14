@@ -1,6 +1,5 @@
 import { Layout } from 'layouts/Layout';
 import Header from '../components/header/Header';
-import FireFlower from './fireFlower/index.page';
 import styles from './index.module.css';
 
 const Home = () => {
@@ -9,17 +8,6 @@ const Home = () => {
       render={() => (
         <div>
           <Header />
-          <FireFlower
-            shape={[
-              [1, 1, 1, 1, 1, 1, 1],
-              [1, 3, 3, 3, 3, 3, 1],
-              [1, 3, 4, 4, 4, 3, 1],
-              [1, 3, 4, 2, 4, 3, 1],
-              [1, 3, 4, 4, 4, 3, 1],
-              [1, 3, 3, 3, 3, 3, 1],
-              [1, 1, 1, 1, 1, 1, 1],
-            ]}
-          />
           <div className={styles.logo}>
             <img src="/images/logo_navy.png" alt="Logo" className={styles.logoImage} />
           </div>
