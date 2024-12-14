@@ -16,7 +16,7 @@ const Home = () => {
               花火を作成する
             </a>
             <a href="/rooms/hanabi_select/" className={styles.button}>
-              ランダムに入室
+              入室
             </a>
             <div className={styles.options}>
               <a href="/rooms/private/" className={styles.optionButton}>
