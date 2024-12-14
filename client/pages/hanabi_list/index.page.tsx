@@ -61,7 +61,6 @@ const works = () => {
                   <button className={styles.editButton} onClick={() => handleEdit(data.id)}>
                     編集
                   </button>
-                  <button className={styles.deleteButton}>消去</button>
                 </div>
               </div>
             </div>

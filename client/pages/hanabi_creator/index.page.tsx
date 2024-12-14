@@ -234,7 +234,6 @@ const FireworkShell: React.FC = () => {
                 <input
                   type="text"
                   value={fireworkName}
-                  onChange={(e) => setFireworkName(e.target.value)}
                   placeholder="花火玉の名前"
                   className={styles.inputDisplay}
                 />
