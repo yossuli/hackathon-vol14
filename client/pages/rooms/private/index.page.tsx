@@ -54,14 +54,13 @@ const PenetrateRoom = () => {
           status: 'PRIVATE',
         },
       });
-      const res2 = await apiClient.private.rooms.friends.post({
-        body: {
-          id: room.body.id,
-          password,
-        },
-      });
-      setShowRoomNameDialog(false);
-      console.log('API Response', res2);
+      // const res2 = await apiClient.private.rooms.friends.post({
+      //   body: {
+      //     password,
+      //   },
+      // });
+      // setShowRoomNameDialog(false);
+      // console.log('API Response', res2);
     } catch (error) {
       console.error('Error in PRIVATE room', error);
       // if (error instanceof Error) {
