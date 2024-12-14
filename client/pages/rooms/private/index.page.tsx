@@ -8,7 +8,7 @@ const PenetrateRoom = () => {
   const [showRoomNameDialog, setShowRoomNameDialog] = useState<boolean>(true);
   const [roomName, setRoomName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [roonId, setRoomId] = useState<string | null>(null);
+  const [roomId, setRoomId] = useState<string | null>(null);
   const router = useRouter();
 
   // const handleNameSubmit = () => {
@@ -19,6 +19,7 @@ const PenetrateRoom = () => {
 
   /* eslint-disable */
   const roomNameSave = async () => {
+    console.log(roomId)
     if (roomName.trim() && password.trim()) {
       try {
         const res = await apiClient.private.rooms.post({
@@ -45,33 +46,33 @@ const PenetrateRoom = () => {
     }
   };
 
-  const inPrivate = async () => {
-    try {
-      const room = await apiClient.private.rooms.post({
-        body: {
-          name: roomName,
-          password,
-          status: 'PRIVATE',
-        },
-      });
-      const res2 = await apiClient.private.rooms.friends.post({
-        body: {
-          id: room.body.id,
-          password,
-        },
-      });
-      setShowRoomNameDialog(false);
-      console.log('API Response', res2);
-    } catch (error) {
-      console.error('Error in PRIVATE room', error);
-      // if (error instanceof Error) {
-      //   alert(`合言葉の条件が満たされていません: ${error.message}`);
-      //   return;
-      // } else {
-      //   alert('An unknown error occurred while saving.');
-      // }
-    }
-  };
+  // const inPrivate = async () => {
+  //   try {
+  //     const room = await apiClient.private.rooms.post({
+  //       body: {
+  //         name: roomName,
+  //         password,
+  //         status: 'PRIVATE',
+  //       },
+  //     });
+  //     const res2 = await apiClient.private.rooms.friends.post({
+  //       body: {
+  //         id: room.body.id,
+  //         password,
+  //       },
+  //     });
+  //     setShowRoomNameDialog(false);
+  //     console.log('API Response', res2);
+  //   } catch (error) {
+  //     console.error('Error in PRIVATE room', error);
+  //     if (error instanceof Error) {
+  //       alert(`合言葉の条件が満たされていません: ${error.message}`);
+  //       return;
+  //     } else {
+  //       alert('An unknown error occurred while saving.');
+  //     }
+  //   }
+  // };
 
   return (
     <div>
