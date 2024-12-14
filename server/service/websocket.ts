@@ -9,7 +9,10 @@ import { prismaClient } from './prismaClient';
 const websocketHandler: FastifyPluginAsync = async (fastify) => {
   // すべてのクライアントを追跡
   const clients = new Set<WebSocket>();
-  const room = await roomQuery.listByCreatedAt(prismaClient).then((rooms) => rooms[0]);
+  const room = await roomQuery.listByCreatedAt(prismaClient).then((rooms) => {
+    console.log('rooms', rooms);
+    return rooms[0];
+  });
   let fireFlowers: FireFlowerEntity[];
 
   fastify.get('/ws', { websocket: true }, (socket) => {
