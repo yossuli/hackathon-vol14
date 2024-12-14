@@ -19,7 +19,7 @@ const PenetrateRoom = () => {
 
   /* eslint-disable */
   const roomNameSave = async () => {
-    console.log(roomId)
+    console.log(roomId);
     if (roomName.trim() && password.trim()) {
       try {
         const res = await apiClient.private.rooms.post({
