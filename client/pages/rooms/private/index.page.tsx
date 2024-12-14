@@ -46,33 +46,32 @@ const PenetrateRoom = () => {
     }
   };
 
-  // const inPrivate = async () => {
-  //   try {
-  //     const room = await apiClient.private.rooms.post({
-  //       body: {
-  //         name: roomName,
-  //         password,
-  //         status: 'PRIVATE',
-  //       },
-  //     });
-  //     const res2 = await apiClient.private.rooms.friends.post({
-  //       body: {
-  //         id: room.body.id,
-  //         password,
-  //       },
-  //     });
-  //     setShowRoomNameDialog(false);
-  //     console.log('API Response', res2);
-  //   } catch (error) {
-  //     console.error('Error in PRIVATE room', error);
-  //     if (error instanceof Error) {
-  //       alert(`合言葉の条件が満たされていません: ${error.message}`);
-  //       return;
-  //     } else {
-  //       alert('An unknown error occurred while saving.');
-  //     }
-  //   }
-  // };
+  const inPrivate = async () => {
+    try {
+      const room = await apiClient.private.rooms.post({
+        body: {
+          name: roomName,
+          password,
+          status: 'PRIVATE',
+        },
+      });
+      // const res2 = await apiClient.private.rooms.friends.post({
+      //   body: {
+      //     password,
+      //   },
+      // });
+      // setShowRoomNameDialog(false);
+      // console.log('API Response', res2);
+    } catch (error) {
+      console.error('Error in PRIVATE room', error);
+      // if (error instanceof Error) {
+      //   alert(`合言葉の条件が満たされていません: ${error.message}`);
+      //   return;
+      // } else {
+      //   alert('An unknown error occurred while saving.');
+      // }
+    }
+  };
 
   return (
     <div>
