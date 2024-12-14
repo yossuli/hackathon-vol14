@@ -718,6 +718,68 @@
         }
       }
     },
+    "/private/fireFlowers/random": {
+      "get": {
+        "responses": {
+          "2XX": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "$ref": "#/components/schemas/Dto<\"fireFlower\">"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "createdAt": {
+                        "type": "number"
+                      },
+                      "updatedAt": {
+                        "type": "number"
+                      },
+                      "structure": {
+                        "type": "array",
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": [
+                              "null",
+                              "string"
+                            ]
+                          }
+                        }
+                      },
+                      "creator": {
+                        "type": "object",
+                        "properties": {
+                          "signInName": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "signInName"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "createdAt",
+                      "creator",
+                      "id",
+                      "name",
+                      "structure"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/private": {
       "get": {
         "responses": {
@@ -785,66 +847,128 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "$ref": "#/components/schemas/Dto<\"room\">"
-                    },
-                    "name": {
-                      "type": "string"
-                    },
-                    "status": {
-                      "$ref": "#/components/schemas/RoomStatus"
-                    },
-                    "createdAt": {
-                      "type": "number"
-                    },
-                    "updatedAt": {
-                      "type": "number"
-                    },
-                    "lastUsedAt": {
-                      "type": "number"
-                    },
-                    "creator": {
+                  "allOf": [
+                    {
                       "type": "object",
                       "properties": {
                         "id": {
-                          "$ref": "#/components/schemas/Dto<\"user\">"
+                          "$ref": "#/components/schemas/Dto<\"room\">"
                         },
-                        "signInName": {
+                        "name": {
                           "type": "string"
+                        },
+                        "status": {
+                          "$ref": "#/components/schemas/RoomStatus"
+                        },
+                        "createdAt": {
+                          "type": "number"
+                        },
+                        "updatedAt": {
+                          "type": "number"
+                        },
+                        "lastUsedAt": {
+                          "type": "number"
+                        },
+                        "creator": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "$ref": "#/components/schemas/Dto<\"user\">"
+                            },
+                            "signInName": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "signInName"
+                          ]
+                        },
+                        "users": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "$ref": "#/components/schemas/Dto<\"user\">"
+                              },
+                              "signInName": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "signInName"
+                            ]
+                          }
                         }
                       },
                       "required": [
+                        "createdAt",
+                        "creator",
                         "id",
-                        "signInName"
+                        "name",
+                        "status"
                       ]
                     },
-                    "users": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "$ref": "#/components/schemas/Dto<\"user\">"
-                          },
-                          "signInName": {
-                            "type": "string"
+                    {
+                      "type": "object",
+                      "properties": {
+                        "fireFlowers": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "$ref": "#/components/schemas/Dto<\"fireFlower\">"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "createdAt": {
+                                "type": "number"
+                              },
+                              "updatedAt": {
+                                "type": "number"
+                              },
+                              "structure": {
+                                "type": "array",
+                                "items": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": [
+                                      "null",
+                                      "string"
+                                    ]
+                                  }
+                                }
+                              },
+                              "creator": {
+                                "type": "object",
+                                "properties": {
+                                  "signInName": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "signInName"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "createdAt",
+                              "creator",
+                              "id",
+                              "name",
+                              "structure"
+                            ]
                           }
-                        },
-                        "required": [
-                          "id",
-                          "signInName"
-                        ]
-                      }
+                        }
+                      },
+                      "required": [
+                        "fireFlowers"
+                      ]
                     }
-                  },
-                  "required": [
-                    "createdAt",
-                    "creator",
-                    "id",
-                    "name",
-                    "status"
                   ]
                 }
               }
@@ -863,6 +987,18 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Dto<\"fireFlower\">"
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "content": {
