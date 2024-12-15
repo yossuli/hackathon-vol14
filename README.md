@@ -1,37 +1,39 @@
-# C A T A P U L T
+# 🎆 花火大会アプリ 🎆
 
-aspida と frourio を用いた TypeScript フルスタックテンプレート
+このプロジェクトは、ユーザーが花火を選択し、花火大会を楽しむためのアプリケーションです。自分だけの花火を作成して、他のユーザーと共有しましょう！
 
-- Frontend: Next.js
-- Backend: Fastify
-- ORM: Prisma + PostgreSQL
-- Auth: AWS Cognito
-- Object Storage: AWS S3 or Cloudflare R2
-- 関数型ドメイン駆動設計
-- 全ての関数に依存性注入が可能
-- 3rd Party Cookie なし
-- Docker コンテナー1つだけでデプロイ
-- ローカル開発は Node.js + Docker Compose で完結
-- 最新コミットのデモ: https://catapult.frourio.com
+![花火](./client/public/images/hanabi.png)
 
-## 開発手順
+## 🌟 特徴
+
+- **フロントエンド**: Next.js
+- **バックエンド**: Fastify
+- **ORM**: Prisma + PostgreSQL
+- **認証**: AWS Cognito
+- **オブジェクトストレージ**: AWS S3 または Cloudflare R2
+
+## 🚀 クイックスタート
 
 ### Node.js のインストール
 
-https://nodejs.org/en で v20 以上をインストール
+まずは Node.js をインストールします。バージョンは v20 以上を推奨します。
 
-### Gitリポジトリのクローン
+[Node.js ダウンロードページ](https://nodejs.org/)
+
+### リポジトリのクローン
+
+以下のコマンドでリポジトリをクローンします。
 
 ```sh
-$ git clone https://github.com/frouriojs/catapult.git
-$ cd catapult
+$ git clone https://github.com/your-repo/hackathon-vol14.git
+$ cd hackathon-vol14
 $ rm -rf .git # 既存のコミット履歴を削除
 $ git init
 ```
 
-### npm モジュールのインストール
+### 依存関係のインストール
 
-package.json は3つ存在する
+プロジェクトの依存関係をインストールします。
 
 ```sh
 $ npm i
@@ -41,48 +43,44 @@ $ npm i --prefix server
 
 ### 環境変数ファイルの作成
 
+環境変数ファイルを作成します。
+
 ```sh
 $ cp client/.env.example client/.env
 $ cp server/.env.example server/.env
 ```
 
-### Docker compose起動
+### Docker Compose の起動
+
+Docker Compose を使用して必要なサービスを起動します。
 
 ```sh
 $ docker compose up -d
 ```
 
-### 開発サーバー起動
+### 開発サーバーの起動
 
-次回以降は以下のコマンドだけで開発できる
+開発サーバーを起動します。次回以降はこのコマンドだけで開発を開始できます。
 
 ```sh
-$ npm run notios
+$ npm run dev
 ```
 
-Web ブラウザで http://localhost:3000 を開く
-
-開発時のターミナル表示は [notios](https://github.com/frouriojs/notios) で制御している
-
-[Node.js モノレポ開発のターミナルログ混雑解消のための新作 CLI ツール notios](https://zenn.dev/luma/articles/nodejs-new-cli-tool-notios)
-
-閉じるときは `Ctrl + C` を 2 回連続で入力
+ブラウザで [http://localhost:3000](http://localhost:3000) を開いてアプリケーションを確認しましょう。
 
 ### ローカルでのアカウント作成方法
 
-Docker の Inbucket に仮想メールが届くため任意のメールアドレスでアカウント作成可能
+Docker の Inbucket に仮想メールが届くため、任意のメールアドレスでアカウントを作成できます。検証コードを含めて開発時のメールは全て [http://localhost:2501](http://localhost:2501) の「Recent Mailboxes」に届きます。
 
-検証コード含めて開発時のメールは全て http://localhost:2501 のヘッダー中央の「Recent Mailboxes」に届く
+## 🌍 デプロイ
 
-## デプロイ
-
-- `Dockerfile` でデプロイ可能
+このプロジェクトは `Dockerfile` を使用して簡単にデプロイできます。
 
 ### データベース
 
-`PostgreSQL`
+このプロジェクトは `PostgreSQL` を使用しています。
 
-### デプロイ検証済みPaaS
+### デプロイ検証済み PaaS
 
 - [Render](https://render.com)
 - [Railway](https://railway.app)
@@ -90,11 +88,9 @@ Docker の Inbucket に仮想メールが届くため任意のメールアドレ
 ### 外部連携サービス
 
 - AWS Cognito
-- AWS S3 or Cloudflare R2
+- AWS S3 または Cloudflare R2
 
-ヘルスチェック用エンドポイント
-
-`/api/health`
+ヘルスチェック用エンドポイント: `/api/health`
 
 ### Dockerfile を用いたデプロイ時の環境変数
 
@@ -113,7 +109,7 @@ PORT= # optional
 
 #### MinIO Console
 
-http://localhost:9001
+[http://localhost:9001](http://localhost:9001)
 
 #### PostgreSQL UI
 
@@ -121,3 +117,7 @@ http://localhost:9001
 $ cd server
 $ npx prisma studio
 ```
+
+## 🎉 楽しんでください！
+
+このプロジェクトを楽しんでいただけると幸いです。フィードバックや貢献は大歓迎です！
